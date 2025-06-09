@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Lexiflix.Data.Db;
+
 namespace Lexiflix
 {
     public class Program
@@ -8,6 +11,15 @@ namespace Lexiflix
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            var connectionString = builder.Configuration.GetConnectionString(
+            "DefaultConnection") ?? throw new InvalidCastException("Default Connection not found");
+
+            builder.Services.AddDbContext<MovieDbContext>(
+                options =>
+             options.UseSqlServer(connectionString)
+                
+                );
 
             var app = builder.Build();
 
