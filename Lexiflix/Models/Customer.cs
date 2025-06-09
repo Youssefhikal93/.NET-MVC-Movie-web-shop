@@ -9,11 +9,13 @@ namespace Lexiflix.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [MaxLength(50)]
+        [MinLength(1)]
         public string FirstName { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [MaxLength(50)]
+        [MinLength(1)]
         public string LastName { get; set; }
 
         [Required]
@@ -31,7 +33,7 @@ namespace Lexiflix.Models
 
         [Required]
         [StringLength(100)]
-        [Display(Name = "Delivery adress")]
+        [Display(Name = "Delivery address")]
         public string DeliveryAddress { get; set; }
         [Required]
         [StringLength(50)]
@@ -50,7 +52,8 @@ namespace Lexiflix.Models
         [StringLength(20)]
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
-        //public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }
 

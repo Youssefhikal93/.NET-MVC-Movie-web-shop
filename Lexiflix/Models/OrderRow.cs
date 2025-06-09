@@ -1,13 +1,29 @@
-﻿namespace Lexiflix.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace Lexiflix.Models
 {
     public class OrderRow
     {
+        [Key]
         public int Id { get; set; }
-        public int OrderId { get; set; }
-        public int MovieId { get; set; }
-        public Decimal Price { get; set; }
 
-        //public Order order { get; set; }
-        //public Movie movie { get; set; }
+      
+
+        [Required]
+        [Range(0, 1000, ErrorMessage = "Price must be between 0 and 1000.")]
+        [DataType(DataType.Currency)]
+        public decimal Price { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(Order))]
+        public int OrderId { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(Movie))]
+        public int MovieId { get; set; }
+
+        public Order Order { get; set; }
+        public Movie Movie { get; set; }
     }
 }
