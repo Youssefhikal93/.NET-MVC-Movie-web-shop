@@ -20,6 +20,8 @@ namespace Lexiflix.Data.Db
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Movie> Movies { get; set; }
         public virtual DbSet<OrderRow> OrderRows { get; set; }
+        public virtual DbSet<Actor> Actors { get; set; }
+
 
     }
 }
