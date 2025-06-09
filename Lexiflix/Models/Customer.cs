@@ -1,3 +1,4 @@
+
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace Lexiflix.Models
@@ -52,3 +53,4 @@ namespace Lexiflix.Models
         //public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }
+
