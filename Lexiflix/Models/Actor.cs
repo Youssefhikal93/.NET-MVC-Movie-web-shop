@@ -12,7 +12,7 @@ namespace Lexiflix.Models
         public string Name { get; set; }
 
         // Many-to-many relationship with Movie
-        //public ICollection<Movie> Movies { get; set; } = new List<Movie>();
+        public ICollection<Movie> Movies { get; set; } = new List<Movie>();
     }
 }
 
