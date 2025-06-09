@@ -53,6 +53,7 @@ namespace Lexiflix.Models
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
 
+        //many to many realtionship with order
         public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }
