@@ -1,12 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Lexiflix.Data.Db;
 using Lexiflix.Services;
+using Lexiflix.Utils;
 
 namespace Lexiflix
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +24,27 @@ namespace Lexiflix
                 );
 
             builder.Services.AddScoped<IMovieServices, MovieServices>();
+            builder.Services.AddHttpClient();
+            builder.Services.AddTransient<MovieSeederService>();
 
             var app = builder.Build();
+
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var seeder = scope.ServiceProvider.GetRequiredService<MovieSeederService>();
+
+                // Only seed if there is no movie data in the database
+                var db = scope.ServiceProvider.GetRequiredService<MovieDbContext>();
+                if (!db.Movies.Any())
+                {
+                    var titles = new[] { "Inception", "The Matrix", "Interstellar" ,"Vendetta", "fight Club"};
+                    foreach (var title in titles)
+                    {
+                        await seeder.SeedMovieAsync(title);
+                    }
+                }
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

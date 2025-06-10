@@ -34,7 +34,7 @@ namespace Lexiflix.Migrations
 
                     b.HasIndex("MoviesId");
 
-                    b.ToTable("ActorMovie");
+                    b.ToTable("ActorMovie", (string)null);
                 });
 
             modelBuilder.Entity("Lexiflix.Models.Actor", b =>
@@ -52,7 +52,7 @@ namespace Lexiflix.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Actors");
+                    b.ToTable("Actors", (string)null);
                 });
 
             modelBuilder.Entity("Lexiflix.Models.Customer", b =>
@@ -115,7 +115,7 @@ namespace Lexiflix.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("Lexiflix.Models.Movie", b =>
@@ -148,7 +148,7 @@ namespace Lexiflix.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movies");
+                    b.ToTable("Movies", (string)null);
                 });
 
             modelBuilder.Entity("Lexiflix.Models.Order", b =>
@@ -169,7 +169,7 @@ namespace Lexiflix.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Lexiflix.Models.OrderRow", b =>
@@ -195,7 +195,7 @@ namespace Lexiflix.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderRows");
+                    b.ToTable("OrderRows", (string)null);
                 });
 
             modelBuilder.Entity("ActorMovie", b =>
