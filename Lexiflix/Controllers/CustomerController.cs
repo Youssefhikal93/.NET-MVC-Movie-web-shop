@@ -26,20 +26,23 @@ namespace Lexiflix.Controllers
             if (ModelState.IsValid)
             {
 
-                _customerService.AddNewCustomer(newCustomer);
+                _customerServices.AddNewCustomer(newCustomer);
                 return RedirectToAction("Index");
             }
             return View();
-    
 
-           
+
+
         }
-
-        //  List all customers
-       /* public IActionResult Index()
+        
+     //  List all customers
+       public IActionResult Index()
         {
-            List<Customer> customerList= _customerService.ListCustomers();
+            List<Customer> customerList= _customerServices.GetAllCustomers();
             return View(customerList);
-        } */
+        } 
+
+
+    
     }
 }
