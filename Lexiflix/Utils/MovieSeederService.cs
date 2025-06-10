@@ -26,27 +26,12 @@ namespace Lexiflix.Utils
                 var apiKey = _config["OMDb:ApiKey"];
                 var baseUrl = _config["OMDb:BaseUrl"];
 
-                if (string.IsNullOrEmpty(apiKey))
-                {
-                    _logger.LogError("OMDb API Key is missing from configuration");
-                    return;
-                }
-
                 var url = $"{baseUrl}?t={Uri.EscapeDataString(movieTitle)}&apikey={apiKey}";
-
-                _logger.LogInformation($"Requesting movie data for: {movieTitle}");
-                _logger.LogInformation($"URL: {url}");
-
                 var response = await _httpClient.GetAsync(url);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    _logger.LogError($"HTTP request failed with status: {response.StatusCode}");
-                    return;
-                }
+              
 
                 var json = await response.Content.ReadAsStringAsync();
-                _logger.LogInformation($"API Response: {json}");
 
                 var options = new JsonSerializerOptions
                 {
@@ -55,37 +40,27 @@ namespace Lexiflix.Utils
 
                 var omdbMovie = JsonSerializer.Deserialize<OmdbMovieResponse>(json, options);
 
-                if (omdbMovie == null)
-                {
-                    _logger.LogError("Failed to deserialize OMDb response");
-                    return;
-                }
 
-                // Fix: Removed the check for 'Response' property as it does not exist in OmdbMovieResponse
-                if (!string.IsNullOrEmpty(omdbMovie.Error))
-                {
-                    _logger.LogError($"OMDb API returned error: {omdbMovie.Error}");
-                    return;
-                }
+                // Price logic 
+                var releaseYear = int.TryParse(omdbMovie.Year, out var year) ? year : 2000;
+                decimal price;
+                if (releaseYear >= DateTime.Now.Year - 10)
+                    price = 149.99m; 
+                else if (releaseYear >= DateTime.Now.Year - 20)
+                    price = 99.99m;  
+                else if (releaseYear >= 1980)
+                    price = 49.99m;  
+                else
+                    price = 19.99m;
 
-                if (string.IsNullOrEmpty(omdbMovie.Title))
-                {
-                    _logger.LogError("Movie title is empty in API response");
-                    return;
-                }
 
-                if (_context.Movies.Any(m => m.Title == omdbMovie.Title))
-                {
-                    _logger.LogInformation($"Movie '{omdbMovie.Title}' already exists, skipping");
-                    return;
-                }
 
                 var movie = new Movie
                 {
                     Title = omdbMovie.Title,
                     Director = omdbMovie.Director ?? "Unknown",
-                    ReleaseYear = int.TryParse(omdbMovie.Year, out var year) ? year : 2000,
-                    Price = 99.99m,
+                    ReleaseYear = releaseYear,
+                    Price = price,
                     ImageUrl = omdbMovie.Poster != "N/A" ? omdbMovie.Poster : null
                 };
 
