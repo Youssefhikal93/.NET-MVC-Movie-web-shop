@@ -23,6 +23,7 @@ namespace Lexiflix
                 );
 
             builder.Services.AddScoped<IMovieServices, MovieServices>();
+            builder.Services.AddScoped<IOrderServices, OrderServices>();
 
             var app = builder.Build();
 
