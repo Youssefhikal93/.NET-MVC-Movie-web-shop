@@ -1,8 +1,184 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Lexiflix-Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about  <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container-fluid py-4">
+    <!-- Hero Section -->
+    <div class="row mb-5 bg-black rounded-3 p-4 text-light">
+        <div class="col-md-8 mx-auto text-center">
+            <h1 class="display-4 text-warning mb-3">Welcome to <span class="text-light">Lexiflix</span> </h1>
+            <p class="lead">Discover the best movies at amazing prices</p>
+            <div class="input-group mb-3 w-75 mx-auto">
+                <form asp-action="Search" method="get" class="flex-grow-1 me-md-3">
+                    <div class="input-group">
+                        <input type="text"
+                               name="searchString"
+                               class="form-control bg-black text-light border-light search-input"
+                               placeholder="Search movies..."
+                               aria-label="Search movies">
+                        <button class="btn btn-light text-dark" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>                    <button class="btn btn-warning" type="button">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popular Movies Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-warning border-bottom pb-2 mb-4">Most Popular Movies</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+                <!-- Placeholder cards - repeat 5 times -->
+                <div class="col">
+                    <div class="card h-100 bg-black text-light">
+                        <img src="https://via.placeholder.com/300x450?text=Movie+Poster" class="card-img-top" alt="Movie poster">
+                        <div class="card-body">
+                            <h5 class="card-title">Movie Title 1</h5>
+                            <p class="text-light">2023 • 120 min</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-warning text-light">$9.99</span>
+                                <span class="badge bg-danger">125 orders</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat 4 more times with different data -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Newest Movies Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-warning border-bottom pb-2 mb-4">Newest Releases</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+                <!-- Placeholder cards - repeat 5 times -->
+                <div class="col">
+                    <div class="card h-100 bg-black text-light">
+                        <img src="https://via.placeholder.com/300x450?text=New+Movie" class="card-img-top" alt="Movie poster">
+                        <div class="card-body">
+                            <h5 class="card-title">New Movie 1</h5>
+                            <p class="text-light">2024 • 110 min</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-warning text-light">$12.99</span>
+                                <span class="text-success">Just released!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat 4 more times with different data -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Oldest Movies Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-warning border-bottom pb-2 mb-4">Classic Films</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+                <!-- Placeholder cards - repeat 5 times -->
+                <div class="col">
+                    <div class="card h-100 bg-black text-light">
+                        <img src="https://via.placeholder.com/300x450?text=Classic" class="card-img-top" alt="Movie poster">
+                        <div class="card-body">
+                            <h5 class="card-title">Classic Movie 1</h5>
+                            <p class="text-light">1972 • 180 min</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-warning text-light">$5.99</span>
+                                <span class="text-info">Cinema classic</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat 4 more times with different data -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cheapest Movies Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-warning border-bottom pb-2 mb-4">Best Deals</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+                <!-- Placeholder cards - repeat 5 times -->
+                <div class="col">
+                    <div class="card h-100 bg-black text-light">
+                        <img src="https://via.placeholder.com/300x450?text=Discount" class="card-img-top" alt="Movie poster">
+                        <div class="card-body">
+                            <h5 class="card-title">Budget Movie 1</h5>
+                            <p class="text-light">2018 • 95 min</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-success">$3.99</span>
+                                <span class="badge bg-danger">Limited offer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat 4 more times with different data -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Customer Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-warning border-bottom pb-2 mb-4">Our Top Customer</h2>
+            <div class="card bg-black text-light">
+                <div class="row g-0">
+                    <div class="col-md-2 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-person-circle display-4 text-warning"></i>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="card-body">
+                            <h3 class="card-title">John Doe</h3>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p class="mb-1"><strong>Total Orders:</strong> 42</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="mb-1"><strong>Total Spent:</strong> $1,245.67</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="mb-1"><strong>Biggest Order:</strong> $299.99</p>
+                                </div>
+                            </div>
+                            <p class="card-text mt-2">
+                                <small class="text-light">Member since 2020</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<style>
+
+    .search-input::placeholder {
+        color: #fff !important;
+        opacity: 0.7;
+    }
+
+    .search-input:focus {
+        border-color: #fff;
+        box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+        background-color: #000;
+        color: #fff;
+    }
+
+        .search-input:focus::placeholder {
+            opacity: 0.5;
+        }
+
+    .btn-warning:focus {
+        box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.5);
+    }
+
+    .input-group:focus-within {
+        z-index: 1;
+    }
+</style>
