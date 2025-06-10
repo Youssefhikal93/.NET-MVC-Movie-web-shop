@@ -117,5 +117,17 @@ namespace Lexiflix.Utils
                 _logger.LogError(ex, $"Error seeding movie '{movieTitle}': {ex.Message}");
             }
         }
+
+        public async Task SeedInitialMoviesAsync()
+        {
+            if (!_context.Movies.Any())
+            {
+                var titles = new[] { "Inception", "The Matrix", "Interstellar", "Vendetta", "Fight Club" };
+                foreach (var title in titles)
+                {
+                    await SeedMovieAsync(title);
+                }
+            }
+        }
     }
 }

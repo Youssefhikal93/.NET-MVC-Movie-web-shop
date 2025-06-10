@@ -36,14 +36,7 @@ namespace Lexiflix
 
                 // Only seed if there is no movie data in the database
                 var db = scope.ServiceProvider.GetRequiredService<MovieDbContext>();
-                if (!db.Movies.Any())
-                {
-                    var titles = new[] { "Inception", "The Matrix", "Interstellar" ,"Vendetta", "fight Club"};
-                    foreach (var title in titles)
-                    {
-                        await seeder.SeedMovieAsync(title);
-                    }
-                }
+                await seeder.SeedInitialMoviesAsync();
             }
 
             // Configure the HTTP request pipeline.
