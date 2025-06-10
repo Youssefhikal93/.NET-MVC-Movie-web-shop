@@ -4,7 +4,7 @@
     ViewData["Title"] = "Movie Management";
 }
 
-<div class="container-fluid py-4">
+<div class="container py-2">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="text-warning">Movie Management</h1>
         <a asp-action="Create" class="btn btn-warning">
@@ -21,9 +21,10 @@
                             <th width="50">#</th>
                             <th>Title</th>
                             <th>Director</th>
+                            <th>Actors</th>
                             <th>Year</th>
-                            <th>Price</th>
-                            <th>Image</th>
+                            <th width="80">Price</th>
+                            <th width="80">Image</th>
                             <th width="180">Actions</th>
                         </tr>
                     </thead>
@@ -45,6 +46,7 @@
                                     </div>
                                 </td>
                                 <td>@item.Director</td>
+                                <td>@String.Join(", ", item.Actors.Select(a => a.Name))</td>
                                 <td>@item.ReleaseYear</td>
                                 <td>@item.Price.ToString("C")</td>
                                 <td>
