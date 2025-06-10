@@ -1,386 +1,184 @@
 ﻿@{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Lexiflix-Home Page";
 }
 
 <div class="container-fluid py-4">
     <!-- Hero Section -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="text-center py-5 bg-dark rounded-3 position-relative overflow-hidden">
-                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(255,193,7,0.1) 0%, rgba(0,0,0,0.8) 100%);"></div>
-                <div class="position-relative">
-                    <h1 class="display-3 text-warning fw-bold mb-3">
-                        <i class="bi bi-film me-3"></i>Welcome to Lexiflix
-                    </h1>
-                    <p class="lead text-light mb-4">Your ultimate destination for premium movie streaming</p>
-                    <a asp-controller="Movies" asp-action="Index" class="btn btn-warning btn-lg px-4 py-2 text-dark fw-bold">
-                        <i class="bi bi-play-circle me-2"></i>Browse Movies
-                    </a>
-                </div>
+    <div class="row mb-5 bg-black rounded-3 p-4 text-light">
+        <div class="col-md-8 mx-auto text-center">
+            <h1 class="display-4 text-warning mb-3">Welcome to <span class="text-light">Lexiflix</span> </h1>
+            <p class="lead">Discover the best movies at amazing prices</p>
+            <div class="input-group mb-3 w-75 mx-auto">
+                <form asp-action="Search" method="get" class="flex-grow-1 me-md-3">
+                    <div class="input-group">
+                        <input type="text"
+                               name="searchString"
+                               class="form-control bg-black text-light border-light search-input"
+                               placeholder="Search movies..."
+                               aria-label="Search movies">
+                        <button class="btn btn-light text-dark" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>                    <button class="btn btn-warning" type="button">
+                    <i class="bi bi-search"></i> Search
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Dashboard Stats -->
-    <div class="row g-4 mb-5">
-        <!-- Most Popular Movies -->
-        <div class="col-12 col-lg-6">
-            <div class="card bg-dark text-light border-warning h-100">
-                <div class="card-header bg-warning text-dark">
-                    <h5 class="mb-0">
-                        <i class="bi bi-fire me-2"></i>Most Popular Movies
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-2 rounded bg-secondary bg-opacity-25">
-                                <div class="badge bg-warning text-dark rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">1</div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 text-warning">The Dark Knight</h6>
-                                    <small class="text-muted">247 orders • 2008</small>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-warning text-dark">129 Kr</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-2 rounded bg-secondary bg-opacity-25">
-                                <div class="badge bg-warning text-dark rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">2</div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 text-warning">Inception</h6>
-                                    <small class="text-muted">198 orders • 2010</small>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-warning text-dark">139 Kr</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-2 rounded bg-secondary bg-opacity-25">
-                                <div class="badge bg-warning text-dark rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">3</div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 text-warning">Avengers: Endgame</h6>
-                                    <small class="text-muted">176 orders • 2019</small>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-warning text-dark">149 Kr</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-2 rounded bg-secondary bg-opacity-25">
-                                <div class="badge bg-warning text-dark rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">4</div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 text-warning">Pulp Fiction</h6>
-                                    <small class="text-muted">154 orders • 1994</small>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-warning text-dark">99 Kr</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-2 rounded bg-secondary bg-opacity-25">
-                                <div class="badge bg-warning text-dark rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">5</div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 text-warning">The Matrix</h6>
-                                    <small class="text-muted">142 orders • 1999</small>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-warning text-dark">109 Kr</span>
-                                </div>
+    <!-- Popular Movies Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-warning border-bottom pb-2 mb-4">Most Popular Movies</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+                <!-- Placeholder cards - repeat 5 times -->
+                <div class="col">
+                    <div class="card h-100 bg-black text-light">
+                        <img src="https://via.placeholder.com/300x450?text=Movie+Poster" class="card-img-top" alt="Movie poster">
+                        <div class="card-body">
+                            <h5 class="card-title">Movie Title 1</h5>
+                            <p class="text-light">2023 • 120 min</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-warning text-light">$9.99</span>
+                                <span class="badge bg-danger">125 orders</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Newest Movies -->
-        <div class="col-12 col-lg-6">
-            <div class="card bg-dark text-light border-warning h-100">
-                <div class="card-header bg-warning text-dark">
-                    <h5 class="mb-0">
-                        <i class="bi bi-clock me-2"></i>Newest Movies
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-2 rounded bg-secondary bg-opacity-25">
-                                <div class="badge bg-success rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">1</div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 text-warning">Dune: Part Two</h6>
-                                    <small class="text-muted">Denis Villeneuve • 2024</small>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-warning text-dark">179 Kr</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-2 rounded bg-secondary bg-opacity-25">
-                                <div class="badge bg-success rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">2</div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 text-warning">Oppenheimer</h6>
-                                    <small class="text-muted">Christopher Nolan • 2023</small>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-warning text-dark">169 Kr</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-2 rounded bg-secondary bg-opacity-25">
-                                <div class="badge bg-success rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">3</div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 text-warning">Barbie</h6>
-                                    <small class="text-muted">Greta Gerwig • 2023</small>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-warning text-dark">159 Kr</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-2 rounded bg-secondary bg-opacity-25">
-                                <div class="badge bg-success rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">4</div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 text-warning">Top Gun: Maverick</h6>
-                                    <small class="text-muted">Joseph Kosinski • 2022</small>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-warning text-dark">149 Kr</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-2 rounded bg-secondary bg-opacity-25">
-                                <div class="badge bg-success rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">5</div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 text-warning">Avatar: The Way of Water</h6>
-                                    <small class="text-muted">James Cameron • 2022</small>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-warning text-dark">189 Kr</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Oldest Movies -->
-        <div class="col-12 col-lg-6">
-            <div class="card bg-dark text-light border-warning h-100">
-                <div class="card-header bg-warning text-dark">
-                    <h5 class="mb-0">
-                        <i class="bi bi-hourglass me-2"></i>Classic Movies
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-2 rounded bg-secondary bg-opacity-25">
-                                <div class="badge bg-info rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">1</div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 text-warning">Casablanca</h6>
-                                    <small class="text-muted">Michael Curtiz • 1942</small>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-warning text-dark">79 Kr</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-2 rounded bg-secondary bg-opacity-25">
-                                <div class="badge bg-info rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">2</div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 text-warning">Gone with the Wind</h6>
-                                    <small class="text-muted">Victor Fleming • 1939</small>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-warning text-dark">69 Kr</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-2 rounded bg-secondary bg-opacity-25">
-                                <div class="badge bg-info rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">3</div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 text-warning">Citizen Kane</h6>
-                                    <small class="text-muted">Orson Welles • 1941</small>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-warning text-dark">89 Kr</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-2 rounded bg-secondary bg-opacity-25">
-                                <div class="badge bg-info rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">4</div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 text-warning">The Wizard of Oz</h6>
-                                    <small class="text-muted">Victor Fleming • 1939</small>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-warning text-dark">59 Kr</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-2 rounded bg-secondary bg-opacity-25">
-                                <div class="badge bg-info rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">5</div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 text-warning">Singin' in the Rain</h6>
-                                    <small class="text-muted">Stanley Donen • 1952</small>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-warning text-dark">49 Kr</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Cheapest Movies -->
-        <div class="col-12 col-lg-6">
-            <div class="card bg-dark text-light border-warning h-100">
-                <div class="card-header bg-warning text-dark">
-                    <h5 class="mb-0">
-                        <i class="bi bi-tag me-2"></i>Budget Movies
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        @* @for (int i = 0; i < Math.Min(Model.CheapestMovies.Count(), 5); i++) *@
-                        @* { *@
-                        @*     var movie = Model.CheapestMovies.ElementAt(i); *@
-                        @*     <div class="col-12"> *@
-                        @*         <div class="d-flex align-items-center p-2 rounded bg-secondary bg-opacity-25"> *@
-                        @*             <div class="badge bg-success rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;"> *@
-                        @*                 @(i + 1) *@
-                        @*             </div> *@
-                        @*             <div class="flex-grow-1"> *@
-                        @*                 <h6 class="mb-1 text-warning">@movie.Title</h6> *@
-                        @*                 <small class="text-muted">@movie.Director • @movie.ReleaseYear</small> *@
-                        @*             </div> *@
-                        @*             <div class="text-end"> *@
-                        @*                 <span class="badge bg-success text-dark">@movie.Price Kr</span> *@
-                        @*             </div> *@
-                        @*         </div> *@
-                        @*     </div> *@
-                        @* } *@
-                    </div>
-                </div>
+                <!-- Repeat 4 more times with different data -->
             </div>
         </div>
     </div>
 
-    <!-- Customer Spotlight -->
-    <div class="row mb-5">
+    <!-- Newest Movies Section -->
+    <div class="row mb-4">
         <div class="col-12">
-            <div class="card bg-dark text-light border-warning">
-                <div class="card-header bg-warning text-dark">
-                    <h5 class="mb-0">
-                        <i class="bi bi-trophy me-2"></i>Customer Spotlight
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="row g-4">
-                        <!-- Top Customer -->
-                        <div class="col-12 col-md-6">
-                            @* <div class="text-center p-4 bg-secondary bg-opacity-25 rounded"> *@
-                            @*     <div class="mb-3"> *@
-                            @*         <i class="bi bi-person-badge display-4 text-warning"></i> *@
-                            @*     </div> *@
-                            @*     <h5 class="text-warning mb-2">Top Customer</h5> *@
-                            @*     <h4 class="mb-2">@Model.TopCustomer.Name</h4> *@
-                            @*     <p class="text-muted mb-2">@Model.TopCustomer.Email</p> *@
-                            @*     <div class="d-flex justify-content-center gap-3"> *@
-                            @*         <div class="text-center"> *@
-                            @*             <div class="h5 text-warning mb-0">@Model.TopCustomer.TotalSpent Kr</div> *@
-                            @*             <small class="text-muted">Total Spent</small> *@
-                            @*         </div> *@
-                            @*         <div class="text-center"> *@
-                            @*             <div class="h5 text-warning mb-0">@Model.TopCustomer.OrderCount</div> *@
-                            @*             <small class="text-muted">Orders</small> *@
-                            @*         </div> *@
-                            @*     </div> *@
-                            @* </div> *@
-                        </div>
-
-                        <!-- Most Expensive Order -->
-                        <div class="col-12 col-md-6">
-                            <div class="text-center p-4 bg-secondary bg-opacity-25 rounded">
-                                <div class="mb-3">
-                                    <i class="bi bi-receipt display-4 text-warning"></i>
-                                @* </div> *@
-                                @* <h5 class="text-warning mb-2">Most Expensive Order</h5> *@
-                                @* <h4 class="mb-2">@Model.MostExpensiveOrder.CustomerName</h4> *@
-                                @* <p class="text-muted mb-2">Order #@Model.MostExpensiveOrder.OrderId</p> *@
-                                @* <div class="d-flex justify-content-center gap-3"> *@
-                                @*     <div class="text-center"> *@
-                                @*         <div class="h5 text-warning mb-0">@Model.MostExpensiveOrder.TotalAmount Kr</div> *@
-                                @*         <small class="text-muted">Order Total</small> *@
-                                @*     </div> *@
-                                    <div class="text-center">
-                                        <div class="h5 text-warning mb-0">@Model.MostExpensiveOrder.ItemCount</div>
-                                        <small class="text-muted">Items</small>
-                                    </div>
-                                </div>
+            <h2 class="text-warning border-bottom pb-2 mb-4">Newest Releases</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+                <!-- Placeholder cards - repeat 5 times -->
+                <div class="col">
+                    <div class="card h-100 bg-black text-light">
+                        <img src="https://via.placeholder.com/300x450?text=New+Movie" class="card-img-top" alt="Movie poster">
+                        <div class="card-body">
+                            <h5 class="card-title">New Movie 1</h5>
+                            <p class="text-light">2024 • 110 min</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-warning text-light">$12.99</span>
+                                <span class="text-success">Just released!</span>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- Repeat 4 more times with different data -->
             </div>
         </div>
     </div>
 
-    <!-- Quick Actions -->
-    <div class="row">
+    <!-- Oldest Movies Section -->
+    <div class="row mb-4">
         <div class="col-12">
-            <div class="text-center">
-                <h3 class="text-warning mb-4">Quick Actions</h3>
-                <div class="d-flex flex-wrap justify-content-center gap-3">
-                    <a asp-controller="Movies" asp-action="Index" class="btn btn-outline-warning">
-                        <i class="bi bi-collection-play me-2"></i>All Movies
-                    </a>
-                    <a asp-controller="Movies" asp-action="Filter" class="btn btn-outline-warning">
-                        <i class="bi bi-funnel me-2"></i>Filter Movies
-                    </a>
-                    <a asp-controller="Cart" asp-action="Index" class="btn btn-outline-warning">
-                        <i class="bi bi-cart me-2"></i>My Cart
-                    </a>
-                    <a asp-controller="Orders" asp-action="Index" class="btn btn-outline-warning">
-                        <i class="bi bi-receipt-cutoff me-2"></i>My Orders
-                    </a>
+            <h2 class="text-warning border-bottom pb-2 mb-4">Classic Films</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+                <!-- Placeholder cards - repeat 5 times -->
+                <div class="col">
+                    <div class="card h-100 bg-black text-light">
+                        <img src="https://via.placeholder.com/300x450?text=Classic" class="card-img-top" alt="Movie poster">
+                        <div class="card-body">
+                            <h5 class="card-title">Classic Movie 1</h5>
+                            <p class="text-light">1972 • 180 min</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-warning text-light">$5.99</span>
+                                <span class="text-info">Cinema classic</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat 4 more times with different data -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cheapest Movies Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-warning border-bottom pb-2 mb-4">Best Deals</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+                <!-- Placeholder cards - repeat 5 times -->
+                <div class="col">
+                    <div class="card h-100 bg-black text-light">
+                        <img src="https://via.placeholder.com/300x450?text=Discount" class="card-img-top" alt="Movie poster">
+                        <div class="card-body">
+                            <h5 class="card-title">Budget Movie 1</h5>
+                            <p class="text-light">2018 • 95 min</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-success">$3.99</span>
+                                <span class="badge bg-danger">Limited offer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat 4 more times with different data -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Customer Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-warning border-bottom pb-2 mb-4">Our Top Customer</h2>
+            <div class="card bg-black text-light">
+                <div class="row g-0">
+                    <div class="col-md-2 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-person-circle display-4 text-warning"></i>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="card-body">
+                            <h3 class="card-title">John Doe</h3>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p class="mb-1"><strong>Total Orders:</strong> 42</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="mb-1"><strong>Total Spent:</strong> $1,245.67</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="mb-1"><strong>Biggest Order:</strong> $299.99</p>
+                                </div>
+                            </div>
+                            <p class="card-text mt-2">
+                                <small class="text-light">Member since 2020</small>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <style>
-    .card {
-        transition: transform 0.2s ease-in-out;
+
+    .search-input::placeholder {
+        color: #fff !important;
+        opacity: 0.7;
     }
 
-        .card:hover {
-            transform: translateY(-2px);
+    .search-input:focus {
+        border-color: #fff;
+        box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+        background-color: #000;
+        color: #fff;
+    }
+
+        .search-input:focus::placeholder {
+            opacity: 0.5;
         }
 
-    .badge {
-        font-size: 0.75rem;
+    .btn-warning:focus {
+        box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.5);
     }
 
-    .bg-secondary.bg-opacity-25:hover {
-        background-color: rgba(108, 117, 125, 0.4) !important;
-        transition: background-color 0.2s ease;
+    .input-group:focus-within {
+        z-index: 1;
     }
 </style>
