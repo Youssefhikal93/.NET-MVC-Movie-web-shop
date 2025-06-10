@@ -1,0 +1,23 @@
+﻿
+<div class="card mb-4">
+    <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Title">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Title</h5>
+        <p class="card-text"><strong>Director:</strong> @Model.Director</p>
+        <p class="card-text">
+            <strong>Cast:</strong> @foreach (var actor in Model.Actors)
+            {
+                <span>
+                    @actor.Name
+                </span>
+            }
+        </p>
+        <p class="card-text"><strong>Release Year:</strong> @Model.ReleaseYear</p>
+        <p class="card-text"><strong>Price:</strong> Kr @Model.Price</p>
+        <div class="d-flex justify-content-between">
+            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-info">Details</a>
+            <a asp-action="AddToCart" asp-route-id="@Model.Id" class="btn btn-danger">Add to cart</a>
+
+        </div>
+    </div>
+</div>

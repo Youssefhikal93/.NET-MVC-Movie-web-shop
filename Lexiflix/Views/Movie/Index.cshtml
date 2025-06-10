@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Lexiflix.Models.Movie>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Movies</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">filter</a>
+    <a asp-action="Create" class="btn btn-primary">sort by amount</a>
+    <a asp-action="Create" class="btn btn-primary">sort by amount</a>
+</p>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+            <partial name="_MoviePartialView" model="@item" />
+        </div>
+    }
+</div>

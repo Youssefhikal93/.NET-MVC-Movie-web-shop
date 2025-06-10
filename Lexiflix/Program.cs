@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Lexiflix.Data.Db;
+using Lexiflix.Services;
 
 namespace Lexiflix
 {
@@ -20,6 +21,8 @@ namespace Lexiflix
              options.UseSqlServer(connectionString)
                 
                 );
+
+            builder.Services.AddScoped<IMovieServices, MovieServices>();
 
             var app = builder.Build();
 
