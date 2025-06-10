@@ -16,5 +16,10 @@ namespace Lexiflix.Controllers
             var movies = _movieServices.GetAllMovies();
             return View(movies);
         }
+        public IActionResult AdminIndex()
+        {
+            var movies = _movieServices.GetAllMovies();
+            return View(movies);
+        }
     }
 }
