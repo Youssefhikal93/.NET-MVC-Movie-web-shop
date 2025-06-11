@@ -16,31 +16,43 @@
             </div>
 
             <!-- Sort Dropdown -->
-            <div class="col-md-auto">
-                <select name="sortBy"
-                        class="form-select bg-dark text-light border-warning"
-                        onchange="this.form.submit()"
-                        aria-label="Sort movies">
-                    @{
-                        var currentSort = ViewData["CurrentSort"]?.ToString();
-                    }
+            @* <div class="col-md-auto"> *@
+            @*     <select name="sortBy" *@
+            @*             class="form-select bg-dark text-light border-warning" *@
+            @*             onchange="this.form.submit()" *@
+            @*             aria-label="Sort movies"> *@
+            @*         @{ *@
+            @*             var currentSort = ViewData["CurrentSort"]?.ToString(); *@
+            @*         } *@
                     
-                    <option value="latest" selected="@(currentSort == "latest")">
-                        <i class="bi bi-clock-history me-1"></i> Latest Movies
-                    </option>
-                    <option value="oldest" selected="@(currentSort == "oldest")">
-                        <i class="bi bi-hourglass-bottom me-1"></i> Oldest Movies
-                    </option>
-                    <option value="pricehigh" selected="@(currentSort == "pricehigh")">
-                        <i class="bi bi-arrow-down me-1"></i> Price: High to Low
-                    </option>
-                    <option value="pricelow" selected="@(currentSort == "pricelow")">
-                        <i class="bi bi-arrow-up me-1"></i> Price: Low to High
-                    </option>
-                    <option value="title" selected="@(currentSort == "title")">
-                        <i class="bi bi-sort-alpha-down me-1"></i> Title A-Z
-                    </option>
-                </select>
+            @*         <option value="latest" selected="@(currentSort == "latest")"> *@
+            @*             <i class="bi bi-clock-history me-1"></i> Latest Movies *@
+            @*         </option> *@
+            @*         <option value="oldest" selected="@(currentSort == "oldest")"> *@
+            @*             <i class="bi bi-hourglass-bottom me-1"></i> Oldest Movies *@
+            @*         </option> *@
+            @*         <option value="pricehigh" selected="@(currentSort == "pricehigh")"> *@
+            @*             <i class="bi bi-arrow-down me-1"></i> Price: High to Low *@
+            @*         </option> *@
+            @*         <option value="pricelow" selected="@(currentSort == "pricelow")"> *@
+            @*             <i class="bi bi-arrow-up me-1"></i> Price: Low to High *@
+            @*         </option> *@
+            @*         <option value="title" selected="@(currentSort == "title")"> *@
+            @*             <i class="bi bi-sort-alpha-down me-1"></i> Title A-Z *@
+            @*         </option> *@
+            @*     </select> *@
+            @* </div> *@
+            <div class="dropdown">
+                <button class="btn btn-dark border-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-funnel me-1"></i> Sort by
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark border-warning">
+                    <li><a class="dropdown-item" href="?sortBy=latest"><i class="bi bi-clock-history me-1"></i> Latest Movies</a></li>
+                    <li><a class="dropdown-item" href="?sortBy=oldest"><i class="bi bi-hourglass-bottom me-1"></i> Oldest Movies</a></li>
+                    <li><a class="dropdown-item" href="?sortBy=pricehigh"><i class="bi bi-arrow-down me-1"></i> Price: High to Low</a></li>
+                    <li><a class="dropdown-item" href="?sortBy=pricelow"><i class="bi bi-arrow-up me-1"></i> Price: Low to High</a></li>
+                    <li><a class="dropdown-item" href="?sortBy=title"><i class="bi bi-sort-alpha-down me-1"></i> Title A-Z</a></li>
+                </ul>
             </div>
 
             <!-- Search Button -->

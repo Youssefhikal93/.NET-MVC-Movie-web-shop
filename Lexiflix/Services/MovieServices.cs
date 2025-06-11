@@ -8,8 +8,7 @@ namespace Lexiflix.Services
     public class MovieServices : IMovieServices
     {
         private readonly MovieDbContext _db;
-        //private const int DefaultPageSize = 6;
-        //private const int DefaultPageIndex = 1;
+      
 
         public MovieServices(MovieDbContext db)
         {
@@ -22,35 +21,7 @@ namespace Lexiflix.Services
             return GetBaseQuery().ToList();
         }
 
-        //public PaginatedList<Movie> GetMoviesPaginated(int pageIndex, int pageSize )
-        //{
-        //    return Paginate(GetBaseQuery(), pageIndex, pageSize);
-        //}
-
-        //public PaginatedList<Movie> SearchMovies(string searchString, int pageIndex, int pageSize)
-        //{
-        //    var query = GetBaseQuery();
-
-        //    if (!string.IsNullOrEmpty(searchString))
-        //    {
-        //        query = query.Where(m =>
-        //            m.Title.Contains(searchString) ||
-        //            m.Director.Contains(searchString) ||
-        //            m.Actors.Any(a => a.Name.Contains(searchString)));
-        //    }
-
-        //    return Paginate(query, pageIndex, pageSize);
-        //}
-
-        //public PaginatedList<Movie> GetMoviesSortedByPrice(int pageIndex, int pageSize)
-        //{
-        //    return Paginate(GetBaseQuery().OrderByDescending(m => m.Price), pageIndex, pageSize);
-        //}
-
-        //public PaginatedList<Movie> GetMoviesSortedByYear(int pageIndex, int pageSize)
-        //{
-        //    return Paginate(GetBaseQuery().OrderByDescending(m => m.ReleaseYear), pageIndex, pageSize);
-        //}
+        
         public PaginatedList<Movie> GetMovies(string searchString, string sortBy, int pageIndex, int pageSize)
         {
             var query = GetBaseQuery();
