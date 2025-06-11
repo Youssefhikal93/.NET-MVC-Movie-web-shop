@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+:root {
+    --bs-warning: #FFD700; /* Golden color for warning */
+    --bs-warning-rgb: 255, 215, 0; /* RGB values for golden color */
+}

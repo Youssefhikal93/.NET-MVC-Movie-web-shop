@@ -1,0 +1,137 @@
+﻿
+<div class="row mb-4">
+    <div class="col-12">
+        <form asp-action="Index" method="get" class="d-flex flex-column flex-md-row gap-3 align-items-stretch align-items-md-center">
+            <!-- Search Input -->
+            <div class="flex-grow-1">
+                <div class="input-group">
+                    <input type="text"
+                           name="searchString"
+                           value="@ViewData["CurrentFilter"]"
+                           class="form-control bg-dark text-light border-warning search-input"
+                           placeholder="Search movies, directors, actors..."
+                           aria-label="Search movies"
+                    id="searchInput">
+                </div>
+            </div>
+
+            <!-- Sort Dropdown -->
+            @* <div class="col-md-auto"> *@
+            @*     <select name="sortBy" *@
+            @*             class="form-select bg-dark text-light border-warning" *@
+            @*             onchange="this.form.submit()" *@
+            @*             aria-label="Sort movies"> *@
+            @*         @{ *@
+            @*             var currentSort = ViewData["CurrentSort"]?.ToString(); *@
+            @*         } *@
+                    
+            @*         <option value="latest" selected="@(currentSort == "latest")"> *@
+            @*             <i class="bi bi-clock-history me-1"></i> Latest Movies *@
+            @*         </option> *@
+            @*         <option value="oldest" selected="@(currentSort == "oldest")"> *@
+            @*             <i class="bi bi-hourglass-bottom me-1"></i> Oldest Movies *@
+            @*         </option> *@
+            @*         <option value="pricehigh" selected="@(currentSort == "pricehigh")"> *@
+            @*             <i class="bi bi-arrow-down me-1"></i> Price: High to Low *@
+            @*         </option> *@
+            @*         <option value="pricelow" selected="@(currentSort == "pricelow")"> *@
+            @*             <i class="bi bi-arrow-up me-1"></i> Price: Low to High *@
+            @*         </option> *@
+            @*         <option value="title" selected="@(currentSort == "title")"> *@
+            @*             <i class="bi bi-sort-alpha-down me-1"></i> Title A-Z *@
+            @*         </option> *@
+            @*     </select> *@
+            @* </div> *@
+            <div class="dropdown">
+                <button class="btn btn-dark border-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-funnel me-1"></i> Sort by
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark border-warning">
+                    <li><a class="dropdown-item" href="?sortBy=latest"><i class="bi bi-clock-history me-1"></i> Latest Movies</a></li>
+                    <li><a class="dropdown-item" href="?sortBy=oldest"><i class="bi bi-hourglass-bottom me-1"></i> Oldest Movies</a></li>
+                    <li><a class="dropdown-item" href="?sortBy=pricehigh"><i class="bi bi-arrow-down me-1"></i> Price: High to Low</a></li>
+                    <li><a class="dropdown-item" href="?sortBy=pricelow"><i class="bi bi-arrow-up me-1"></i> Price: Low to High</a></li>
+                    <li><a class="dropdown-item" href="?sortBy=title"><i class="bi bi-sort-alpha-down me-1"></i> Title A-Z</a></li>
+                </ul>
+            </div>
+
+            <!-- Search Button -->
+            <div class="col-md-auto">
+                <button type="submit" class="btn btn-warning w-100">
+                    <i class="bi bi-search me-1"></i> Search
+                </button>
+            </div>
+
+            <!-- Hidden fields to maintain state -->
+            <input type="hidden" name="pageNumber" value="1" />
+            <input type="hidden" name="pageSize" value="@ViewData["PageSize"]" />
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchForm = document.getElementById('searchForm');
+            const searchInput = document.getElementById('searchInput');
+            const sortSelect = document.getElementById('sortSelect');
+
+            // Debounce function to limit how often the search triggers
+            function debounce(func, delay) {
+                let timeoutId;
+                return function() {
+                    clearTimeout(timeoutId);
+                    timeoutId = setTimeout(func, delay);
+                };
+            }
+
+            // Function to submit the form
+            function submitForm() {
+                // Reset to first page when search changes
+                document.querySelector('input[name="pageNumber"]').value = '1';
+                searchForm.submit();
+            }
+
+            // Trigger search when typing (with 500ms delay after last keystroke)
+            searchInput.addEventListener('input', debounce(submitForm, 100));
+
+            // Also trigger search immediately when Enter is pressed
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    submitForm();
+                }
+            });
+
+            // Trigger search when sort changes
+            sortSelect.addEventListener('change', submitForm);
+        });
+
+
+    //     <script>
+    //     $(document).ready(function() {
+    //         var delayTimer;
+
+    //         $('#searchInput').on('input', function() {
+    //             clearTimeout(delayTimer);
+    //             delayTimer = setTimeout(function() {
+    //                 $('input[name="pageNumber"]').val('1');
+    //                 $('#searchForm').submit();
+    //             }, 500);
+    //         }).on('keydown', function(e) {
+    //             if (e.key === 'Enter') {
+    //                 e.preventDefault();
+    //                 $('input[name="pageNumber"]').val('1');
+    //                 $('#searchForm').submit();
+    //             }
+    //         });
+
+    //         $('#sortSelect').change(function() {
+    //             $('input[name="pageNumber"]').val('1');
+    //             $('#searchForm').submit();
+    //         });
+    //     });
+    // </script>
+    </script>
+}
