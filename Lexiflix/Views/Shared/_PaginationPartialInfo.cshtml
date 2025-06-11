@@ -1,0 +1,24 @@
+﻿@using Lexiflix.Utils
+@model PaginatedList<Lexiflix.Models.Movie>
+
+@if (Model.TotalItems > 0)
+{
+    <div class="d-flex justify-content-between align-items-center mb-3 text-light">
+        <div class="small">
+            Showing @((Model.PageIndex - 1) * Model.PageSize + 1) to @(Math.Min(Model.PageIndex * Model.PageSize, Model.TotalItems)) of @Model.TotalItems movies
+        </div>
+        <div class="small">
+            Page @Model.PageIndex of @Model.TotalPages
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center text-light py-5">
+        <h4>🎬 No movies found</h4>
+        <p>Try adjusting your search criteria or browse all movies.</p>
+        <a asp-action="Index" class="btn btn-outline-warning">
+            <i class="bi bi-arrow-left me-1"></i> Show All Movies
+        </a>
+    </div>
+}

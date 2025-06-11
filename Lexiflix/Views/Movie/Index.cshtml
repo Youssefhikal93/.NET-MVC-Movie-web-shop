@@ -1,55 +1,57 @@
-﻿
-@model IEnumerable<Lexiflix.Models.Movie>
+﻿@using Lexiflix.Utils
+@model PaginatedList<Lexiflix.Models.Movie>
 
 @{
     ViewData["Title"] = "Movies";
 }
 
-
-
-
 <div class="container-fluid py-4">
-    <!-- Header Section -->
+    <!-- Page Header -->
     <div class="row mb-4">
         <div class="col-12">
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
-                <form asp-action="Search" method="get" class="flex-grow-1 me-md-3">
-                    <div class="input-group text-light">
-                        <input type="text"
-                               name="searchString"
-                               class="form-control bg-black text-light border-warning search-input"
-                               placeholder="Search movies..."
-                               aria-label="Search movies">
-                        <button class="btn btn-warning text-dark" type="submit">
-                            <i class="bi bi-search"></i>
-                        </button>
-                    </div>
-                </form>             <div class="d-flex flex-wrap gap-2">
-                    <a asp-action="Filter" class="btn btn-outline-warning btn-sm">
-                        <i class="bi bi-funnel me-1"></i>Filter
-                    </a>
-                    <a asp-action="SortByAmount" class="btn btn-outline-warning btn-sm">
-                        <i class="bi bi-sort-numeric-down me-1"></i>Sort by Price
-                    </a>
-                    <a asp-action="SortByYear" class="btn btn-outline-warning btn-sm">
-                        <i class="bi bi-sort-numeric-down me-1"></i>Sort by Year
-                    </a>
-                </div>
-            </div>
+            <h2 class="text-warning mb-0">
+                <i class="bi bi-film me-2"></i>Movie Collection
+            </h2>
+            <p class="text-light mb-0">Discover and explore our movie library</p>
         </div>
     </div>
 
+    <!-- Search and Sort Section -->
+    <partial name="_SearchSortPartial" />
+
+    <!-- Pagination Info -->
+    <partial name="_PaginationPartialInfo" model="Model" />
+
+    <!-- Top Pagination -->
+    @if (Model.TotalPages > 1)
+    {
+        <div class="mb-4">
+            <partial name="_PaginationPartial" model="Model" />
+        </div>
+    }
+
     <!-- Movies Grid -->
     <div class="row g-4">
-        @foreach (var item in Model)
+        @if (Model.Any())
         {
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                <partial name="_MoviePartialView" model="item" />
-            </div>
+            @foreach (var item in Model)
+            {
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <partial name="_MoviePartialView" model="item" />
+                </div>
+            }
         }
     </div>
 
+    <!-- Bottom Pagination -->
+    @if (Model.TotalPages > 1)
+    {
+        <div class="pt-4 mt-4 border-top border-warning border-opacity-25">
+            <partial name="_PaginationPartial" model="Model" />
+        </div>
+    }
 </div>
+
 @* Additional CSS for better styling *@
 <style>
     .object-fit-cover {
@@ -93,8 +95,8 @@
     }
 
     .search-input::placeholder {
-        color: #ffc107 !important;
-        opacity: 0.7;
+        color: #fff !important;
+        opacity: 0.9;
     }
 
     .search-input:focus {
@@ -115,5 +117,25 @@
     .input-group:focus-within {
         z-index: 1;
     }
-   
+
+    .page-link {
+        transition: all 0.3s ease;
+    }
+
+        .page-link:hover {
+            background-color: rgba(255, 193, 7, 0.2) !important;
+            color: #ffc107 !important;
+            border-color: #ffc107 !important;
+        }
+
+    .page-item.active .page-link {
+        background-color: #ffc107 !important;
+        border-color: #ffc107 !important;
+        color: #000 !important;
+        font-weight: bold;
+    }
+
+    .border-warning {
+        border-color: rgba(255, 193, 7, 0.3) !important;
+    }
 </style>
