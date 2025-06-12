@@ -9,7 +9,7 @@ html {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #ffc107;
 }
 
 html {
@@ -35,6 +35,98 @@ body {
 .dropdown-menu .dropdown-item.active,
 .dropdown-menu .dropdown-item:active,
 .dropdown-menu .dropdown-item:hover {
-    background-color: #ffc107 !important; /* Bootstrap warning */
+    background-color: #FFD700 !important; /* Bootstrap warning */
     color: #000 !important;
 }
+
+.search-input::placeholder {
+    color: #fff !important;
+    opacity: 0.9;
+}
+
+.search-input:focus {
+    border-color: #FFD700;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+    background-color: #000;
+    color: #fff;
+}
+
+    .search-input:focus::placeholder {
+        opacity: 0.5;
+    }
+
+.btn-warning:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.5);
+}
+
+.input-group:focus-within {
+    z-index: 1;
+}
+
+.page-link {
+    transition: all 0.3s ease;
+}
+
+    .page-link:hover {
+        background-color: rgba(255, 193, 7, 0.2) !important;
+        color: #FFD700 !important;
+        border-color: #FFD700 !important;
+    }
+
+.page-item.active .page-link {
+    background-color: #FFD700 !important;
+    border-color: #FFD700 !important;
+    color: #000 !important;
+    font-weight: bold;
+}
+
+.border-warning {
+    border-color: rgba(255, 193, 7, 0.3) !important;
+}
+
+
+/* Outline gold buttons */
+.btn-outline-warning {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 1;
+    border-width: 2px;
+}
+
+    .btn-outline-warning:hover,
+    .btn-outline-warning:focus {
+        background-color: #FFD700 !important;
+        color: #000 !important;
+        border-color: #FFD700 !important;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+        transform: translateY(-2px);
+    }
+
+    /* Glow effect */
+    .btn-outline-warning::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 215, 0, 0.1);
+        z-index: -1;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .btn-outline-warning:hover::before,
+    .btn-outline-warning:focus::before {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+
+    /* Ripple effect on click */
+    .btn-outline-warning:active {
+        transform: translateY(0) scale(0.98);
+        transition: all 0.1s ease;
+    }
+

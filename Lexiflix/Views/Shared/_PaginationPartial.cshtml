@@ -1,6 +1,10 @@
 ﻿@using Lexiflix.Utils
 @model PaginatedList<Lexiflix.Models.Movie>
 
+@{
+    var actionName = ViewData["ActionName"]?.ToString() ?? "Index";
+}
+
 @if (Model.TotalPages > 1)
 {
     <nav aria-label="Page navigation">
@@ -8,7 +12,7 @@
             @if (Model.HasPreviousPage)
             {
                 <li class="page-item">
-                    <a href="@Url.Action("Index", new {
+                    <a href="@Url.Action(actionName, new {
                         pageNumber = Model.PageIndex - 1,
                         searchString = ViewData["CurrentFilter"],
                         sortBy = ViewData["CurrentSort"],
@@ -24,7 +28,7 @@
             @for (int i = Math.Max(1, Model.PageIndex - 2); i <= Math.Min(Model.TotalPages, Model.PageIndex + 2); i++)
             {
                 <li class="page-item @(i == Model.PageIndex ? "active" : "")">
-                    <a href="@Url.Action("Index", new {
+                    <a href="@Url.Action(actionName, new {
                         pageNumber = i,
                         searchString = ViewData["CurrentFilter"],
                         sortBy = ViewData["CurrentSort"],
@@ -39,7 +43,7 @@
             @if (Model.HasNextPage)
             {
                 <li class="page-item">
-                    <a href="@Url.Action("Index", new {
+                    <a href="@Url.Action(actionName, new {
                         pageNumber = Model.PageIndex + 1,
                         searchString = ViewData["CurrentFilter"],
                         sortBy = ViewData["CurrentSort"],

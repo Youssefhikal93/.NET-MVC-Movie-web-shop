@@ -1,7 +1,13 @@
 ﻿
+
+@{
+    var actionName = ViewData["ActionName"]?.ToString() ?? "Index";
+}
+
+
 <div class="row mb-4">
     <div class="col-12">
-        <form asp-action="Index" method="get" class="d-flex flex-column flex-md-row gap-3 align-items-stretch align-items-md-center">
+        <form asp-action="@actionName" method="get" class="d-flex flex-column flex-md-row gap-3 align-items-stretch align-items-md-center">
             <!-- Search Input -->
             <div class="flex-grow-1">
                 <div class="input-group">
@@ -15,35 +21,8 @@
                 </div>
             </div>
 
-            <!-- Sort Dropdown -->
-            @* <div class="col-md-auto"> *@
-            @*     <select name="sortBy" *@
-            @*             class="form-select bg-dark text-light border-warning" *@
-            @*             onchange="this.form.submit()" *@
-            @*             aria-label="Sort movies"> *@
-            @*         @{ *@
-            @*             var currentSort = ViewData["CurrentSort"]?.ToString(); *@
-            @*         } *@
-                    
-            @*         <option value="latest" selected="@(currentSort == "latest")"> *@
-            @*             <i class="bi bi-clock-history me-1"></i> Latest Movies *@
-            @*         </option> *@
-            @*         <option value="oldest" selected="@(currentSort == "oldest")"> *@
-            @*             <i class="bi bi-hourglass-bottom me-1"></i> Oldest Movies *@
-            @*         </option> *@
-            @*         <option value="pricehigh" selected="@(currentSort == "pricehigh")"> *@
-            @*             <i class="bi bi-arrow-down me-1"></i> Price: High to Low *@
-            @*         </option> *@
-            @*         <option value="pricelow" selected="@(currentSort == "pricelow")"> *@
-            @*             <i class="bi bi-arrow-up me-1"></i> Price: Low to High *@
-            @*         </option> *@
-            @*         <option value="title" selected="@(currentSort == "title")"> *@
-            @*             <i class="bi bi-sort-alpha-down me-1"></i> Title A-Z *@
-            @*         </option> *@
-            @*     </select> *@
-            @* </div> *@
             <div class="dropdown">
-                <button class="btn btn-dark border-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-black border-warning dropdown-toggle text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-funnel me-1"></i> Sort by
                 </button>
                 <ul class="dropdown-menu dropdown-menu-dark border-warning">
@@ -57,7 +36,7 @@
 
             <!-- Search Button -->
             <div class="col-md-auto">
-                <button type="submit" class="btn btn-warning w-100">
+                <button type="submit" class="btn btn-outline-warning w-100">
                     <i class="bi bi-search me-1"></i> Search
                 </button>
             </div>
@@ -77,14 +56,6 @@
             const searchInput = document.getElementById('searchInput');
             const sortSelect = document.getElementById('sortSelect');
 
-            // Debounce function to limit how often the search triggers
-            function debounce(func, delay) {
-                let timeoutId;
-                return function() {
-                    clearTimeout(timeoutId);
-                    timeoutId = setTimeout(func, delay);
-                };
-            }
 
             // Function to submit the form
             function submitForm() {
@@ -93,8 +64,6 @@
                 searchForm.submit();
             }
 
-            // Trigger search when typing (with 500ms delay after last keystroke)
-            searchInput.addEventListener('input', debounce(submitForm, 100));
 
             // Also trigger search immediately when Enter is pressed
             searchInput.addEventListener('keydown', function(e) {
@@ -108,30 +77,5 @@
             sortSelect.addEventListener('change', submitForm);
         });
 
-
-    //     <script>
-    //     $(document).ready(function() {
-    //         var delayTimer;
-
-    //         $('#searchInput').on('input', function() {
-    //             clearTimeout(delayTimer);
-    //             delayTimer = setTimeout(function() {
-    //                 $('input[name="pageNumber"]').val('1');
-    //                 $('#searchForm').submit();
-    //             }, 500);
-    //         }).on('keydown', function(e) {
-    //             if (e.key === 'Enter') {
-    //                 e.preventDefault();
-    //                 $('input[name="pageNumber"]').val('1');
-    //                 $('#searchForm').submit();
-    //             }
-    //         });
-
-    //         $('#sortSelect').change(function() {
-    //             $('input[name="pageNumber"]').val('1');
-    //             $('#searchForm').submit();
-    //         });
-    //     });
-    // </script>
     </script>
 }
