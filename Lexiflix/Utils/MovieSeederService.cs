@@ -97,7 +97,12 @@ namespace Lexiflix.Utils
         {
             if (!_context.Movies.Any())
             {
-                var titles = new[] { "Inception", "The Matrix", "Interstellar", "Vendetta", "Fight Club" };
+                var titles = new[] {
+    "The Shawshank Redemption",
+    "The Godfather",
+    "The Dark Knight",
+    
+};
                 foreach (var title in titles)
                 {
                     await SeedMovieAsync(title);

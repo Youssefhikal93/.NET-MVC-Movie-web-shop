@@ -30,17 +30,16 @@ namespace Lexiflix.Controllers
                 return RedirectToAction("Index");
             }
             return View();
-
-
-
         }
         
-     //  List all customers
-       public IActionResult Index()
+     //  List all customers in adminindex
+ 
+
+           public IActionResult AdminIndex()
         {
-            List<Customer> customerList= _customerServices.GetAllCustomers();
-            return View(customerList);
-        } 
+            var customers = _customerServices.GetAllCustomers();
+            return View(customers);
+        }
 
 
     

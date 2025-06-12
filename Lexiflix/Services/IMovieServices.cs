@@ -1,9 +1,11 @@
 ﻿using Lexiflix.Models;
+using Lexiflix.Utils;
 
 namespace Lexiflix.Services
 {
     public interface IMovieServices
     {
-        public List<Movie> GetAllMovies();
+        List<Movie> GetAllMovies();
+        PaginatedList<Movie> GetMovies(string searchString, string sortBy, int pageIndex, int pageSize);
     }
 }

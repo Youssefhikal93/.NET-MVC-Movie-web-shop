@@ -1,0 +1,85 @@
+@model IEnumerable<Lexiflix.Models.Customer>
+
+@{
+    ViewData["Title"] = "Customer Management";
+}
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="text-warning">Customer Management</h1>
+            <a asp-action="Create" class="btn btn-warning">
+                <i class="bi bi-person-plus"></i> Add New Customer
+            </a>
+    </div>
+
+<div class="card shadow-sm border-warning">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0">
+                    <thead class="bg-dark text-warning">
+                        <tr>
+                             <th width="50">#</th>
+                            <th>Full Name</th>
+                            <th>Billing City</th>
+                            <th>Billing Address</th>
+                            <th>Billing Zip</th>
+                            <th>Delivery City</th>
+                            <th>Delivery Address</th>
+                            <th>Delivery Zip</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th width="180">Actions</th>
+                         </tr>
+                    </thead>
+    <tbody>
+        @{
+            int index = 1;
+        }
+        @foreach (var customer in Model)
+        {
+            <tr>
+                <td>@index</td>
+                <td>@(customer.FirstName + " " + customer.LastName)</td>
+                <td>@customer.BillingCity</td>
+                <td>@customer.BillingAddress</td>
+                <td>@customer.BillingZip</td>
+                <td>@customer.DeliveryCity</td>
+                <td>@customer.DeliveryAddress</td>
+                <td>@customer.DeliveryZip</td>
+                <td>@customer.Email</td>
+                <td>@customer.Phone</td>
+                
+            index++;
+            </tr>
+        }
+        </tbody>
+     </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .table-dark {
+        background-color: #1a1a1a;
+        color: #fff;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(255, 193, 7, 0.1);
+    }
+
+    .card {
+        border: 1px solid rgba(255, 193, 7, 0.3);
+        overflow: hidden;
+    }
+
+    th {
+        border-bottom: 2px solid #ffc107 !important;
+    }
+
+    .btn-group-sm > .btn {
+        padding: 0.25rem 0.5rem;
+    }
+</style>
+
