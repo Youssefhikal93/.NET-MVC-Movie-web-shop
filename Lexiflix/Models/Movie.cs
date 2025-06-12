@@ -26,8 +26,20 @@ namespace Lexiflix.Models
         [Url(ErrorMessage = "Please enter a valid URL.")]
         public string ImageUrl { get; set; }
 
+
+        public string? Plot { get; set; }
+
+        public string? Genre { get; set; }
+
+        public int? Runtime { get; set; } 
+
+        public string? Rating { get; set; } // PG-13, R, etc.
+
+        public decimal? ImdbRating { get; set; }
+
         // Many-to-many relationship with Actor
         public ICollection<Actor> Actors { get; set; } = new List<Actor>();
+        public ICollection<Genre> Genres { get; set; } = new List<Genre>();
 
     }
 }

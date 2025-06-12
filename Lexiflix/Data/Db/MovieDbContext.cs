@@ -21,6 +21,7 @@ namespace Lexiflix.Data.Db
         public virtual DbSet<Movie> Movies { get; set; }
         public virtual DbSet<OrderRow> OrderRows { get; set; }
         public virtual DbSet<Actor> Actors { get; set; }
+        public DbSet<Genre> Genres { get; set; }
 
 
     }
