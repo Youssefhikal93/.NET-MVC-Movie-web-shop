@@ -5,6 +5,10 @@ namespace Lexiflix.Services
 {
     public interface IOrderServices
     {
-        public List<Order>GetAlOrders();
+        public void CreateOrder(Order order)
+        {
+            throw new NotImplementedException();
+        }
+        public List<Order> GetAlOrders();
     }
 }

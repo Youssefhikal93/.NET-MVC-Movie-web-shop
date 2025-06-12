@@ -11,7 +11,7 @@ namespace Lexiflix.Models
       
 
         [Required]
-        [Range(0, 5000, ErrorMessage = "Price must be between 0 and 1000.")]
+        [Range(0, 5000, ErrorMessage = "Price must be between 0 and 5000.")]
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
@@ -25,6 +25,7 @@ namespace Lexiflix.Models
 
         public Order Order { get; set; }
         public Movie Movie { get; set; }
-        public int Quantity { get; internal set; }
+        public int Quantity { get;  set; }
     }
+
 }
