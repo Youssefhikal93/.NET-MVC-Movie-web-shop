@@ -25,3 +25,16 @@ body {
     --bs-warning: #FFD700; /* Golden color for warning */
     --bs-warning-rgb: 255, 215, 0; /* RGB values for golden color */
 }
+.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.5); /* warning color shadow */
+    border-color: #ffc107;
+    outline: none;
+}
+
+/* Active dropdown item */
+.dropdown-menu .dropdown-item.active,
+.dropdown-menu .dropdown-item:active,
+.dropdown-menu .dropdown-item:hover {
+    background-color: #ffc107 !important; /* Bootstrap warning */
+    color: #000 !important;
+}
