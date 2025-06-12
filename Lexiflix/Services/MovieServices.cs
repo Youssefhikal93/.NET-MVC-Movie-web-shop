@@ -41,6 +41,19 @@ namespace Lexiflix.Services
             return Paginate(query, pageIndex, pageSize);
         }
 
+
+        public Movie? GetOneMovie(int id)
+        {
+            var query = GetBaseQuery();
+            var movie = query.FirstOrDefault(m => m.Id == id);
+            return movie;
+        }
+
+
+
+
+
+
         private IQueryable<Movie> ApplySorting(IQueryable<Movie> query, string sortBy)
         {
             return sortBy.ToLower() switch
