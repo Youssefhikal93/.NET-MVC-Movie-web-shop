@@ -4,6 +4,7 @@ using Lexiflix.Data.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lexiflix.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-    partial class MovieDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250612115737_added-genre-table")]
+    partial class addedgenretable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,21 +38,6 @@ namespace Lexiflix.Migrations
                     b.HasIndex("MoviesId");
 
                     b.ToTable("ActorMovie");
-                });
-
-            modelBuilder.Entity("GenreMovie", b =>
-                {
-                    b.Property<int>("GenresId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MoviesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("GenresId", "MoviesId");
-
-                    b.HasIndex("MoviesId");
-
-                    b.ToTable("GenreMovie");
                 });
 
             modelBuilder.Entity("Lexiflix.Models.Actor", b =>
@@ -172,6 +160,9 @@ namespace Lexiflix.Migrations
                     b.Property<string>("Genre")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("GenreId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -200,6 +191,8 @@ namespace Lexiflix.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GenreId");
 
                     b.ToTable("Movies");
                 });
@@ -266,25 +259,17 @@ namespace Lexiflix.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GenreMovie", b =>
-                {
-                    b.HasOne("Lexiflix.Models.Genre", null)
-                        .WithMany()
-                        .HasForeignKey("GenresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Lexiflix.Models.Movie", null)
-                        .WithMany()
-                        .HasForeignKey("MoviesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Lexiflix.Models.Genre", b =>
                 {
                     b.HasOne("Lexiflix.Models.Genre", null)
                         .WithMany("Genres")
+                        .HasForeignKey("GenreId");
+                });
+
+            modelBuilder.Entity("Lexiflix.Models.Movie", b =>
+                {
+                    b.HasOne("Lexiflix.Models.Genre", null)
+                        .WithMany("Movies")
                         .HasForeignKey("GenreId");
                 });
 
@@ -326,6 +311,8 @@ namespace Lexiflix.Migrations
             modelBuilder.Entity("Lexiflix.Models.Genre", b =>
                 {
                     b.Navigation("Genres");
+
+                    b.Navigation("Movies");
                 });
 #pragma warning restore 612, 618
         }
