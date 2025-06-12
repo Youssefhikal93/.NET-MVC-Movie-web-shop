@@ -44,5 +44,12 @@ namespace Lexiflix.Controllers
             return View("AdminIndex", movies);
         }
 
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var movie = _movieServices.GetOneMovie(id);
+            return View(movie);
+        }
+
     }
 }

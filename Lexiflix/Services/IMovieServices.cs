@@ -7,5 +7,7 @@ namespace Lexiflix.Services
     {
         List<Movie> GetAllMovies();
         PaginatedList<Movie> GetMovies(string searchString, string sortBy, int pageIndex, int pageSize);
+
+        Movie GetOneMovie(int id);
     }
 }
