@@ -41,7 +41,7 @@ namespace Lexiflix.Models
         public string DeliveryCity { get; set; }
         [Required]
         [StringLength(10)]
-        [Display(Name = "Delivery postal code")]
+        [Display(Name = "Delivery Postal Code")]
         public string DeliveryZip { get; set; }
 
         [Required]
