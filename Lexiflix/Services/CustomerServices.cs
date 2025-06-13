@@ -9,11 +9,12 @@ public class CustomerServices : ICustomerServices
     public CustomerServices(MovieDbContext db)
     {
 
-        _db = db;
+        _db = db; 
     }
     public void AddNewCustomer(Customer customer)
     {
-        _db.Add(customer);
+        
+            _db.Add(customer);
         
         _db.SaveChanges();
     }
