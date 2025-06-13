@@ -1,4 +1,5 @@
-﻿using Lexiflix.Services;
+﻿using Lexiflix.Models;
+using Lexiflix.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing.Printing;
 using System.Globalization;
@@ -51,6 +52,25 @@ namespace Lexiflix.Controllers
             ViewData["ActionName"] = origin;
             return View(movie);
         }
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var movieVm = _movieServices.GetMovieForEdit(id);
+            if (movieVm == null) return NotFound();
+            return View(movieVm);
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, MovieUpdateVM model)
+        {
+            if (id != model.Id) return BadRequest();
+
+            if (!ModelState.IsValid)
+                return View(model);
+
+            _movieServices.UpdateMovie(model);
+            return RedirectToAction("AdminIndex");
+        }
     }
 }

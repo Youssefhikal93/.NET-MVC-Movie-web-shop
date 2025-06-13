@@ -1,7 +1,6 @@
+using System.ComponentModel.DataAnnotations;
 
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Lexiflix.Models
+namespace Lexiflix.Models.Db
 {
     public class Customer
     {

@@ -1,4 +1,4 @@
-﻿@model Lexiflix.Models.UpdateMovieDto
+﻿@model Lexiflix.Models.MovieUpdateVM
 
 @{
     ViewData["Title"] = "Edit";
@@ -78,3 +78,162 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+
+
+@* @model Lexiflix.Models.UpdateMovieDto *@
+
+@{
+    ViewData["Title"] = "Edit Movie";
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-warning">Edit Movie</h1>
+        <a asp-action="Index" class="btn btn-outline-light">
+            <i class="bi bi-arrow-left"></i> Back to List
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card bg-dark border-warning">
+                <div class="card-body">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Title" class="form-label text-light"></label>
+                                    <input asp-for="Title" class="form-control bg-black text-light" />
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Director" class="form-label text-light"></label>
+                                    <input asp-for="Director" class="form-control bg-black text-light" />
+                                    <span asp-validation-for="Director" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group mb-3">
+                                    <label asp-for="ReleaseYear" class="form-label text-light"></label>
+                                    <input asp-for="ReleaseYear" class="form-control bg-black text-light" />
+                                    <span asp-validation-for="ReleaseYear" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Price" class="form-label text-light"></label>
+                                    <input asp-for="Price" class="form-control bg-black text-light" />
+                                    <span asp-validation-for="Price" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Runtime" class="form-label text-light"></label>
+                                    <input asp-for="Runtime" class="form-control bg-black text-light" />
+                                    <span asp-validation-for="Runtime" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="ImageUrl" class="form-label text-light"></label>
+                            <input asp-for="ImageUrl" class="form-control bg-black text-light" />
+                            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Plot" class="form-label text-light"></label>
+                            <textarea asp-for="Plot" class="form-control bg-black text-light" rows="3"></textarea>
+                            <span asp-validation-for="Plot" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Rating" class="form-label text-light"></label>
+                                    <select asp-for="Rating" class="form-select bg-black text-light">
+                                        <option value="">Select Rating</option>
+                                        <option value="G">G</option>
+                                        <option value="PG">PG</option>
+                                        <option value="PG-13">PG-13</option>
+                                        <option value="R">R</option>
+                                        <option value="NC-17">NC-17</option>
+                                    </select>
+                                    <span asp-validation-for="Rating" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="ImdbRating" class="form-label text-light"></label>
+                                    <input asp-for="ImdbRating" class="form-control bg-black text-light" />
+                                    <span asp-validation-for="ImdbRating" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Actors Multi-Select -->
+                        <div class="form-group mb-3">
+                            <label class="form-label text-light">Actors</label>
+                            <select asp-for="SelectedActorIds" class="form-select bg-black text-light" multiple>
+                                @foreach (var actor in Model.AvailableActors)
+                                {
+                                    <option value="@actor.Id">@actor.Name</option>
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Genres Multi-Select -->
+                        <div class="form-group mb-3">
+                            <label class="form-label text-light">Genres</label>
+                            <select asp-for="SelectedGenreIds" class="form-select bg-black text-light" multiple>
+                                @foreach (var genre in Model.AvailableGenres)
+                                {
+                                    <option value="@genre.Id">@genre.Name</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group mt-4">
+                            <button type="submit" class="btn btn-warning px-4">
+                                <i class="bi bi-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Movie Poster Preview -->
+        <div class="col-md-4">
+            <div class="card bg-dark border-warning h-100">
+                <div class="card-body text-center">
+                    <h4 class="text-warning mb-3">Poster Preview</h4>
+                    <img src="@(Model.ImageUrl ?? "https://via.placeholder.com/300x450?text=No+Image")" 
+                         id="posterPreview" 
+                         class="img-fluid rounded mb-3" 
+                         style="max-height: 400px; object-fit: contain;"
+                         alt="Movie Poster">
+                    <p class="text-muted">Image will update automatically</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Update poster preview when image URL changes
+        document.getElementById('ImageUrl').addEventListener('input', function() {
+            const preview = document.getElementById('posterPreview');
+            preview.src = this.value || "https://via.placeholder.com/300x450?text=No+Image";
+        });
+    </script>
+}

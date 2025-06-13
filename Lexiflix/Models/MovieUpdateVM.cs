@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Lexiflix.Models.Db;
+using System.ComponentModel.DataAnnotations;
 
 namespace Lexiflix.Models
 {
     
-        public class UpdateMovieDto
+        public class MovieUpdateVM
         {
             public int Id { get; set; }
 

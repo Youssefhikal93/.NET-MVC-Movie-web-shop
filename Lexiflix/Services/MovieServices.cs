@@ -1,7 +1,9 @@
 ﻿using Lexiflix.Data.Db;
 using Lexiflix.Models;
+using Lexiflix.Models.Db;
 using Lexiflix.Utils;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging;
 
 namespace Lexiflix.Services
 {
@@ -50,6 +52,68 @@ namespace Lexiflix.Services
         }
 
 
+        public MovieUpdateVM GetMovieForEdit(int id)
+        {
+            var movie = _db.Movies
+                .Include(m => m.Actors)
+                .Include(m => m.Genres)
+                .FirstOrDefault(m => m.Id == id);
+
+            if (movie == null) return null;
+
+            return new MovieUpdateVM
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                Director = movie.Director,
+                ReleaseYear = movie.ReleaseYear,
+                Price = movie.Price,
+                ImageUrl = movie.ImageUrl,
+                Plot = movie.Plot,
+                Genre = movie.Genre,
+                Runtime = movie.Runtime,
+                Rating = movie.Rating,
+                ImdbRating = movie.ImdbRating,
+                SelectedActorIds = movie.Actors.Select(a => a.Id).ToList(),
+                SelectedGenreIds = movie.Genres.Select(g => g.Id).ToList(),
+                AvailableActors = _db.Actors.ToList(),
+                AvailableGenres = _db.Genres.ToList()
+            };
+        }
+
+        public void UpdateMovie(MovieUpdateVM vm)
+        {
+            var movie = _db.Movies
+                .Include(m => m.Actors)
+                .Include(m => m.Genres)
+                .FirstOrDefault(m => m.Id == vm.Id);
+
+            if (movie == null) return;
+
+            // Basic fields
+            movie.Title = vm.Title;
+            movie.Director = vm.Director;
+            movie.ReleaseYear = (int)vm.ReleaseYear;
+            movie.Price = (decimal)vm.Price;
+            movie.ImageUrl = vm.ImageUrl;
+            movie.Plot = vm.Plot;
+            movie.Genre = vm.Genre;
+            movie.Runtime = vm.Runtime;
+            movie.Rating = vm.Rating;
+            movie.ImdbRating = vm.ImdbRating;
+
+            // Update Actors (many-to-many)
+            movie.Actors.Clear();
+            var selectedActors = _db.Actors.Where(a => vm.SelectedActorIds.Contains(a.Id)).ToList();
+            movie.Actors.AddRange(selectedActors);
+
+            // Update Genres (many-to-many)
+            movie.Genres.Clear();
+            var selectedGenres = _db.Genres.Where(g => vm.SelectedGenreIds.Contains(g.Id)).ToList();
+            movie.Genres.AddRange(selectedGenres);
+
+            _db.SaveChanges();
+        }
 
 
 
