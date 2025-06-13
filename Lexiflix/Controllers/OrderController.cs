@@ -39,6 +39,10 @@ namespace Lexiflix.Controllers
         {
             var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";
             var cart = JsonConvert.DeserializeObject<List<OrderRow>>(cartJson);
+            foreach(var row in cart)
+            {
+                
+            }
             return View(cart);
             
         }

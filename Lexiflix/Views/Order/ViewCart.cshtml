@@ -12,19 +12,17 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            <th class=" text-black">
                 @Html.DisplayNameFor(model => model.Id)
             </th>
-            <th>
+            <th class=" text-black">
                 @Html.DisplayNameFor(model => model.Price)
             </th>
-            <th>
+            <th class=" text-black">
                 @Html.DisplayNameFor(model => model.OrderId)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MovieId)
-            </th>
-            <th>
+            
+            <th class =" text-black">
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
             <th></th>
@@ -34,26 +32,24 @@
 @foreach (var item in Model) {
         <tr>
             
-            <td>
+            <td class="text-black">
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
-            <td>
+                <td class="text-black">
                 @Html.DisplayFor(modelItem => item.OrderId)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MovieId)
-            </td>
-            <td>
+            
+                <td class ="text-black">
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
                 <td>
                     <form asp-action="AddCopy" method="post" style="display:inline;">
                         <input type="hidden" name="movieId" value="@item.MovieId" />
-                        <button type="submit">➕</button>
+                        <button type="submit" class=" btn btn-outline-success btn-sm">➕</button>
                     </form>
                     <form asp-action="RemoveCopy" method="post" style="display:inline;">
                         <input type="hidden" name="movieId" value="@item.MovieId" />
-                        <button type="submit">➖</button>
+                        <button type="submit" class="btn btn-outline-danger btn-sm">➖</button>
                     </form>
                 </td>
            
@@ -61,18 +57,30 @@
 }
     </tbody>
 </table>
+
 @if (Model.Any())
 {
     <h4>Total: @Model.Sum(i => i.Price * i.Quantity).ToString("C")</h4>
 
     <form asp-action="Checkout" method="post">
-        <h3>Checkout</h3>
-        <label>Email:</label> <input type="email" name="email" required /><br />
-        <label>First Name:</label> <input type="text" name="FirstName" /><br />
-        <label>Last Name:</label> <input type="text" name="LastName" /><br />
-        <label>Address:</label> <input type="text" name="Address" /><br />
-        <label>Phone:</label> <input type="text" name="Phone" /><br />
-        <br />
-        <button type="submit" class="btn btn-success">Place Order</button>
+        <h3 class="mt-5 text-warning">Checkout</h3>
+        <dive class=" mb-3">
+        <label class="form-label">Email:</label> 
+        <input type="email" name="email" class="form-control" required /><br />
+       </dive>
+        <div class=" mb-3">
+            <label class="form-label">First Name:</label> <input type="text" name="FirstName" class="form-control" required/><br />
+       </div>
+         <div>
+            <label class=" mb-3">Last Name:</label> <input type="text" name="LastName" class="form-control" /><br />
+        </div>
+        <div>
+            <label class=" mb-3">Address:</label> <input type="text" name="Address" class="form-control" /><br />
+        </div>
+        <div>
+            <label class=" mb-3">Phone:</label> <input type="text" name="Phone" class="form-control" /><br />
+        </div>
+       <br />
+        <button type="submit" class="btn btn-warning w-100 fw-semibold"><i class="bi bi-credit-card-fill me-1"></i> Place Order</button>
     </form>
 }

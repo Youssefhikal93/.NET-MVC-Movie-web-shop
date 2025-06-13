@@ -1,5 +1,7 @@
 ﻿
 using Lexiflix.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Lexiflix.Services
 {
@@ -10,5 +12,9 @@ namespace Lexiflix.Services
             throw new NotImplementedException();
         }
         public List<Order> GetAlOrders();
+
+        
     }
+
+    
 }
