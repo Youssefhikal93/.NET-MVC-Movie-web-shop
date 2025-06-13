@@ -45,9 +45,10 @@ namespace Lexiflix.Controllers
         }
 
         [HttpGet]
-        public IActionResult Details(int id)
+        public IActionResult Details(int id, string origin = "Index")
         {
             var movie = _movieServices.GetOneMovie(id);
+            ViewData["ActionName"] = origin;
             return View(movie);
         }
 
