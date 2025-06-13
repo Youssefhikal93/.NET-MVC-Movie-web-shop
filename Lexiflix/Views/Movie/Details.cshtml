@@ -1,0 +1,121 @@
+﻿@model Lexiflix.Models.Movie
+
+@{
+    ViewData["Title"] = "Movie Details";
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-warning mb-0">@Model.Title</h1>
+        <a asp-action="Index" class="btn btn-outline-light">
+            <i class="bi bi-arrow-left"></i> Back to Movies
+        </a>
+    </div>
+    <div class="row">
+        <!-- Movie Poster -->
+        <div class="col-md-4 mb-4 bg-black ">
+            <div class="card bg-black h-50">
+                <img src="@Model.ImageUrl" class="card-img-top img-fluid" alt="@Model.Title" style="max-height: 500px; object-fit: fill;">
+                <div class="card-body text-center">
+                    <h4 class="text-warning">@Model.Price.ToString("C")</h4>
+                    <a href="#" class="btn btn-outline-warning btn-lg w-100 mt-3">
+                        <i class="bi bi-cart-plus"></i> Add to Cart
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Movie Details -->
+        <div class="col-md-8">
+            <div class="card bg-black border-warning text-light h-100">
+                <div class="card-body">
+                    <h3 class="text-warning border-bottom pb-2 mb-4">Movie Information</h3>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p><strong class="text-warning">Director:</strong> @(Model.Director ?? "Unknown")</p>
+                            <p><strong class="text-warning">Release Year:</strong> @Model.ReleaseYear</p>
+                            <p><strong class="text-warning">Runtime:</strong> @(Model.Runtime.HasValue ? $"{Model.Runtime} min" : "N/A")</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p>
+                                <strong class="text-warning">Genre:</strong>
+                                @if (Model.Genres != null && Model.Genres.Any())
+                                {
+                                    @string.Join(", ", Model.Genres.Select(g => g.Name))
+                                }
+                                else
+                                {
+                                    <span>N/A</span>
+                                }
+                            </p>
+                            <p>
+                                <strong class="text-warning">Rating:</strong>
+                                @if (!string.IsNullOrEmpty(Model.Rating))
+                                {
+                                    <span class="badge bg-warning text-dark">@Model.Rating</span>
+                                }
+                                else
+                                {
+                                    <span>N/A</span>
+                                }
+                            </p>
+                            <p><strong class="text-warning">IMDb:</strong> @(Model.ImdbRating.HasValue ? $"{Model.ImdbRating}/10" : "N/A")</p>
+                        </div>
+                    </div>
+
+                    <!-- Genres as badges -->
+                    @if (Model.Genres != null && Model.Genres.Any())
+                    {
+                        <div class="mb-4">
+                            <h5 class="text-warning mb-2">Genres</h5>
+                            @foreach (var genre in Model.Genres)
+                            {
+                                <span class="badge bg-outline-warning text-warning border border-warning me-2 mb-1">@genre.Name</span>
+                            }
+                        </div>
+                    }
+
+                    <h4 class="text-warning border-bottom pb-2 mb-3">Plot Summary</h4>
+                    <p class="text-light">@(Model.Plot ?? "Plot information not available.")</p>
+
+                    <!-- Actors Section -->
+                    <h4 class="text-warning border-bottom pb-2 mb-3 mt-4">Cast</h4>
+                    <div class="row text-light">
+                        @if (Model.Actors?.Any() == true)
+                        {
+                            foreach (var actor in Model.Actors)
+                            {
+                                <div class="col-6 col-md-4 col-lg-3 mb-4">
+                                    <div class=" card h-100 border-0 bg-black hover-effect">
+                                        <div class="card-body p-3 d-flex align-items-center">
+                                            <div class="actor-avatar me-3">
+                                               
+                                                  <div class="avatar-placeholder rounded-circle d-flex align-items-center justify-content-center bg-warning text-black"
+                                                         style="width: 40px; height: 40px;">
+                                                        <i class="bi bi-person fs-5 text-black"></i>
+                                                    </div>
+                                                
+                                            </div>
+                                            <div class="actor-info">
+                                                <h6 class="mb-0 text-light fw-semibold">@actor.Name</h6>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-12">
+                                <div class="alert alert-info bg-dark text-light border-info mb-0">
+                                    <i class="bi bi-info-circle me-2"></i> No cast information available
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

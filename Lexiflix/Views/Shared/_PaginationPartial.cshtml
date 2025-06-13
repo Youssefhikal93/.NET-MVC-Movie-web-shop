@@ -1,0 +1,60 @@
+﻿@using Lexiflix.Utils
+@model PaginatedList<Lexiflix.Models.Movie>
+
+@{
+    var actionName = ViewData["ActionName"]?.ToString() ?? "Index";
+}
+
+@if (Model.TotalPages > 1)
+{
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            @if (Model.HasPreviousPage)
+            {
+                <li class="page-item">
+                    <a href="@Url.Action(actionName, new {
+                        pageNumber = Model.PageIndex - 1,
+                        searchString = ViewData["CurrentFilter"],
+                        sortBy = ViewData["CurrentSort"],
+                        pageSize = ViewData["PageSize"]
+                    })"
+                       class="page-link bg-dark text-light border-warning"
+                       aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            }
+
+            @for (int i = Math.Max(1, Model.PageIndex - 2); i <= Math.Min(Model.TotalPages, Model.PageIndex + 2); i++)
+            {
+                <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                    <a href="@Url.Action(actionName, new {
+                        pageNumber = i,
+                        searchString = ViewData["CurrentFilter"],
+                        sortBy = ViewData["CurrentSort"],
+                        pageSize = ViewData["PageSize"]
+                    })"
+                       class="page-link @(i == Model.PageIndex ? "bg-warning text-dark border-warning" : "bg-dark text-light border-warning")">
+                        @i
+                    </a>
+                </li>
+            }
+
+            @if (Model.HasNextPage)
+            {
+                <li class="page-item">
+                    <a href="@Url.Action(actionName, new {
+                        pageNumber = Model.PageIndex + 1,
+                        searchString = ViewData["CurrentFilter"],
+                        sortBy = ViewData["CurrentSort"],
+                        pageSize = ViewData["PageSize"]
+                    })"
+                       class="page-link bg-dark text-light border-warning"
+                       aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

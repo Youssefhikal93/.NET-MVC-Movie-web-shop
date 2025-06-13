@@ -19,6 +19,21 @@ namespace Lexiflix.Utils
         [JsonPropertyName("Poster")]
         public string Poster { get; set; }
 
+        [JsonPropertyName("Plot")]
+        public string Plot { get; set; }
+
+        [JsonPropertyName("Genre")]
+        public string Genre { get; set; }
+
+        [JsonPropertyName("Runtime")]
+        public string Runtime { get; set; }
+
+        [JsonPropertyName("Rated")]
+        public string Rated { get; set; }
+
+        [JsonPropertyName("imdbRating")]
+        public string ImdbRating { get; set; }
+
         [JsonPropertyName("Error")]
         public string Error { get; set; }
     }

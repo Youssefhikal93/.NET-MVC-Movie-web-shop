@@ -20,7 +20,7 @@ namespace Lexiflix.Models
 
         [Required]
         [StringLength(100)]
-        [Display(Name = "Billing adress")]
+        [Display(Name = "Billing Address")]
         public string BillingAddress { get; set; }
         [Required]
         [StringLength(50)]
@@ -28,20 +28,20 @@ namespace Lexiflix.Models
         public string BillingCity { get; set; }
         [Required]
         [StringLength(10)]
-        [Display(Name = "Postal code")]
+        [Display(Name = "Billing Postal Code")]
         public string BillingZip { get; set; }
 
         [Required]
         [StringLength(100)]
-        [Display(Name = "Delivery address")]
+        [Display(Name = "Delivery Address")]
         public string DeliveryAddress { get; set; }
         [Required]
         [StringLength(50)]
-        [Display(Name = "Billing City")]
+        [Display(Name = "Delivery City")]
         public string DeliveryCity { get; set; }
         [Required]
         [StringLength(10)]
-        [Display(Name = "Postal code")]
+        [Display(Name = "Delivery postal code")]
         public string DeliveryZip { get; set; }
 
         [Required]
