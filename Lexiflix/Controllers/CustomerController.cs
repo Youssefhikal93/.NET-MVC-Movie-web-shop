@@ -27,7 +27,7 @@ namespace Lexiflix.Controllers
             {
 
                 _customerServices.AddNewCustomer(newCustomer);
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("AdminIndex", "Customer");
 
             }
             return View();
