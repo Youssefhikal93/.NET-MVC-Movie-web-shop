@@ -64,7 +64,6 @@ namespace Lexiflix.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, MovieUpdateVM model)
         {
-            if (id != model.Id) return BadRequest();
 
             if (!ModelState.IsValid)
                 return View(model);

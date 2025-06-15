@@ -54,9 +54,7 @@ namespace Lexiflix.Services
 
         public MovieUpdateVM GetMovieForEdit(int id)
         {
-            var movie = _db.Movies
-                .Include(m => m.Actors)
-                .Include(m => m.Genres)
+            var movie = GetBaseQuery()
                 .FirstOrDefault(m => m.Id == id);
 
             if (movie == null) return null;
@@ -74,48 +72,93 @@ namespace Lexiflix.Services
                 Runtime = movie.Runtime,
                 Rating = movie.Rating,
                 ImdbRating = movie.ImdbRating,
-                SelectedActorIds = movie.Actors.Select(a => a.Id).ToList(),
+
+                // Pre-select current actors and genres
                 SelectedGenreIds = movie.Genres.Select(g => g.Id).ToList(),
-                AvailableActors = _db.Actors.ToList(),
-                AvailableGenres = _db.Genres.ToList()
+                AvailableGenres = _db.Genres.OrderBy(g => g.Name).ToList(),
+
+                //Update Actors(many - to - many)
+                SelectedActorIds = movie.Actors.Select(a => a.Id).ToList(),
+                AvailableActors = _db.Actors
+                        .Where(a => a.Movies.Any(m => m.Id == id))
+                        .ToList(),
+
             };
         }
 
         public void UpdateMovie(MovieUpdateVM vm)
         {
-            var movie = _db.Movies
-                .Include(m => m.Actors)
-                .Include(m => m.Genres)
-                .FirstOrDefault(m => m.Id == vm.Id);
-
+            var movie = GetBaseQuery().FirstOrDefault(m => m.Id == vm.Id);
             if (movie == null) return;
 
-            // Basic fields
-            movie.Title = vm.Title;
-            movie.Director = vm.Director;
-            movie.ReleaseYear = (int)vm.ReleaseYear;
-            movie.Price = (decimal)vm.Price;
-            movie.ImageUrl = vm.ImageUrl;
-            movie.Plot = vm.Plot;
-            movie.Genre = vm.Genre;
-            movie.Runtime = vm.Runtime;
-            movie.Rating = vm.Rating;
-            movie.ImdbRating = vm.ImdbRating;
+            // Update basic fields only if they have values
+            if (vm.Title != null) movie.Title = vm.Title;
+            if (vm.Director != null) movie.Director = vm.Director;
+            if (vm.ReleaseYear.HasValue) movie.ReleaseYear = vm.ReleaseYear.Value;
+            if (vm.Price.HasValue) movie.Price = vm.Price.Value;
+            if (vm.ImageUrl != null) movie.ImageUrl = vm.ImageUrl;
+            if (vm.Plot != null) movie.Plot = vm.Plot;
+            if (vm.Genre != null) movie.Genre = vm.Genre;
+            if (vm.Runtime.HasValue) movie.Runtime = vm.Runtime.Value;
+            if (vm.Rating != null) movie.Rating = vm.Rating;
+            if (vm.ImdbRating.HasValue) movie.ImdbRating = vm.ImdbRating.Value;
 
-            // Update Actors (many-to-many)
-            movie.Actors.Clear();
-            var selectedActors = _db.Actors.Where(a => vm.SelectedActorIds.Contains(a.Id)).ToList();
-            movie.Actors.AddRange(selectedActors);
+            // Update Actors (only if there are selected actors or custom actors)
+            if (vm.SelectedActorIds != null || vm.CustomActors != null)
+            {
+                movie.Actors.Clear();
 
-            // Update Genres (many-to-many)
-            movie.Genres.Clear();
-            var selectedGenres = _db.Genres.Where(g => vm.SelectedGenreIds.Contains(g.Id)).ToList();
-            movie.Genres.AddRange(selectedGenres);
+                if (vm.SelectedActorIds != null && vm.SelectedActorIds.Any())
+                {
+                    var selectedActors = _db.Actors
+                        .Where(a => vm.SelectedActorIds.Contains(a.Id))
+                        .ToList();
+                    movie.Actors.AddRange(selectedActors);
+                }
+
+                if (!string.IsNullOrWhiteSpace(vm.CustomActors))
+                {
+                    var customActorNames = vm.CustomActors
+                        .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                        .Select(name => name.Trim());
+
+                    foreach (var actorName in customActorNames)
+                    {
+                        var existingActor = _db.Actors
+                            .FirstOrDefault(a => a.Name.ToLower() == actorName.ToLower());
+
+                        if (existingActor != null)
+                        {
+                            if (!movie.Actors.Any(a => a.Id == existingActor.Id))
+                            {
+                                movie.Actors.Add(existingActor);
+                            }
+                        }
+                        else
+                        {
+                            var newActor = new Actor { Name = actorName };
+                            _db.Actors.Add(newActor);
+                            movie.Actors.Add(newActor);
+                        }
+                    }
+                }
+            }
+
+            // Update Genres (only if there are selected genres)
+            if (vm.SelectedGenreIds != null)
+            {
+                movie.Genres.Clear();
+                if (vm.SelectedGenreIds.Any())
+                {
+                    var selectedGenres = _db.Genres
+                        .Where(g => vm.SelectedGenreIds.Contains(g.Id))
+                        .ToList();
+                    movie.Genres.AddRange(selectedGenres);
+                }
+            }
 
             _db.SaveChanges();
         }
-
-
 
 
         private IQueryable<Movie> ApplySorting(IQueryable<Movie> query, string sortBy)

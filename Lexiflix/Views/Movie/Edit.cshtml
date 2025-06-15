@@ -1,102 +1,20 @@
 ﻿@model Lexiflix.Models.MovieUpdateVM
 
 @{
-    ViewData["Title"] = "Edit";
-}
-
-<h1>Edit</h1>
-
-<h4>UpdateMovieDto</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Director" class="control-label"></label>
-                <input asp-for="Director" class="form-control" />
-                <span asp-validation-for="Director" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ReleaseYear" class="control-label"></label>
-                <input asp-for="ReleaseYear" class="form-control" />
-                <span asp-validation-for="ReleaseYear" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageUrl" class="control-label"></label>
-                <input asp-for="ImageUrl" class="form-control" />
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Plot" class="control-label"></label>
-                <input asp-for="Plot" class="form-control" />
-                <span asp-validation-for="Plot" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Genre" class="control-label"></label>
-                <input asp-for="Genre" class="form-control" />
-                <span asp-validation-for="Genre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Runtime" class="control-label"></label>
-                <input asp-for="Runtime" class="form-control" />
-                <span asp-validation-for="Runtime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Rating" class="control-label"></label>
-                <input asp-for="Rating" class="form-control" />
-                <span asp-validation-for="Rating" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImdbRating" class="control-label"></label>
-                <input asp-for="ImdbRating" class="form-control" />
-                <span asp-validation-for="ImdbRating" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-
-
-@* @model Lexiflix.Models.UpdateMovieDto *@
-
-@{
     ViewData["Title"] = "Edit Movie";
 }
 
 <div class="container-fluid py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="text-warning">Edit Movie</h1>
-        <a asp-action="Index" class="btn btn-outline-light">
+        <a asp-action="AdminIndex" class="btn btn-outline-light">
             <i class="bi bi-arrow-left"></i> Back to List
         </a>
     </div>
 
     <div class="row">
-        <div class="col-md-8">
-            <div class="card bg-dark border-warning">
+        <div class="col-md-8 bg">
+            <div class="card bg-black border-warning">
                 <div class="card-body">
                     <form asp-action="Edit">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -179,32 +97,68 @@
                             </div>
                         </div>
 
-                        <!-- Actors Multi-Select -->
+
                         <div class="form-group mb-3">
-                            <label class="form-label text-light">Actors</label>
-                            <select asp-for="SelectedActorIds" class="form-select bg-black text-light" multiple>
+                            <label class="form-label text-light">Actors (assigned)</label>
+                            <ul class="list-unstyled">
                                 @foreach (var actor in Model.AvailableActors)
                                 {
-                                    <option value="@actor.Id">@actor.Name</option>
+                                    <li>
+                                        <div class="form-check">
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   name="SelectedActorIds"
+                                                   value="@actor.Id"
+                                                   id="actor_@actor.Id"
+                                            @(Model.SelectedActorIds.Contains(actor.Id) ? "checked" : "") />
+                                            <label class="form-check-label text-light" for="actor_@actor.Id">
+                                                @actor.Name
+                                            </label>
+                                        </div>
+                                    </li>
                                 }
-                            </select>
+                            </ul>
+
+                            <div class="input-group mt-2">
+                                <span class="input-group-text bg-dark text-light border-secondary">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                                <input asp-for="CustomActors"
+                                       class="form-control bg-black text-light border-secondary"
+                                       placeholder="Add custom actors (comma-separated): e.g., John Doe, Jane Smith" />
+                            </div>
+                            <small class="text-light">You can remove current actors or add new ones here.</small>
                         </div>
 
-                        <!-- Genres Multi-Select -->
                         <div class="form-group mb-3">
                             <label class="form-label text-light">Genres</label>
-                            <select asp-for="SelectedGenreIds" class="form-select bg-black text-light" multiple>
+                            <div class="row">
                                 @foreach (var genre in Model.AvailableGenres)
                                 {
-                                    <option value="@genre.Id">@genre.Name</option>
+                                    <div class="col-md-4 col-sm-6 mb-2">
+                                        <div class="form-check">
+                                            <input type="checkbox"
+                                                   class="form-check-input"
+                                                   name="SelectedGenreIds"
+                                                   value="@genre.Id"
+                                                   id="genre_@genre.Id"
+                                            @(Model.SelectedGenreIds.Contains(genre.Id) ? "checked" : "") />
+                                            <label class="form-check-label text-light" for="genre_@genre.Id">
+                                                @genre.Name
+                                            </label>
+                                        </div>
+                                    </div>
                                 }
-                            </select>
+                            </div>
                         </div>
 
                         <div class="form-group mt-4">
                             <button type="submit" class="btn btn-warning px-4">
                                 <i class="bi bi-save"></i> Save Changes
                             </button>
+                            <div class="form-group">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -221,7 +175,7 @@
                          class="img-fluid rounded mb-3" 
                          style="max-height: 400px; object-fit: contain;"
                          alt="Movie Poster">
-                    <p class="text-muted">Image will update automatically</p>
+                    <p class="text-light">Image will update automatically</p>
                 </div>
             </div>
         </div>
@@ -235,5 +189,49 @@
             const preview = document.getElementById('posterPreview');
             preview.src = this.value || "https://via.placeholder.com/300x450?text=No+Image";
         });
+                 document.addEventListener('DOMContentLoaded', function() {
+            // Enhance multi-select appearance
+            const actorSelect = document.querySelector('select[name="SelectedActorIds"]');
+            if (actorSelect) {
+                actorSelect.addEventListener('change', function() {
+                    const selectedCount = this.selectedOptions.length;
+                    const label = document.querySelector('label[for="' + this.id + '"]');
+                    if (label && selectedCount > 0) {
+                        label.textContent = `Actors (${selectedCount} selected)`;
+                    }
+                });
+            }
+
+            // Auto-resize custom actors input
+            const customActorsInput = document.querySelector('input[name="CustomActors"]');
+            if (customActorsInput) {
+                customActorsInput.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = Math.max(38, this.scrollHeight) + 'px';
+                });
+            }
+
+            // Genre checkbox counter
+            const genreCheckboxes = document.querySelectorAll('input[name="SelectedGenreIds"]');
+            const genreLabel = document.querySelector('label').textContent.includes('Genres') ?
+                              document.querySelector('label') : null;
+
+            if (genreCheckboxes.length > 0 && genreLabel) {
+                function updateGenreLabel() {
+                    const checkedCount = document.querySelectorAll('input[name="SelectedGenreIds"]:checked').length;
+                    genreLabel.textContent = checkedCount > 0 ? `Genres (${checkedCount} selected)` : 'Genres';
+                }
+
+                genreCheckboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', updateGenreLabel);
+                });
+
+                // Initial count
+                updateGenreLabel();
+            }
+        });
+    
     </script>
 }
+
+                   

@@ -65,7 +65,7 @@
                                         }
                                         <div>
                                             <div class="fw-bold">@item.Title</div>
-                                            <small class="text-muted">IMDb: @(item.ImdbRating?.ToString("0.0") ?? "N/A")</small>
+                                            <small class="text-warning">IMDb: @(item.ImdbRating?.ToString("0.0") ?? "N/A")</small>
                                         </div>
                                     </div>
                                 </td>
@@ -101,7 +101,7 @@
                                     }
                                     else
                                     {
-                                        <span class="text-muted">N/A</span>
+                                        <span class="text-light">N/A</span>
                                     }
                                 </td>
                                 <td>
@@ -131,7 +131,7 @@
             return rating switch
             {
                 "G" => "bg-success",
-                "PG" => "bg-primary",
+                "PG" => "bg-light text-black",
                 "PG-13" => "bg-dark text-light",
                 "R" => "bg-danger",
                 "NC-17" => "bg-dark",
