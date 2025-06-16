@@ -75,5 +75,26 @@ namespace Lexiflix.Services
         private PaginatedList<Movie> Paginate(IQueryable<Movie> query, int pageIndex, int pageSize) =>
             PaginatedList<Movie>.Create(query, pageIndex, pageSize);
 
+        public void AddMovie(Movie movie) 
+        {
+            _db.Movies.Add(movie);
+            _db.SaveChanges();
+
+        }
+        public List<Movie> GetMovies()
+        {
+            return _db.Movies.ToList();
+        }
+
+        public void DeleteMovie(int id)
+
+        {
+            var movie = _db.Movies.FirstOrDefault(m => m.Id == id);
+            if (movie != null)
+            {
+                _db.Movies.Remove(movie);
+                _db.SaveChanges();
+            }
+        }
     }
 }
