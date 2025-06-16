@@ -1,7 +1,10 @@
 ﻿using Lexiflix.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Drawing.Printing;
 using System.Globalization;
+using System.Net;
+using Lexiflix.Models;
 
 namespace Lexiflix.Controllers
 {
@@ -51,5 +54,29 @@ namespace Lexiflix.Controllers
             return View(movie);
         }
 
+        
+        public IActionResult AdminCreate()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AdminCreate(Movie newMovie)
+        {
+            if (ModelState.IsValid)
+            {
+                _movieServices.AddMovie(newMovie);
+                return RedirectToAction("AdminIndex");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Delete()
+
+        {
+            return RedirectToAction("AdminIndex");
+        }
     }
 }
