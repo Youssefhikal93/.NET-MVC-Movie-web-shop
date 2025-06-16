@@ -14,20 +14,21 @@ namespace Lexiflix.Controllers
         }
 
         // GET: /Customer/addCustomer
-        public IActionResult AddCustomer()
+        public IActionResult Create()
         {
             return View();
         }
 
-        // POST:  /Customer/addCustomer
+        // POST:  /Customer/Create
         [HttpPost]
-        public IActionResult AddCustomer(Customer newCustomer)
+        public IActionResult Create(Customer newCustomer)
         {
             if (ModelState.IsValid)
             {
 
                 _customerServices.AddNewCustomer(newCustomer);
-                return RedirectToAction("Index");
+                return RedirectToAction("AdminIndex", "Customer");
+
             }
             return View();
         }
