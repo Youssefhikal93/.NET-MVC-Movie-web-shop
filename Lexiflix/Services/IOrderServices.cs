@@ -5,6 +5,13 @@ namespace Lexiflix.Services
 {
     public interface IOrderServices
     {
-        public List<Order>GetAlOrders();
+        public void CreateOrder(Order order)
+        {
+
+        }
+        public List<Order> GetAllOrders();
+        Movie GetMovieById(int v);
+
     }
 }
+

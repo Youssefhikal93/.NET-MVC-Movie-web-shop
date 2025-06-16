@@ -21,7 +21,12 @@ namespace Lexiflix.Services
             return orderList;
         }
 
-        List<Order> IOrderServices.GetAlOrders()
+        public Movie GetMovieById(int v)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<Order> IOrderServices.GetAllOrders()
         {
             return _db.Orders.ToList();
 

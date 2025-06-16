@@ -6,4 +6,5 @@ public interface ICustomerServices
 {   
     public void AddNewCustomer(Customer customer);
     public List<Customer> GetAllCustomers();
+    Customer GetCustomerByEmail(string email);
 }

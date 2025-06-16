@@ -23,6 +23,13 @@ public class CustomerServices : ICustomerServices
         return  _db.Customers.ToList();
         
     }
+    Customer GetCustomerByEmail(string email)
+    {
+        throw new NotImplementedException();
+    }
 
-  
- }
+    Customer ICustomerServices.GetCustomerByEmail(string email)
+    {
+        return GetCustomerByEmail(email);
+    }
+}

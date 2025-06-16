@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Humanizer;
 
 namespace Lexiflix.Models
 {
@@ -25,5 +26,6 @@ namespace Lexiflix.Models
 
         public Order Order { get; set; }
         public Movie Movie { get; set; }
+        public int Quantity { get; set; }
     }
 }
