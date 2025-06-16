@@ -32,6 +32,35 @@ namespace Lexiflix.Controllers
             }
             return View();
         }
+
+
+        // GET: /Customer/Edit
+        public IActionResult Edit(int id)
+        {
+           var customer = _customerServices.GetCustomerById(id);
+          
+            return View(customer);
+        }
+
+
+
+        // POST:  /Customer/Edit
+        [HttpPost]
+        public IActionResult Edit(Customer editCustomer)
+        {
+            if (ModelState.IsValid)
+            {
+                _customerServices.UpdateCustomer(editCustomer);
+                return RedirectToAction("AdminIndex", "Customer");
+            }
+
+            return View(editCustomer); 
+        }
+
+
+
+
+      
         
      //  List all customers in adminindex
  
