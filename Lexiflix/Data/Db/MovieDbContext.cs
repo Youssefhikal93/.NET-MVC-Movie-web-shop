@@ -1,4 +1,4 @@
-﻿using Lexiflix.Models;
+﻿using Lexiflix.Models.Db;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 

@@ -1,5 +1,5 @@
 ﻿using Lexiflix.Data.Db;
-using Lexiflix.Models;
+using Lexiflix.Models.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
