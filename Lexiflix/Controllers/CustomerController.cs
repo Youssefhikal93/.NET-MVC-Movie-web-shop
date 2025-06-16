@@ -32,6 +32,10 @@ namespace Lexiflix.Controllers
             }
             return View();
         }
+
+
+
+      
         
      //  List all customers in adminindex
  
