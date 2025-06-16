@@ -1,7 +1,7 @@
 ﻿using Lexiflix.Models;
 using Lexiflix.Services;
 using Microsoft.AspNetCore.Mvc;
-using Lexiflix.Models;
+using Lexiflix.Models.Db;
 
 namespace Lexiflix.Controllers
 {
