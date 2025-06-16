@@ -10,7 +10,6 @@ namespace Lexiflix.Services
 
         Movie GetOneMovie(int id);
         void AddMovie(Movie movie);
-        //List<Movie> GetMovies();
         void DeleteMovie(int id);
     }
 }

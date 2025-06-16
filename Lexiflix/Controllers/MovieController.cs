@@ -1,7 +1,5 @@
 ﻿using Lexiflix.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Drawing.Printing;
-using System.Globalization;
 using Lexiflix.Models;
 
 namespace Lexiflix.Controllers
