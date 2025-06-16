@@ -1,9 +1,7 @@
 ﻿using Lexiflix.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Drawing.Printing;
 using System.Globalization;
-using System.Net;
 using Lexiflix.Models;
 
 namespace Lexiflix.Controllers
@@ -76,13 +74,7 @@ namespace Lexiflix.Controllers
         public IActionResult Delete(int id)
 
         {
-            var movie = _movieServices.GetOneMovie(id);
-            if (movie == null)
-            {
-                return NotFound();
-            }
-
-            return View(movie);  /*shows Delete.cshtml*/
+           return View();  /*shows Delete.cshtml*/
         }
 
         [HttpPost, ActionName("Delete")]
@@ -90,6 +82,7 @@ namespace Lexiflix.Controllers
         public IActionResult DeleteConfirmed(int id)
 
         {  _movieServices.DeleteMovie(id); /*pass the id*/
+            TempData["SuccessMessage"] = "The movie has been deleted successfully.";
             return RedirectToAction("AdminIndex");
         }
 
