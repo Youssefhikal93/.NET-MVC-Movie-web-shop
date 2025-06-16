@@ -2,47 +2,20 @@
 
 <div class="container-fluid py-4">
     <!-- Newest Releases Section -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <h2 class="text-warning border-bottom pb-2 mb-4">Newest Releases</h2>
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
-                @foreach (var movie in Model.NewestReleases)
-                {
-                    <div class="col">
-                        <partial name="_MoviePartialView" model="movie" />
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
+    <partial name="_MovieSection" model='new Lexiflix.Models.MovieSectionVM { 
+        Title = "Newest Releases", 
+        Movies = Model.NewestReleases 
+    }' />
 
     <!-- Classic Films Section -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <h2 class="text-warning border-bottom pb-2 mb-4">Classic Films</h2>
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
-                @foreach (var movie in Model.ClassicFilms)
-                {
-                    <div class="col">
-                        <partial name="_MoviePartialView" model="movie" />
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
+    <partial name="_MovieSection" model='new Lexiflix.Models.MovieSectionVM { 
+        Title = "Classic Movies", 
+        Movies = Model.ClassicFilms 
+    }' />
 
     <!-- Best Deals Section -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <h2 class="text-warning border-bottom pb-2 mb-4">Best Deals</h2>
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
-                @foreach (var movie in Model.BestDeals)
-                {
-                    <div class="col">
-                        <partial name="_MoviePartialView" model="movie" />
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
+    <partial name="_MovieSection" model='new Lexiflix.Models.MovieSectionVM { 
+        Title = "Best Deals", 
+        Movies = Model.BestDeals 
+    }' />
 </div>
