@@ -25,6 +25,7 @@ namespace Lexiflix.Controllers
             ViewData["CurrentSort"] = sortBy;
             ViewData["PageSize"] = pageSize;
             ViewData["ActionName"] = "Index";
+            ViewData["ControllerName"] = "Movie";
 
             return View(movies);
         }
@@ -45,10 +46,12 @@ namespace Lexiflix.Controllers
         }
 
         [HttpGet]
-        public IActionResult Details(int id, string origin = "Index")
+        public IActionResult Details(int id, string origin = "Index", string originController = "Movie")
         {
             var movie = _movieServices.GetOneMovie(id);
             ViewData["ActionName"] = origin;
+            ViewData["ControllerName"] = originController;
+
             return View(movie);
         }
         [HttpGet]
