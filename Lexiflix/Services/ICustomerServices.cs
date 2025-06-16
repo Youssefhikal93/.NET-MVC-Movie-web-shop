@@ -1,4 +1,4 @@
-using Lexiflix.Models;
+using Lexiflix.Models.Db;
 namespace Lexiflix;
 
 

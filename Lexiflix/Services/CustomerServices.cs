@@ -1,5 +1,5 @@
 using Lexiflix.Data.Db;
-using Lexiflix.Models;
+using Lexiflix.Models.Db;
 namespace Lexiflix.Services;
 
 public class CustomerServices : ICustomerServices

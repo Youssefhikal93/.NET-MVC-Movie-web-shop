@@ -1,6 +1,7 @@
-﻿using Lexiflix.Services;
+﻿using Lexiflix.Models;
+using Lexiflix.Services;
 using Microsoft.AspNetCore.Mvc;
-using Lexiflix.Models;
+using Lexiflix.Models.Db;
 
 namespace Lexiflix.Controllers
 {
@@ -44,10 +45,31 @@ namespace Lexiflix.Controllers
         }
 
         [HttpGet]
-        public IActionResult Details(int id)
+        public IActionResult Details(int id, string origin = "Index")
         {
             var movie = _movieServices.GetOneMovie(id);
+            ViewData["ActionName"] = origin;
             return View(movie);
+        }
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var movieVm = _movieServices.GetMovieForEdit(id);
+            if (movieVm == null) return NotFound();
+            return View(movieVm);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, MovieUpdateVM model)
+        {
+
+            if (!ModelState.IsValid)
+                return View(model);
+
+            _movieServices.UpdateMovie(model);
+            return RedirectToAction("AdminIndex");
         }
 
         
@@ -85,5 +107,6 @@ namespace Lexiflix.Controllers
         }
 
          
+
     }
 }

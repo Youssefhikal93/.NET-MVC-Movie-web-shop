@@ -1,4 +1,4 @@
-namespace Lexiflix.Models
+namespace Lexiflix.Models.Db
 {
     public class ErrorViewModel
     {

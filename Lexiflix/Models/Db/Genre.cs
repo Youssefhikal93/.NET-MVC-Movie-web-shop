@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Lexiflix.Models
+namespace Lexiflix.Models.Db
 {
     public class Genre
     {
@@ -12,6 +12,6 @@ namespace Lexiflix.Models
 
         // Navigation property
         public List<Movie> Movies { get; set; } = new List<Movie>();
-        public List<Genre> Genres { get; set; } = new List<Genre>();
+        //public List<Genre> Genres { get; set; } = new List<Genre>();
     }
 }
