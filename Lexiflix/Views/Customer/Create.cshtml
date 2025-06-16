@@ -1,0 +1,64 @@
+@model Lexiflix.Models.Customer
+@{
+    ViewData["Title"] = "Create Customer";
+    Layout = "~/Views/Shared/_FormWrapper.cshtml";   // formwrapper/layout is needed here
+}
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="FirstName" class="form-label"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="LastName" class="form-label"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="BillingAddress" class="form-label"></label>
+        <input asp-for="BillingAddress" class="form-control" />
+        <span asp-validation-for="BillingAddress" class="text-danger"></span>
+    </div>
+     <div class="mb-3">
+        <label asp-for="BillingCity" class="form-label"></label>
+        <input asp-for="BillingCity" class="form-control" />
+        <span asp-validation-for="BillingCity" class="text-danger"></span>
+    </div>
+     <div class="mb-3">
+        <label asp-for="BillingZip" class="form-label"></label>
+        <input asp-for="BillingZip" class="form-control" />
+        <span asp-validation-for="BillingZip" class="text-danger"></span>
+    </div>
+     <div class="mb-3">
+        <label asp-for="DeliveryAddress" class="form-label"></label>
+        <input asp-for="DeliveryAddress" class="form-control" />
+        <span asp-validation-for="DeliveryAddress" class="text-danger"></span>
+    </div>
+       <div class="mb-3">
+        <label asp-for="DeliveryCity" class="form-label"></label>
+        <input asp-for="DeliveryCity" class="form-control" />
+        <span asp-validation-for="DeliveryCity" class="text-danger"></span>
+    </div>
+       <div class="mb-3">
+        <label asp-for="DeliveryZip" class="form-label"></label>
+        <input asp-for="DeliveryZip" class="form-control" />
+        <span asp-validation-for="DeliveryZip" class="text-danger"></span>
+    </div>
+       <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+        <div class="mb-3">
+        <label asp-for="Phone" class="form-label"></label>
+        <input asp-for="Phone" class="form-control" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+
+    
+
+    <button type="submit" class="btn btn-warning">Create</button>
+</form>

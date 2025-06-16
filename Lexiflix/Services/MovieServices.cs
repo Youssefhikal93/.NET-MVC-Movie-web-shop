@@ -68,7 +68,9 @@ namespace Lexiflix.Services
         }
 
         private IQueryable<Movie> GetBaseQuery() =>
-           _db.Movies.Include(m => m.Actors).AsQueryable();
+           _db.Movies.Include(m => m.Actors)
+            .Include(m => m.Genres)
+            .AsQueryable();
 
         private PaginatedList<Movie> Paginate(IQueryable<Movie> query, int pageIndex, int pageSize) =>
             PaginatedList<Movie>.Create(query, pageIndex, pageSize);

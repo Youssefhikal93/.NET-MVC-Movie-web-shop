@@ -1,0 +1,14 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-warning">
+        <div class="card-header bg-dark text-warning">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+        <div class="card-body">
+            @RenderBody()  
+        </div>
+    </div>
+</div>
