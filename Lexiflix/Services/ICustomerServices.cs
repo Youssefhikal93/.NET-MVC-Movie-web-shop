@@ -3,8 +3,17 @@ namespace Lexiflix;
 
 
 public interface ICustomerServices
-{   
+{
     public void AddNewCustomer(Customer customer);
     public List<Customer> GetAllCustomers();
-    Customer GetCustomerByEmail(string email);
+
+   public Customer GetCustomerByEmail(string email)
+    {
+        throw new NotImplementedException();
+    }
+   
+   
+
+
+
 }

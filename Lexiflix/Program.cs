@@ -29,11 +29,11 @@ namespace Lexiflix
 
             builder.Services.AddScoped<IOrderServices, OrderServices>();
             builder.Services.AddScoped<ICustomerServices, CustomerServices>();
-            builder.Services.AddDistributedMemoryCache();
-            builder.Services.AddHttpContextAccessor();
             builder.Services.AddSession();
-
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            builder.Services.AddDistributedMemoryCache();
             var app = builder.Build();
+
             app.UseSession();
 
             using (var scope = app.Services.CreateScope())

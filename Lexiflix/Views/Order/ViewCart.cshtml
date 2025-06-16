@@ -6,9 +6,6 @@
 
 <h1>ViewCart</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -23,6 +20,7 @@
         @foreach (var item in Model)
         {
 
+          
             <tr>
                 <td class="text-black">
                     <strong>@item.Movie?.Title</strong><br />
@@ -32,11 +30,13 @@
                 <td class="text-black">@item.Quantity</td>
                 <td class="text-black">€@(item.Price* item.Quantity)</td>
                 <td>
-                    <form asp-action="AddCopy" method="post" style="display:inline;">
+                    <form asp-action="AddCopy" asp-controller="Order" method="post" style="display:inline;">
+                        
                         <input type="hidden" name="movieId" value="@item.MovieId" />
                         <button type="submit" class="btn btn-outline-success btn-sm">➕</button>
                     </form>
-                    <form asp-action="RemoveCopy" method="post" style="display:inline;">
+                    <form asp-action="RemoveCopy" asp-controller="Order" method="post" style="display:inline;">
+                      
                         <input type="hidden" name="movieId" value="@item.MovieId" />
                         <button type="submit" class="btn btn-outline-danger btn-sm">➖</button>
                     </form>
@@ -56,6 +56,7 @@
             <label class="form-label">Email:</label>
             <input type="email" name="email" class="form-control" required /><br />
         </dive>
+
         <div class=" mb-3">
             <label class="form-label">First Name:</label> <input type="text" name="FirstName" class="form-control" required /><br />
         </div>

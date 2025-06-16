@@ -25,7 +25,11 @@ public class CustomerServices : ICustomerServices
     }
     Customer GetCustomerByEmail(string email)
     {
-        throw new NotImplementedException();
+        var Customers = new List<Customer>
+    {
+        new Customer {Id = 1, Email = "Test@example.com" , FirstName = "Test", LastName = "User" }
+    };
+        return Customers.FirstOrDefault(c => c.Email == email);
     }
 
     Customer ICustomerServices.GetCustomerByEmail(string email)

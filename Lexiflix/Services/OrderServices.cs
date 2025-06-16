@@ -1,7 +1,6 @@
 ﻿using Lexiflix.Data.Db;
 using Lexiflix.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Lexiflix.Services
 {
@@ -12,6 +11,11 @@ namespace Lexiflix.Services
         public OrderServices(MovieDbContext db) 
         {
             _db = db;
+        }
+
+        public void CreateOrder(Order order)
+        {
+            throw new NotImplementedException();
         }
 
         public List<Order> GetAllOrders()
@@ -25,13 +29,8 @@ namespace Lexiflix.Services
         {
             throw new NotImplementedException();
         }
-
-        List<Order> IOrderServices.GetAllOrders()
-        {
-            return _db.Orders.ToList();
+       
 
 
-        }
-   
     }
 }

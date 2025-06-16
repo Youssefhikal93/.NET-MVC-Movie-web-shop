@@ -9,10 +9,14 @@ namespace Lexiflix.Controllers
     {
         private readonly IOrderServices _orderServices;
         private readonly ICustomerServices _customerServices;
-        public OrderController (IOrderServices orderServices, ICustomerServices customerServices)
+
+        private const string CartSessionKey = "Cart";
+
+        public OrderController(IOrderServices orderServices, ICustomerServices customerServices)
         {
             _orderServices = orderServices;
             _customerServices = customerServices;
+
         }
         public IActionResult Index()
         {
@@ -28,9 +32,7 @@ namespace Lexiflix.Controllers
         }
         public IActionResult Create()
         {
-            var row = new OrderRow();
-            row.Movie = _orderServices.GetMovieById(1);
-            return View(row);
+            return View();
         }
 
         public IActionResult ViewCart()
@@ -39,7 +41,7 @@ namespace Lexiflix.Controllers
             var cart = JsonConvert.DeserializeObject<List<OrderRow>>(cartJson);
             foreach (var row in cart)
             {
-                row.Movie = _orderServices.GetMovieById(row.MovieId);
+
             }
             return View(cart);
 
@@ -48,9 +50,12 @@ namespace Lexiflix.Controllers
         [HttpPost]
         public IActionResult AddToCart(int movieId, decimal price)
         {
+            
             var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";
             var cart = JsonConvert.DeserializeObject<List<OrderRow>>(cartJson);
             var existingItem = cart.FirstOrDefault(x => x.MovieId == movieId);
+
+
             if (existingItem != null)
             {
                 existingItem.Quantity++;
@@ -116,11 +121,13 @@ namespace Lexiflix.Controllers
         }
 
         [HttpPost]
+
         public IActionResult AddCopy(int movieId)
         {
+          
             var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";
             var cart = JsonConvert.DeserializeObject<List<OrderRow>>(cartJson);
-
+            Console.WriteLine($"DEBUG: Cart Before Update - {JsonConvert.SerializeObject(cart)}");
             var existingItem = cart.FirstOrDefault(x => x.MovieId == movieId);
             if (existingItem != null)
             {
@@ -128,6 +135,7 @@ namespace Lexiflix.Controllers
             }
 
             HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cart));
+            Console.WriteLine($"DEBUG: Cart After Update - {JsonConvert.SerializeObject(cart)}");
             return RedirectToAction("ViewCart");
         }
         [HttpPost]
@@ -156,19 +164,6 @@ namespace Lexiflix.Controllers
         {
             return View();
         }
-        private List<OrderRow> GetCart()
-        {
-            var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";
-            return JsonConvert.DeserializeObject<List<OrderRow>>(cartJson);
-        }
-
-        private void SaveCart(List<OrderRow> cart)
-        {
-            var cartJson = JsonConvert.SerializeObject(cart);
-            HttpContext.Session.SetString("Cart", cartJson);
-        }
-
-
 
 
     }
