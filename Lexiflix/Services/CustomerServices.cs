@@ -18,11 +18,28 @@ public class CustomerServices : ICustomerServices
         _db.SaveChanges();
     }
 
+
+       public void UpdateCustomer(Customer customer)
+    {
+        _db.Update(customer);
+        
+        _db.SaveChanges();
+    }
+
+
     public List<Customer> GetAllCustomers()
     {
         return  _db.Customers.ToList();
         
     }
+
+    public Customer GetCustomerById(int id )
+    {
+         return _db.Customers.FirstOrDefault(c => c.Id == id);
+
+    }
+
+    
 
   
  }
