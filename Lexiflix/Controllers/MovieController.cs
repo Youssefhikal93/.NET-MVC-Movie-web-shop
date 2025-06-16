@@ -1,7 +1,6 @@
 ﻿using Lexiflix.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Drawing.Printing;
-using System.Globalization;
+using Lexiflix.Models;
 
 namespace Lexiflix.Controllers
 {
@@ -51,5 +50,40 @@ namespace Lexiflix.Controllers
             return View(movie);
         }
 
+        
+        public IActionResult AdminCreate()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AdminCreate(Movie newMovie)
+        {
+            if (ModelState.IsValid)
+            {
+                _movieServices.AddMovie(newMovie);
+                return RedirectToAction("AdminIndex");
+            }
+            return View();
+        }
+
+        //Get: Delet confirmation page
+        public IActionResult Delete(int id)
+
+        {
+           return View();  /*shows Delete.cshtml*/
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+
+        {  _movieServices.DeleteMovie(id); /*pass the id*/
+            TempData["SuccessMessage"] = "The movie has been deleted successfully.";
+            return RedirectToAction("AdminIndex");
+        }
+
+         
     }
 }
