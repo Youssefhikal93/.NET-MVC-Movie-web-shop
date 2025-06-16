@@ -72,11 +72,27 @@ namespace Lexiflix.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Delete()
+        //Get: Delet confirmation page
+        public IActionResult Delete(int id)
 
         {
+            var movie = _movieServices.GetOneMovie(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            return View(movie);  /*shows Delete.cshtml*/
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+
+        {  _movieServices.DeleteMovie(id); /*pass the id*/
             return RedirectToAction("AdminIndex");
         }
+
+         
     }
 }
