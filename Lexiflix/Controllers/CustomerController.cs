@@ -38,7 +38,7 @@ namespace Lexiflix.Controllers
         public IActionResult Edit(int id)
         {
            var customer = _customerServices.GetCustomerById(id);
-          
+           if (customer == null) return NotFound();
             return View(customer);
         }
 
@@ -57,9 +57,33 @@ namespace Lexiflix.Controllers
             return View(editCustomer); 
         }
 
+        // GET:  /Customer/Delete
+        public IActionResult Delete(int id)
+        {
+            var customer = _customerServices.GetCustomerById(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
 
+            return View(customer); 
+        }
 
+        // POST:  /Customer/Delete
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var customer = _customerServices.GetCustomerById(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
 
+            _customerServices.DeleteCustomer(id);
+            return RedirectToAction("AdminIndex", "Customer");
+        }
       
         
      //  List all customers in adminindex
