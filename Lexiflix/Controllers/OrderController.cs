@@ -9,7 +9,7 @@ namespace Lexiflix.Controllers
     {
         private readonly IOrderServices _orderServices;
         private readonly ICustomerServices _customerServices;
-
+       
         private const string CartSessionKey = "Cart";
 
         public OrderController(IOrderServices orderServices, ICustomerServices customerServices)
@@ -50,15 +50,15 @@ namespace Lexiflix.Controllers
         [HttpPost]
         public IActionResult AddToCart(int movieId, decimal price)
         {
-            
+            Console.WriteLine($"DEBUG: Added movieId {movieId} with price {price} to cart");
             var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";
-            var cart = JsonConvert.DeserializeObject<List<OrderRow>>(cartJson);
+            var cart = JsonConvert.DeserializeObject<List<OrderRow>>(cartJson)?? new List<OrderRow>();
             var existingItem = cart.FirstOrDefault(x => x.MovieId == movieId);
 
 
             if (existingItem != null)
             {
-                existingItem.Quantity++;
+                cart.FirstOrDefault(x => x.MovieId == movieId).Quantity++;
             }
             else
             {
@@ -127,7 +127,7 @@ namespace Lexiflix.Controllers
           
             var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";
             var cart = JsonConvert.DeserializeObject<List<OrderRow>>(cartJson);
-            Console.WriteLine($"DEBUG: Cart Before Update - {JsonConvert.SerializeObject(cart)}");
+           
             var existingItem = cart.FirstOrDefault(x => x.MovieId == movieId);
             if (existingItem != null)
             {
@@ -135,30 +135,30 @@ namespace Lexiflix.Controllers
             }
 
             HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cart));
-            Console.WriteLine($"DEBUG: Cart After Update - {JsonConvert.SerializeObject(cart)}");
+          
             return RedirectToAction("ViewCart");
         }
         [HttpPost]
-        public IActionResult RemoveCopy(int movieId)
-        {
-            var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";
-            var cart = JsonConvert.DeserializeObject<List<OrderRow>>(cartJson);
-            var existingItem = cart.FirstOrDefault(x => x.MovieId == movieId);
-            if (existingItem != null)
+        //public IActionResult RemoveCopy(int movieId)
+        //{
+        //    var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";
+        //    var cart = JsonConvert.DeserializeObject<List<OrderRow>>(cartJson);
+        //    var existingItem = cart.FirstOrDefault(x => x.MovieId == movieId);
+        //    if (existingItem != null)
 
-                if (existingItem.Quantity > 1)
-                {
+        //        if (existingItem.Quantity > 1)
+        //        {
 
-                    existingItem.Quantity--; // Reduce quantity
-                }
-                else
-                {
-                    cart.Remove(existingItem); // Remove item if only one copy exists
-                }
+        //            existingItem.Quantity--; // Reduce quantity
+        //        }
+        //        else
+        //        {
+        //            cart.Remove(existingItem); // Remove item if only one copy exists
+        //        }
 
-            HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cart));
-            return RedirectToAction("ViewCart");
-        }
+        //    HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cart));
+        //    return RedirectToAction("ViewCart");
+        //}
 
         public IActionResult OrderSuccess()
         {

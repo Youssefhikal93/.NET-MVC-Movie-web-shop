@@ -36,13 +36,13 @@
                         <i class="bi bi-cart-plus me-1 text-black"></i><span class="text-black">Add to cart</span>
                     </a>
                 </div> *@
-                <form id="addToCartForm" asp-controller="Order" asp-action="AddToCart" method="post">
+                <form id="addToCartForm" asp-controller="Order" asp-action="AddToCart" method="post" class="col-6">
                     <input type="hidden" name="movieId" value="@Model.Id" />
                     <input type="hidden" name="price" value="@Model.Price" />
-                    <button type="submit" id="addToCartButton" class="btn btn-warning w-100 mt-2">
+                    <button type="submit" id="addToCartButton" class="btn btn-outline-warning bg-warning  btn-sm w-100 py-1 text-light fw-bold">
                         <i class="bi bi-cart-plus me-1"></i>Add to Cart
                     </button>
-                </form>>
+                </form>
                 <script>
                     document.addEventListener("DOMContentLoaded", function () {
                         document.getElementById("addToCartButton").addEventListener("click", function () {

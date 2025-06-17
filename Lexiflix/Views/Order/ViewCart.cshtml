@@ -30,12 +30,12 @@
                 <td class="text-black">@item.Quantity</td>
                 <td class="text-black">€@(item.Price* item.Quantity)</td>
                 <td>
-                    <form asp-action="AddCopy" asp-controller="Order" method="post" style="display:inline;">
+                    <form asp-action="AddToCart" asp-controller="Order" method="post" style="display:inline;">
                         
                         <input type="hidden" name="movieId" value="@item.MovieId" />
                         <button type="submit" class="btn btn-outline-success btn-sm">➕</button>
                     </form>
-                    <form asp-action="RemoveCopy" asp-controller="Order" method="post" style="display:inline;">
+                    <form asp-action="RemoveFromCart" asp-controller="Order" method="post" style="display:inline;">
                       
                         <input type="hidden" name="movieId" value="@item.MovieId" />
                         <button type="submit" class="btn btn-outline-danger btn-sm">➖</button>
@@ -52,10 +52,10 @@
 
     <form asp-action="Checkout" method="post">
         <h3 class="mt-5 text-warning">Checkout</h3>
-        <dive class=" mb-3">
+        <div class=" mb-3">
             <label class="form-label">Email:</label>
             <input type="email" name="email" class="form-control" required /><br />
-        </dive>
+        </div>
 
         <div class=" mb-3">
             <label class="form-label">First Name:</label> <input type="text" name="FirstName" class="form-control" required /><br />
