@@ -583,29 +583,65 @@ namespace Lexiflix.Controllers
             public int MovieId { get; set; }
             public bool RemoveAll { get; set; }
         }
+        //[HttpPost]
+        //public IActionResult Checkout(string email, Customer customer)
+        //{
+        //    var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";
+        //    var cart = JsonConvert.DeserializeObject<List<OrderRow>>(cartJson);
+        //    if (cart.Count == 0)
+        //        return RedirectToAction("ViewCart");
+
+        //    var existingCustomer = _customerServices.GetCustomerByEmail(email);
+        //    if (existingCustomer == null)
+        //    {
+        //        _customerServices.AddNewCustomer(customer);
+        //        existingCustomer = customer;
+        //    }
+        //    var order = new Order
+        //    {
+        //        OrderDate = DateTime.Now,
+        //        CustomerId = existingCustomer.Id,
+        //        OrderRows = cart
+        //    };
+        //    _orderServices.CreateOrder(order);
+        //    HttpContext.Session.Remove("Cart");
+        //    return RedirectToAction("OrderSuccess");
+        //}
         [HttpPost]
-        public IActionResult Checkout(string email, Customer customer)
+        public IActionResult Checkout(string email, Customer customer, bool sameAsBilling = false)
         {
             var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";
             var cart = JsonConvert.DeserializeObject<List<OrderRow>>(cartJson);
-            if (cart.Count == 0)
+            if (cart == null || cart.Count == 0)
                 return RedirectToAction("ViewCart");
+
+            // If same as billing, copy billing address to delivery address
+            if (sameAsBilling)
+            {
+                customer.DeliveryAddress = customer.BillingAddress;
+                customer.DeliveryCity = customer.BillingCity;
+                customer.DeliveryZip = customer.BillingZip;
+            }
 
             var existingCustomer = _customerServices.GetCustomerByEmail(email);
             if (existingCustomer == null)
             {
+                // New customer - add to database
+                customer.Email = email;
                 _customerServices.AddNewCustomer(customer);
                 existingCustomer = customer;
             }
+
             var order = new Order
             {
                 OrderDate = DateTime.Now,
                 CustomerId = existingCustomer.Id,
                 OrderRows = cart
             };
+
             _orderServices.CreateOrder(order);
             HttpContext.Session.Remove("Cart");
-            return RedirectToAction("OrderSuccess");
+            return RedirectToAction("OrderSuccess", new { orderId = order.Id });
         }
 
         [HttpGet]
@@ -630,9 +666,11 @@ namespace Lexiflix.Controllers
             return Json(new { quantity = item?.Quantity ?? 0 });
         }
 
-        public IActionResult OrderSuccess()
+        public IActionResult OrderSuccess(int orderId)
         {
-            return View();
+            var order = _orderServices.GetOrderWithDetails(orderId);
+
+            return View(order);
         }
 
         public class AddToCartRequest

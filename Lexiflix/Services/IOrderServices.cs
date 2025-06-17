@@ -9,6 +9,7 @@ namespace Lexiflix.Services
         public List<Order> GetAllOrders();
         Movie GetMovieById(int v);
 
+        Order GetOrderWithDetails(int id);
 
 
 

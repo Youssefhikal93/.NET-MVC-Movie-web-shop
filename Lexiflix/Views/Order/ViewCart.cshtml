@@ -173,8 +173,8 @@
                             <span class="text-warning total-price">Kr @Model.Sum(i => i.Price * i.Quantity).ToString("0.00")</span>
                         </div>
 
-                        <!-- Checkout Form -->
-                        <form asp-action="Checkout" method="post" class="mt-4" id="checkout-form">
+                        @* <!-- Checkout Form --> *@
+                       @*  <form asp-action="Checkout" method="post" class="mt-4" id="checkout-form">
                             <h5 class="text-warning mb-3">Customer Information</h5>
 
                             <div class="mb-3">
@@ -206,7 +206,141 @@
                             <button type="submit" class="btn btn-warning w-100 fw-bold py-2">
                                 <i class="bi bi-credit-card-fill me-2"></i> Proceed to Checkout
                             </button>
-                        </form>
+                        </form> *@
+                        @* <!-- Checkout Form --> *@
+<form asp-action="Checkout"  method="post" class="mt-4" id="checkout-form">
+    <h5 class="text-warning mb-3">Customer Information</h5>
+
+    @* <!-- Email Section --> *@
+    <div class="mb-3">
+        <label class="form-label">Email <span class="text-danger">*</span></label>
+        <div class="input-group">
+            <input type="email" name="email" id="customer-email" 
+                   class="form-control bg-black text-light border-secondary" 
+                   required 
+                   placeholder="Enter your email address" />
+            <button type="button" class="btn btn-warning" onclick="checkCustomerEmail()">
+                <i class="bi bi-search"></i> Check
+            </button>
+        </div>
+        <small class="form-text text-muted">Enter your email and click Check to see if you're already registered</small>
+    </div>
+
+    @* <!-- Customer Details Section (Initially Hidden) --> *@
+    <div id="customer-details" style="display: none;">
+        <!-- Messages -->
+        <div id="existing-customer-message" class="alert alert-success mb-3" style="display: none;">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <strong>Welcome back!</strong> We've loaded your saved information below. You can modify it if needed.
+        </div>
+
+        <div id="new-customer-message" class="alert alert-info mb-3" style="display: none;">
+            <i class="bi bi-person-plus-fill me-2"></i>
+            <strong>New customer detected!</strong> Please fill in your details below to complete your order.
+        </div>
+
+        @* <!-- Personal Information --> *@
+        <div class="row g-2 mb-3">
+            <div class="col-md-6">
+                <label class="form-label">First Name <span class="text-danger">*</span></label>
+                <input type="text" name="FirstName" id="first-name" 
+                       class="form-control bg-black text-light border-secondary" 
+                       required 
+                       placeholder="Enter your first name" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                <input type="text" name="LastName" id="last-name" 
+                       class="form-control bg-black text-light border-secondary" 
+                       required 
+                       placeholder="Enter your last name" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+            <input type="tel" name="Phone" id="phone" 
+                   class="form-control bg-black text-light border-secondary" 
+                   required 
+                   placeholder="Enter your phone number" />
+        </div>
+
+        @* <!-- Billing Address Section --> *@
+        <h5 class="text-warning mb-3 mt-4">
+            <i class="bi bi-credit-card me-2"></i>Billing Address
+        </h5>
+        
+        <div class="mb-3">
+            <label class="form-label">Address <span class="text-danger">*</span></label>
+            <input type="text" name="BillingAddress" id="billing-address" 
+                   class="form-control bg-black text-light border-secondary" 
+                   required 
+                   placeholder="Enter your billing address" />
+        </div>
+        
+        <div class="row g-2 mb-3">
+            <div class="col-md-6">
+                <label class="form-label">City <span class="text-danger">*</span></label>
+                <input type="text" name="BillingCity" id="billing-city" 
+                       class="form-control bg-black text-light border-secondary" 
+                       required 
+                       placeholder="Enter city" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Postal Code <span class="text-danger">*</span></label>
+                <input type="text" name="BillingZip" id="billing-zip" 
+                       class="form-control bg-black text-light border-secondary" 
+                       required 
+                       placeholder="Enter postal code" />
+            </div>
+        </div>
+
+        @* <!-- Delivery Address Section --> *@
+        <h5 class="text-warning mb-3 mt-4">
+            <i class="bi bi-truck me-2"></i>Delivery Address
+        </h5>
+        
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="same-as-billing" 
+                   name="sameAsBilling" onchange="toggleDeliveryAddress()">
+            <label class="form-check-label" for="same-as-billing">
+                Same as billing address
+            </label>
+        </div>
+        
+        <div id="delivery-address-fields">
+            <div class="mb-3">
+                <label class="form-label">Address <span class="text-danger">*</span></label>
+                <input type="text" name="DeliveryAddress" id="delivery-address" 
+                       class="form-control bg-black text-light border-secondary" 
+                       required 
+                       placeholder="Enter your delivery address" />
+            </div>
+            
+            <div class="row g-2 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">City <span class="text-danger">*</span></label>
+                    <input type="text" name="DeliveryCity" id="delivery-city" 
+                           class="form-control bg-black text-light border-secondary" 
+                           required 
+                           placeholder="Enter city" />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Postal Code <span class="text-danger">*</span></label>
+                    <input type="text" name="DeliveryZip" id="delivery-zip" 
+                           class="form-control bg-black text-light border-secondary" 
+                           required 
+                           placeholder="Enter postal code" />
+                    </div>
+            </div>
+        </div>
+
+        @* <!-- Submit Button --> *@
+        <button type="submit" class="btn btn-warning w-100 fw-bold py-3 mt-3">
+            <i class="bi bi-credit-card-fill me-2"></i> Complete Order
+        </button>
+    </div>
+</form>
                     </div>
                 </div>
             </div>
@@ -373,5 +507,114 @@
                 }, 2000);
             } 
         });
+
+  function toggleDeliveryAddress() {
+    const sameAsBilling = document.getElementById('same-as-billing').checked;
+    const deliveryFields = document.getElementById('delivery-address-fields');
+    
+    if (sameAsBilling) {
+        deliveryFields.style.display = 'none';
+        // Copy billing values to delivery fields
+        document.getElementById('delivery-address').value = document.getElementById('billing-address').value;
+        document.getElementById('delivery-city').value = document.getElementById('billing-city').value;
+        document.getElementById('delivery-zip').value = document.getElementById('billing-zip').value;
+    } else {
+        deliveryFields.style.display = 'block';
+    }
+}
+
+async function checkCustomerEmail() {
+    const email = document.getElementById('customer-email').value;
+    if (!email) {
+        showNotification('Please enter your email first');
+        return;
+    }
+    
+    // Add loading state
+    const checkButton = document.querySelector('button[onclick="checkCustomerEmail()"]');
+    const originalText = checkButton.innerHTML;
+    checkButton.innerHTML = '<i class="bi bi-spinner spinner-border spinner-border-sm"></i> Checking...';
+    checkButton.disabled = true;
+    
+    try {
+        const response = await fetch('/Customer/CheckCustomerEmail?email=' + encodeURIComponent(email));
+        
+        if (response.ok) {
+            const result = await response.json();
+            const customerDetails = document.getElementById('customer-details');
+            const existingMsg = document.getElementById('existing-customer-message');
+            const newMsg = document.getElementById('new-customer-message');
+            
+            // Show the customer details section
+            customerDetails.style.display = 'block';
+            
+            if (result.isExisting && result.customer) {
+                // Existing customer - fill in the details
+                existingMsg.style.display = 'block';
+                newMsg.style.display = 'none';
+                
+                document.getElementById('first-name').value = result.customer.firstName || '';
+                document.getElementById('last-name').value = result.customer.lastName || '';
+                document.getElementById('phone').value = result.customer.phone || '';
+                document.getElementById('billing-address').value = result.customer.billingAddress || '';
+                document.getElementById('billing-city').value = result.customer.billingCity || '';
+                document.getElementById('billing-zip').value = result.customer.billingZip || '';
+                document.getElementById('delivery-address').value = result.customer.deliveryAddress || '';
+                document.getElementById('delivery-city').value = result.customer.deliveryCity || '';
+                document.getElementById('delivery-zip').value = result.customer.deliveryZip || '';
+                
+                // Check if addresses are the same
+                const sameAddress = result.customer.billingAddress === result.customer.deliveryAddress && 
+                                  result.customer.billingCity === result.customer.deliveryCity && 
+                                  result.customer.billingZip === result.customer.deliveryZip;
+                
+                document.getElementById('same-as-billing').checked = sameAddress;
+                toggleDeliveryAddress();
+                
+                showNotification('Welcome back! Your details have been loaded.');
+            } else {
+                // New customer - show empty form
+                existingMsg.style.display = 'none';
+                newMsg.style.display = 'block';
+                
+                // Clear all fields for new customer
+                document.getElementById('first-name').value = '';
+                document.getElementById('last-name').value = '';
+                document.getElementById('phone').value = '';
+                document.getElementById('billing-address').value = '';
+                document.getElementById('billing-city').value = '';
+                document.getElementById('billing-zip').value = '';
+                document.getElementById('delivery-address').value = '';
+                document.getElementById('delivery-city').value = '';
+                document.getElementById('delivery-zip').value = '';
+                document.getElementById('same-as-billing').checked = false;
+                toggleDeliveryAddress();
+                
+                showNotification('New customer detected. Please fill in your details below.');
+            }
+        } else {
+            throw new Error('Failed to check customer email');
+        }
+    } catch (error) {
+        console.error('Error checking email:', error);
+        showNotification('Error checking customer information. Please try again.');
+    } finally {
+        // Restore button state
+        checkButton.innerHTML = originalText;
+        checkButton.disabled = false;
+    }
+}
+
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'position-fixed bottom-0 end-0 mb-3 me-3 p-2 bg-warning text-dark rounded shadow';
+    notification.style.zIndex = '1000';
+    notification.innerHTML = `<i class="bi bi-info-circle-fill me-1"></i> ${message}`;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
     </script>
 }

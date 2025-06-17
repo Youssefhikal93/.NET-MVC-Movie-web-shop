@@ -1,18 +1,208 @@
-﻿@{
-    ViewData["Title"] = "OrderSuccess";
+﻿@using Lexiflix.Models.Db;
+@model Order
+@{
+    ViewData["Title"] = "Order Success";
+    // Calculate subtotal with null checks
+    var subtotal = Model?.OrderRows?.Sum(item => item.Price * item.Quantity) ?? 0;
 }
-<div class="container py-5 text-center text-light">
-    <i class="bi bi-check-circle-fill display-3 text-success mb-3"></i>
-    <h1 class="text-warning">Thank you for your order!</h1>
-    <p class="lead mt-3">Your order has been placed successfully.</p>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Success Header -->
+            <div class="text-center mb-5">
+                <i class="bi bi-check-circle-fill display-3 text-success mb-3"></i>
+                <h1 class="text-warning">Thank you for your order!</h1>
+                <p class="lead text-light">Your order has been placed successfully.</p>
+                <p class="text-muted">A confirmation has been sent to your email</p>
+            </div>
 
-    <div class="mt-4">
-        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-warning px-4 py-2">
-            <i class="bi bi-house-door me-1"></i>Back to Home
-        </a>
+            @if (Model != null)
+            {
+                <!-- Order Receipt Card -->
+                <div class="card bg-dark text-light border-warning mb-5">
+                    <div class="card-header bg-black border-warning">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Order Receipt</h4>
+                            <span class="badge bg-success">Completed</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.OrderRows != null && Model.OrderRows.Any())
+                        {
+                            <!-- Order Summary -->
+                            <div class="mb-4">
+                                <h5 class="text-warning mb-3">Order Summary</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-dark table-hover mb-0">
+                                        <thead>
+                                            <tr class="text-warning">
+                                                <th>Movie</th>
+                                                <th class="text-end">Price</th>
+                                                <th class="text-center">Qty</th>
+                                                <th class="text-end">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.OrderRows)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            @if (item.Movie?.ImageUrl != null)
+                                                            {
+                                                                <img src="@item.Movie.ImageUrl" 
+                                                                     class="img-thumbnail me-3" 
+                                                                     style="width: 60px; height: 90px; object-fit: cover;" 
+                                                                     alt="@(item.Movie?.Title ?? "Movie")">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="img-thumbnail me-3 d-flex align-items-center justify-content-center" 
+                                                                     style="width: 60px; height: 90px; background-color: #444;">
+                                                                    <i class="bi bi-film text-muted"></i>
+                                                                </div>
+                                                            }
+                                                            <div>
+                                                                <strong>@(item.Movie?.Title ?? "Unknown Movie")</strong>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-end align-middle">Kr @item.Price.ToString("0.00")</td>
+                                                    <td class="text-center align-middle">@item.Quantity</td>
+                                                    <td class="text-end align-middle">Kr @((item.Price * item.Quantity).ToString("0.00"))</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        }
 
+                        <!-- Order Totals -->
+                        <div class="border-top border-warning pt-3">
+                            <div class="row">
+                                @if (Model.Customer != null)
+                                {
+                                    <div class="col-md-6">
+                                        <h5 class="text-warning mb-3">Customer Details</h5>
+                                        <address>
+                                            <strong>@($"{Model.Customer.FirstName} {Model.Customer.LastName}".Trim())</strong><br>
+                                            @if (!string.IsNullOrEmpty(Model.Customer.Email))
+                                            {
+                                                @Model.Customer.Email<br>
+                                            }
+                                            @if (!string.IsNullOrEmpty(Model.Customer.Phone))
+                                            {
+                                                @Model.Customer.Phone<br>
+                                            }
+                                        </address>
+                                    </div>
+                                }
+                                <div class="col-md-6">
+                                    <h5 class="text-warning mb-3">Order Details</h5>
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span>Order Number:</span>
+                                        <span>#@Model.Id.ToString("D6")</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span>Order Date:</span>
+                                        <span>@Model.OrderDate.ToString("f")</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span>Subtotal:</span>
+                                        <span>Kr @subtotal.ToString("0.00")</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span>Shipping:</span>
+                                        <span class="text-success">FREE</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between fw-bold fs-5 mt-2">
+                                        <span>Total:</span>
+                                        <span class="text-warning">Kr @subtotal.ToString("0.00")</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (Model.Customer != null)
+                        {
+                            <!-- Delivery Information -->
+                            <div class="mt-4 pt-3 border-top border-warning">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5 class="text-warning mb-3">Billing Address</h5>
+                                        <address>
+                                            @if (!string.IsNullOrEmpty(Model.Customer.BillingAddress))
+                                            {
+                                                @Model.Customer.BillingAddress<br>
+                                            }
+                                            @if (!string.IsNullOrEmpty(Model.Customer.BillingCity))
+                                            {
+                                                @Model.Customer.BillingCity<br>
+                                            }
+                                            @if (!string.IsNullOrEmpty(Model.Customer.BillingZip))
+                                            {
+                                                @Model.Customer.BillingZip<br>
+                                            }
+                                        </address>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="text-warning mb-3">Delivery Address</h5>
+                                        <address>
+                                            @if (!string.IsNullOrEmpty(Model.Customer.DeliveryAddress))
+                                            {
+                                                @Model.Customer.DeliveryAddress<br>
+                                            }
+                                            @if (!string.IsNullOrEmpty(Model.Customer.DeliveryCity))
+                                            {
+                                                @Model.Customer.DeliveryCity<br>
+                                            }
+                                            @if (!string.IsNullOrEmpty(Model.Customer.DeliveryZip))
+                                            {
+                                                @Model.Customer.DeliveryZip<br>
+                                            }
+                                        </address>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="card-footer bg-black border-warning text-center">
+                        <small class="text-muted">Thank you for shopping with Lexiflix!</small>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Order Not Found</h4>
+                    <p>We couldn't find the order you're looking for. Please check your order number or contact support.</p>
+                </div>
+            }
+
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-center gap-3">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-warning px-4 py-2">
+                    <i class="bi bi-house-door me-1"></i> Back to Home
+                </a>
+                <a asp-controller="Movie" asp-action="Index" class="btn btn-warning px-4 py-2">
+                    <i class="bi bi-film me-1"></i> Browse More Movies
+                </a>
+            </div>
+        </div>
     </div>
-</di
+</div>
 
-    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Continue Shopping</a>
-
+<style>
+    .card {
+        box-shadow: 0 0 20px rgba(255, 193, 7, 0.1);
+    }
+    address {
+        font-style: normal;
+        margin-bottom: 0;
+    }
+    .table-responsive {
+        border-radius: 0.25rem;
+        overflow: hidden;
+    }
+</style>

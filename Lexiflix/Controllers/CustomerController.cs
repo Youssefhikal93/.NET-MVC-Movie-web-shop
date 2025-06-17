@@ -96,6 +96,42 @@ namespace Lexiflix.Controllers
         }
 
 
-    
+        //USed for form 
+        [HttpGet]
+        [Route("Customer/CheckCustomerEmail")]
+        public IActionResult CheckCustomerEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return BadRequest("Email is required");
+            }
+
+            var customer = _customerServices.GetCustomerByEmail(email);
+
+            if (customer == null)
+            {
+                // Return null for new customer instead of NotFound
+                return Json(new { customer = (object)null, isExisting = false });
+            }
+
+            return Json(new
+            {
+                customer = new
+                {
+                    firstName = customer.FirstName,
+                    lastName = customer.LastName,
+                    phone = customer.Phone,
+                    billingAddress = customer.BillingAddress,
+                    billingCity = customer.BillingCity,
+                    billingZip = customer.BillingZip,
+                    deliveryAddress = customer.DeliveryAddress,
+                    deliveryCity = customer.DeliveryCity,
+                    deliveryZip = customer.DeliveryZip
+                },
+                isExisting = true
+            });
+        }
+
+
     }
 }

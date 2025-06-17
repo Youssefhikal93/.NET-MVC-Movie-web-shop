@@ -53,21 +53,14 @@ public class CustomerServices : ICustomerServices
     }
 
 
-    
-
-  
-
-    Customer GetCustomerByEmail(string email)
+    public Customer GetCustomerByEmail(string email)
     {
-        var Customers = new List<Customer>
-    {
-        new Customer {Id = 1, Email = "Test@example.com" , FirstName = "Test", LastName = "User" }
-    };
-        return Customers.FirstOrDefault(c => c.Email == email);
+        return _db.Customers.FirstOrDefault(c => c.Email == email);
     }
 
-    Customer ICustomerServices.GetCustomerByEmail(string email)
-    {
-        return GetCustomerByEmail(email);
-    }
+
+
+
+
+
 }

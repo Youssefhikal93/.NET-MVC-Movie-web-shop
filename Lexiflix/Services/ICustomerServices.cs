@@ -1,4 +1,5 @@
 using Lexiflix.Models.Db;
+using Microsoft.EntityFrameworkCore;
 namespace Lexiflix;
 
 
@@ -8,10 +9,8 @@ public interface ICustomerServices
     public void UpdateCustomer(Customer customer);
     public List<Customer> GetAllCustomers();
 
-   public Customer GetCustomerByEmail(string email)
-    {
-        throw new NotImplementedException();
-    }
+    public Customer GetCustomerByEmail(string email);
+  
    
    
 
