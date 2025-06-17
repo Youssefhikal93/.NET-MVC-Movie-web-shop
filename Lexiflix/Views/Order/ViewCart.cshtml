@@ -9,10 +9,10 @@
 <table class="table">
     <thead>
         <tr>
-            <th class="text-black">Movie</th>
-            <th class="text-black">Price</th>
-            <th class="text-black">Quantity</th>
-            <th class="text-black">Total</th>
+            <th class="text-light">Movie</th>
+            <th class="text-light">Price</th>
+            <th class="text-light">Quantity</th>
+            <th class="text-light">Total</th>
             <th></th>
         </tr>
     </thead>
@@ -22,13 +22,13 @@
 
           
             <tr>
-                <td class="text-black">
+                <td class="text-light">
                     <strong>@item.Movie?.Title</strong><br />
                     <img src="@item.Movie?.ImageUrl" style="height: 50px;" />
                 </td>
-                <td class="text-black">€@item.Price</td>
-                <td class="text-black">@item.Quantity</td>
-                <td class="text-black">€@(item.Price* item.Quantity)</td>
+                <td class="text-light">€@item.Price</td>
+                <td class="text-light">@item.Quantity</td>
+                <td class="text-light">€@(item.Price* item.Quantity)</td>
                 <td>
                     <form asp-action="AddToCart" asp-controller="Order" method="post" style="display:inline;">
                         

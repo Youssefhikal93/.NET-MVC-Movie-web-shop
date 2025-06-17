@@ -1,18 +1,129 @@
-﻿<!DOCTYPE html>
+﻿@* <!DOCTYPE html> *@
+@* <html lang="en"> *@
+@* <head> *@
+@*     <meta charset="utf-8" /> *@
+@*     <meta name="viewport" content="width=device-width, initial-scale=1.0" /> *@
+@*     <title>@ViewData["Title"] - Lexiflix</title> *@
+@*     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🎥</text></svg>"/> *@
+@*     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
+@*     <link rel="stylesheet" href="~/Lexiflix.styles.css" asp-append-version="true" /> *@
+@*     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
+@*        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">  *@
+
+@* </head> *@
+@* <body class="bg-black"> *@
+    
+@*     <header> *@
+@*         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-black border-bottom border-warning box-shadow mb-3"> *@
+@*             <div class="container-fluid"> *@
+@*                 <a class="navbar-brand text-light fw-semi-bold" asp-area="" asp-controller="Home" asp-action="Index"> *@
+@*                     <span class="text-warning">Lexiflix</span> Movie shop *@
+@*                 </a> *@
+
+@*                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" *@
+@*                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> *@
+@*                     <span class="navbar-toggler-icon"></span> *@
+@*                 </button> *@
+
+@*                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between"> *@
+@*                     <ul class="navbar-nav me-auto"> *@
+@*                         <li class="nav-item"> *@
+@*                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a> *@
+@*                         </li> *@
+@*                         <li class="nav-item"> *@
+@*                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
+@*                         </li> *@
+@*                         <li class="nav-item"> *@
+@*                             <a class="nav-link text-light" asp-area="" asp-controller="Movie" asp-action="Index">Movies</a> *@
+@*                         </li> *@
+@*                         <li class="nav-item"> *@
+@*                             <a class="nav-link text-light" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a> *@
+@*                         </li> *@
+@*                     </ul> *@
+
+@*                     <ul class="navbar-nav"> *@
+@*                         <li class="nav-item"> *@
+@*                             <a class="nav-link text-light fw-bolder btn btn-outline-warning border border-warning px-3 cart-button" *@
+@*                                asp-area="" asp-controller="Order" asp-action="ViewCart"> *@
+@*                                 <i class="bi bi-cart4 me-2"></i>Shopping Cart *@
+@*                             </a> *@
+@*                         </li> *@
+@*                     </ul> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </nav> *@
+@*     </header> *@
+
+    
+@*     <div class="container"> *@
+@*         <main role="main" class="pb-3"> *@
+@*             @RenderBody() *@
+@*         </main> *@
+@*     </div> *@
+
+@*     <footer class="border-top border-bg-secondary footer text-muted bg-black"> *@
+@*         <div class="d-flex justify-content-center align-content-center"> *@
+@*             <p class="fw-semibold text-white"> *@
+
+@*                 &copy; 2025 - Lexiflix - Made with <i class="bi bi-suit-heart"></i> by <span class="text-warning">Beta</span> team *@
+@*             </p> *@
+@*         </div> *@
+@*     </footer> *@
+@*     <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
+@*     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
+@*     <script src="~/js/site.js" asp-append-version="true"></script> *@
+@*     @await RenderSectionAsync("Scripts", required: false) *@
+@* </body> *@
+@* </html> *@
+
+@* <style> *@
+@*     .navbar { *@
+@*         padding: 0.5rem 1rem; *@
+@*     } *@
+
+@*     .navbar-brand { *@
+@*         font-size: 1.5rem; *@
+@*     } *@
+
+@*     .nav-link { *@
+@*         padding: 0.5rem 1rem; *@
+@*     } *@
+
+@*         .nav-link:hover { *@
+@*         transform: translateY(-1px); *@
+@*         box-shadow: 0 10px 20px rgba(255, 193, 7, 0.1); *@
+@*             border-color: #ffc107; *@
+@*             border-radius: 15px; *@
+@*             color: #ffc107 !important; *@
+@*         } *@
+
+@*     .btn-outline-warning:hover { *@
+@*         background-color: #ffc107; *@
+@*         color: #000 !important; *@
+@*     } *@
+
+@*     .cart-button .badge { *@
+@*         position: relative; *@
+@*         top: -2px; *@
+@*     } *@
+
+    
+  
+@* </style> *@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Lexiflix</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🎥</text></svg>"/>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🎥</text></svg>" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Lexiflix.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"> 
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 </head>
 <body class="bg-black">
-    
+
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-black border-bottom border-warning box-shadow mb-3">
             <div class="container-fluid">
@@ -43,7 +154,7 @@
 
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link text-light fw-bolder btn btn-outline-warning border border-warning px-3"
+                            <a class="nav-link text-light fw-bolder btn btn-outline-warning border border-warning px-3 cart-button"
                                asp-area="" asp-controller="Order" asp-action="ViewCart">
                                 <i class="bi bi-cart4 me-2"></i>Shopping Cart
                             </a>
@@ -54,7 +165,7 @@
         </nav>
     </header>
 
-    
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -64,7 +175,6 @@
     <footer class="border-top border-bg-secondary footer text-muted bg-black">
         <div class="d-flex justify-content-center align-content-center">
             <p class="fw-semibold text-white">
-
                 &copy; 2025 - Lexiflix - Made with <i class="bi bi-suit-heart"></i> by <span class="text-warning">Beta</span> team
             </p>
         </div>
@@ -90,8 +200,8 @@
     }
 
         .nav-link:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 10px 20px rgba(255, 193, 7, 0.1);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px rgba(255, 193, 7, 0.1);
             border-color: #ffc107;
             border-radius: 15px;
             color: #ffc107 !important;
@@ -102,5 +212,45 @@
         color: #000 !important;
     }
 
-  
+    .cart-button .badge {
+        position: relative;
+        top: -2px;
+    }
 </style>
+
+<script>
+    // Global cart management
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load cart summary on page load
+        loadCartSummary();
+    });
+
+    async function loadCartSummary() {
+        try {
+            const response = await fetch('/Order/GetCartSummary');
+            if (response.ok) {
+                const result = await response.json();
+                updateCartUI(result.totalItems, result.totalPrice);
+            }
+        } catch (error) {
+            console.error('Error loading cart summary:', error);
+        }
+    }
+
+    function updateCartUI(totalItems, totalPrice) {
+        const cartButton = document.querySelector('.cart-button');
+        if (cartButton) {
+            if (totalItems > 0) {
+                cartButton.innerHTML = `
+                    <i class="bi bi-cart4 me-2"></i>
+                    <span class="badge bg-danger rounded-pill me-1">${totalItems}</span>
+                    <span>${totalPrice.toFixed(2)} Kr</span>
+                `;
+            } else {
+                cartButton.innerHTML = `
+                    <i class="bi bi-cart4 me-2"></i>Shopping Cart
+                `;
+            }
+        }
+    }
+</script>

@@ -166,4 +166,62 @@ body {
     overflow: hidden;
 }
 
-  
+
+/* Animation for the notification */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.notification {
+    animation: fadeIn 0.3s ease-out;
+}
+cart-button .badge {
+    position: relative;
+    top: -2px;
+}
+
+/* Quantity controls styling */
+.quantity-controls .input-group {
+    width: 100%;
+}
+
+.quantity-controls .form-control {
+    max-width: 40px;
+}
+
+/* Animation for notifications */
+@@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+.cart-notification {
+    animation: fadeIn 0.3s ease-out;
+}
