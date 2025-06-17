@@ -42,6 +42,10 @@
                     </ul>
                    
                     <ul class="navbar-nav">
+                         <a class="nav-link" href="#" id="openSearch">
+    <i class="bi bi-search text-warning" style="font-size: 1.2rem;"></i>
+  </a>
+</li>
                         <li class="nav-item">
                             <a class="nav-link text-light fw-bolder btn btn-outline-warning border border-warning px-3"
                                asp-area="" asp-controller="Cart" asp-action="Index">
@@ -58,6 +62,8 @@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+    @Html.Partial("_SearchModal")
+
         </main>
     </div>
 
@@ -72,6 +78,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/searchModal.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

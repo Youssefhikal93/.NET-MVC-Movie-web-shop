@@ -16,6 +16,8 @@ namespace Lexiflix.Services
 
         void AddMovie(Movie movie);
         void DeleteMovie(int id);
+        IEnumerable<Movie> SearchMovies(string query);
+
 
     }
 }

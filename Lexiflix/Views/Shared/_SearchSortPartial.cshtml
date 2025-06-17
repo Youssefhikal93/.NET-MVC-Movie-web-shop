@@ -15,7 +15,7 @@
                            name="searchString"
                            value="@ViewData["CurrentFilter"]"
                            class="form-control bg-dark text-light border-warning search-input"
-                           placeholder="Search movies, directors, actors..."
+                           placeholder="Search movies, directors, actors or genres..."
                            aria-label="Search movies"
                     id="searchInput">
                 </div>
@@ -64,7 +64,6 @@
                 searchForm.submit();
             }
 
-
             // Also trigger search immediately when Enter is pressed
             searchInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
@@ -76,6 +75,6 @@
             // Trigger search when sort changes
             sortSelect.addEventListener('change', submitForm);
         });
-
+       
     </script>
 }

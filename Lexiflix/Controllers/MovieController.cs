@@ -109,7 +109,25 @@ namespace Lexiflix.Controllers
             return RedirectToAction("AdminIndex");
         }
 
-         
+
+        [HttpGet]
+        public IActionResult Search(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query) || query.Length < 3)
+                return Json(new List<object>()); 
+
+            var results = _movieServices
+                .SearchMovies(query) 
+                .Select(movie => new
+                {
+                    id = movie.Id,
+                    title = movie.Title,
+                    posterUrl = movie.ImageUrl 
+                })
+                .ToList();
+
+            return Json(results);
+        }
 
     }
 }
