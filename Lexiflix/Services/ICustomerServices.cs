@@ -8,4 +8,5 @@ public interface ICustomerServices
     public void UpdateCustomer(Customer customer);
     public List<Customer> GetAllCustomers();
     public Customer GetCustomerById(int id);
+    public void DeleteCustomer(int id);
 }

@@ -1,0 +1,20 @@
+@model Lexiflix.Models.Db.Customer
+@{
+    ViewData["Title"] = "Delete Customer";
+    Layout = "~/Views/Shared/_FormWrapper.cshtml";
+}
+
+<h3 class="mb-4 text-danger">Are you sure you want to delete this customer?</h3>
+
+<div class="mb-3">
+    <strong>Name:</strong> @Model.FirstName @Model.LastName<br />
+    <strong>Email:</strong> @Model.Email<br />
+    <strong>Phone:</strong> @Model.Phone
+</div>
+
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken() <!-- CSRF protection -->
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="AdminIndex" class="btn btn-secondary ms-2">Cancel</a>
+</form>

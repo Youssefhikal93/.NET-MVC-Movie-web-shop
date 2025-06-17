@@ -40,6 +40,20 @@ public class CustomerServices : ICustomerServices
     }
 
     
+       public void DeleteCustomer(int id)
+    {
+
+         var customer = _db.Customers.FirstOrDefault(c => c.Id == id);
+        if (customer != null)
+        {
+        _db.Remove(customer);
+        _db.SaveChanges();
+
+        }
+    }
+
+
+    
 
   
  }
