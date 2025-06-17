@@ -1,13 +1,22 @@
-﻿@model IEnumerable<Lexiflix.Models.Movie>
+﻿@using Lexiflix.Models.Db
+@model IEnumerable<Movie>
 
 @{
     ViewData["Title"] = "Movie Management";
 }
 
+@if(TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+
+    </div>
+
+}
 <div class="container py-2">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="text-warning">Movie Management</h1>
-        <a asp-action="Create" class="btn btn-outline-warning bg-warning">
+        <a asp-action="AdminCreate" class="btn btn-outline-warning bg-warning">
             <i class="bi bi-plus-circle text-black"></i> <span class="text-black fw-bold">
 
             Add New Movie
@@ -28,7 +37,7 @@
             <partial name="_PaginationPartial" model="Model" />
         </div>
     </div>
-    
+
 
     <div class="card shadow-sm border-warning">
         <div class="card-body p-0">
@@ -36,14 +45,16 @@
                 <table class="table table-dark table-hover mb-0">
                     <thead class="bg-dark text-warning">
                         <tr>
-                            <th width="50">#</th>
-                            <th>Title</th>
+                            <th width="40">#</th>
+                            <th>Movie</th>
                             <th>Director</th>
-                            <th>Actors</th>
-                            <th>Year</th>
-                            <th width="80">Price</th>
-                            <th width="80">Image</th>
-                            <th width="180">Actions</th>
+                            <th>Cast</th>
+                            <th width="80">Year</th>
+                            <th width="100">Price</th>
+                            <th width="100">Genre</th>
+                            <th width="80">Rating</th>
+                            <th width="80">Runtime</th>
+                            <th width="80">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,32 +71,56 @@
                                         {
                                             <img src="@item.ImageUrl" class="rounded me-3" style="width: 40px; height: 60px; object-fit: cover;">
                                         }
-                                        <span>@item.Title</span>
+                                        <div>
+                                            <div class="fw-bold">@item.Title</div>
+                                            <small class="text-warning">IMDb: @(item.ImdbRating?.ToString("0.0") ?? "N/A")</small>
+                                        </div>
                                     </div>
                                 </td>
                                 <td>@item.Director</td>
-                                <td>@String.Join(", ", item.Actors.Select(a => a.Name))</td>
-                                <td>@item.ReleaseYear</td>
-                                <td>@item.Price.ToString("C")</td>
                                 <td>
-                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    <div class="text-truncate" style="max-width: 150px;">
+                                        @String.Join(", ", item.Actors.Take(3).Select(a => a.Name))
+                                        @if (item.Actors.Count > 3)
+                                        {
+                                            <span class="text-muted">+@(item.Actors.Count - 3) more</span>
+                                        }
+                                    </div>
+                                </td>
+                                <td>@item.ReleaseYear</td>
+                                <td class="fw-bold text-warning">@item.Price kr</td>
+                                <td>
+                                    @if (item.Genres?.Any() == true)
                                     {
-                                        <a href="@item.ImageUrl" target="_blank" class="btn btn-sm btn-outline-info">View</a>
+                                        <span class="badge bg-warning text-dark">@string.Join(", ", item.Genres.Select(g => g.Name))</span>
                                     }
                                     else
                                     {
-                                        <span class="text-muted">None</span>
+                                        <span class="text-muted">N/A</span>
+                                    }
+                                </td>
+                                <td>
+                                    <span class="badge @GetRatingBadgeClass(item.Rating)">@item.Rating</span>
+                                </td>
+                                <td>
+                                    @if (item.Runtime.HasValue)
+                                    {
+                                        <span>@(item.Runtime.Value / 60)h @(item.Runtime.Value % 60)m</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-light">N/A</span>
                                     }
                                 </td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning">
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning" title="Edit">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info">
+                                        <a asp-action="Details" asp-route-id="@item.Id" asp-route-origin="AdminIndex" class="btn btn-outline-info" title="Details">
                                             <i class="bi bi-eye"></i>
                                         </a>
-                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger" title="Delete">
                                             <i class="bi bi-trash"></i>
                                         </a>
                                     </div>
@@ -97,28 +132,45 @@
             </div>
         </div>
     </div>
-</div>
 
-<style>
-    .table-dark {
-        background-color: #1a1a1a;
-        color: #fff;
+    @functions {
+        string GetRatingBadgeClass(string? rating)
+        {
+            return rating switch
+            {
+                "G" => "bg-success",
+                "PG" => "bg-light text-black",
+                "PG-13" => "bg-dark text-light",
+                "R" => "bg-danger",
+                "NC-17" => "bg-info text-dark",
+                _ => "bg-secondary"
+            };
+        }
     }
 
-    .table-hover tbody tr:hover {
-        background-color: rgba(255, 193, 7, 0.1);
-    }
+    <style>
+        .table-dark {
+            --bs-table-bg: #1a1a1a;
+            --bs-table-hover-bg: rgba(255, 193, 7, 0.1);
+        }
 
-    .card {
-        border: 1px solid rgba(255, 193, 7, 0.3);
-        overflow: hidden;
-    }
+        .table th {
+            border-bottom: 2px solid #ffc107;
+            white-space: nowrap;
+        }
 
-    th {
-        border-bottom: 2px solid #ffc107 !important;
-    }
+        .badge {
+            font-weight: 500;
+            margin-right: 2px;
+        }
 
-    .btn-group-sm > .btn {
-        padding: 0.25rem 0.5rem;
-    }
-</style>
+        .text-truncate {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .btn-group-sm > .btn {
+            padding: 0.25rem 0.5rem;
+        }
+    </style>

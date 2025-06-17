@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Lexiflix.Models
+namespace Lexiflix.Models.Db
 {
     public class OrderRow
     {

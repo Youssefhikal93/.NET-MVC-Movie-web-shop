@@ -304,7 +304,7 @@
 
 //}
 
-using Lexiflix.Models;
+using Lexiflix.Models.Db;
 using Lexiflix.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -343,10 +343,31 @@ namespace Lexiflix.Controllers
             return View();
         }
 
+        //public IActionResult ViewCart()
+        //{
+        //    var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";
+        //    var cart = JsonConvert.DeserializeObject<List<OrderRow>>(cartJson);
+        //    return View(cart);
+        //}
         public IActionResult ViewCart()
         {
             var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";
             var cart = JsonConvert.DeserializeObject<List<OrderRow>>(cartJson);
+
+            if (cart == null)
+            {
+                cart = new List<OrderRow>();
+            }
+
+            // Load movie details for each cart item
+            foreach (var item in cart)
+            {
+                if (item.MovieId > 0)
+                {
+                    item.Movie = _orderServices.GetMovieById(item.MovieId);
+                }
+            }
+
             return View(cart);
         }
 
@@ -387,12 +408,98 @@ namespace Lexiflix.Controllers
             });
         }
 
+
+        //[HttpPost]
+        //public async Task<IActionResult> UpdateQuantity([FromBody] UpdateQuantityRequest request)
+        //{
+        //    var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";
+        //    var cart = JsonConvert.DeserializeObject<List<OrderRow>>(cartJson) ?? new List<OrderRow>();
+        //    var existingItem = cart.FirstOrDefault(x => x.MovieId == request.MovieId);
+
+        //    if (existingItem != null)
+        //    {
+        //        if (request.Action == "increase")
+        //        {
+        //            existingItem.Quantity++;
+        //        }
+        //        else if (request.Action == "decrease")
+        //        {
+        //            if (existingItem.Quantity > 1)
+        //            {
+        //                existingItem.Quantity--;
+        //            }
+        //            else
+        //            {
+        //                cart.Remove(existingItem);
+        //            }
+        //        }
+        //    }
+
+        //    HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cart));
+
+        //    // Calculate totals
+        //    var totalItems = cart.Sum(item => item.Quantity);
+        //    var totalPrice = cart.Sum(item => item.Price * item.Quantity);
+        //    var itemQuantity = cart.FirstOrDefault(x => x.MovieId == request.MovieId)?.Quantity ?? 0;
+
+        //    return Json(new
+        //    {
+        //        success = true,
+        //        totalItems,
+        //        totalPrice,
+        //        itemQuantity
+        //    });
+        //}
+        //[HttpPost]
+        //public async Task<IActionResult> UpdateQuantity([FromBody] UpdateQuantityRequest request)
+        //{
+        //    var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";
+        //    var cart = JsonConvert.DeserializeObject<List<OrderRow>>(cartJson) ?? new List<OrderRow>();
+        //    var existingItem = cart.FirstOrDefault(x => x.MovieId == request.MovieId);
+
+        //    if (existingItem != null)
+        //    {
+        //        if (request.Action == "increase")
+        //        {
+        //            existingItem.Quantity++;
+        //        }
+        //        else if (request.Action == "decrease")
+        //        {
+        //            if (existingItem.Quantity > 1)
+        //            {
+        //                existingItem.Quantity--;
+        //            }
+        //            else
+        //            {
+        //                cart.Remove(existingItem);
+        //            }
+        //        }
+        //    }
+
+        //    HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cart));
+
+        //    // Calculate totals
+        //    var totalItems = cart.Sum(item => item.Quantity);
+        //    var totalPrice = cart.Sum(item => item.Price * item.Quantity);
+        //    var itemQuantity = cart.FirstOrDefault(x => x.MovieId == request.MovieId)?.Quantity ?? 0;
+
+        //    return Json(new
+        //    {
+        //        success = true,
+        //        movieId = request.MovieId,
+        //        totalItems,
+        //        totalPrice,
+        //        itemQuantity
+        //    });
+        //}
         [HttpPost]
         public async Task<IActionResult> UpdateQuantity([FromBody] UpdateQuantityRequest request)
         {
             var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";
             var cart = JsonConvert.DeserializeObject<List<OrderRow>>(cartJson) ?? new List<OrderRow>();
             var existingItem = cart.FirstOrDefault(x => x.MovieId == request.MovieId);
+
+            bool itemRemoved = false;
 
             if (existingItem != null)
             {
@@ -409,6 +516,7 @@ namespace Lexiflix.Controllers
                     else
                     {
                         cart.Remove(existingItem);
+                        itemRemoved = true;
                     }
                 }
             }
@@ -418,17 +526,63 @@ namespace Lexiflix.Controllers
             // Calculate totals
             var totalItems = cart.Sum(item => item.Quantity);
             var totalPrice = cart.Sum(item => item.Price * item.Quantity);
-            var itemQuantity = cart.FirstOrDefault(x => x.MovieId == request.MovieId)?.Quantity ?? 0;
+            var itemQuantity = itemRemoved ? 0 : cart.FirstOrDefault(x => x.MovieId == request.MovieId)?.Quantity ?? 0;
 
             return Json(new
             {
                 success = true,
+                movieId = request.MovieId,
                 totalItems,
                 totalPrice,
-                itemQuantity
+                itemQuantity,
+                itemRemoved
             });
         }
 
+        [HttpPost]
+        public IActionResult RemoveFromCart([FromBody] RemoveFromCartRequest request)
+        {
+            var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";
+            var cart = JsonConvert.DeserializeObject<List<OrderRow>>(cartJson) ?? new List<OrderRow>();
+            var existingItem = cart.FirstOrDefault(x => x.MovieId == request.MovieId);
+
+            if (existingItem != null)
+            {
+                if (request.RemoveAll)
+                {
+                    cart.Remove(existingItem);
+                }
+                else if (existingItem.Quantity > 1)
+                {
+                    existingItem.Quantity--;
+                }
+                else
+                {
+                    cart.Remove(existingItem);
+                }
+            }
+
+            HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cart));
+
+            // Calculate totals
+            var totalItems = cart.Sum(item => item.Quantity);
+            var totalPrice = cart.Sum(item => item.Price * item.Quantity);
+
+            return Json(new
+            {
+                success = true,
+                movieId = request.MovieId,
+                totalItems,
+                totalPrice,
+                itemQuantity = 0 // Since we're removing the item
+            });
+        }
+
+        public class RemoveFromCartRequest
+        {
+            public int MovieId { get; set; }
+            public bool RemoveAll { get; set; }
+        }
         [HttpPost]
         public IActionResult Checkout(string email, Customer customer)
         {

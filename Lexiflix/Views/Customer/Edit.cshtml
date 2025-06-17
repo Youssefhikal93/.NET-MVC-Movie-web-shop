@@ -1,10 +1,12 @@
 @model Lexiflix.Models.Db.Customer
 @{
-    ViewData["Title"] = "Create Customer";
-    Layout = "~/Views/Shared/_FormWrapper.cshtml";   // formwrapper/layout is needed here
+    ViewData["Title"] = "Edit Customer";
+    Layout = "~/Views/Shared/_FormWrapper.cshtml";  
 }
 
-<form asp-action="Create" method="post">
+<form asp-action="Edit" method="post">
+
+
     <div class="mb-3">
         <label asp-for="FirstName" class="form-label"></label>
         <input asp-for="FirstName" class="form-control" />
@@ -60,5 +62,5 @@
 
     
 
-    <button type="submit" class="btn btn-warning">Create</button>
+    <button type="submit" class="btn btn-warning">Update</button>
 </form>

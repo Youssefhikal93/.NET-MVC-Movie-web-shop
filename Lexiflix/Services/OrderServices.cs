@@ -1,5 +1,5 @@
 ﻿using Lexiflix.Data.Db;
-using Lexiflix.Models;
+using Lexiflix.Models.Db;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lexiflix.Services
@@ -27,7 +27,7 @@ namespace Lexiflix.Services
 
         public Movie GetMovieById(int v)
         {
-            throw new NotImplementedException();
+           return _db.Movies.FirstOrDefault(m => m.Id == v) ?? throw new Exception("Movie not found");
         }
        
 

@@ -1,7 +1,7 @@
-﻿using Lexiflix.Services;
+﻿using Lexiflix.Models;
+using Lexiflix.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Drawing.Printing;
-using System.Globalization;
+using Lexiflix.Models.Db;
 
 namespace Lexiflix.Controllers
 {
@@ -25,6 +25,7 @@ namespace Lexiflix.Controllers
             ViewData["CurrentSort"] = sortBy;
             ViewData["PageSize"] = pageSize;
             ViewData["ActionName"] = "Index";
+            ViewData["ControllerName"] = "Movie";
 
             return View(movies);
         }
@@ -45,10 +46,87 @@ namespace Lexiflix.Controllers
         }
 
         [HttpGet]
-        public IActionResult Details(int id)
+        public IActionResult Details(int id, string origin = "Index", string originController = "Movie")
         {
             var movie = _movieServices.GetOneMovie(id);
+            ViewData["ActionName"] = origin;
+            ViewData["ControllerName"] = originController;
+
             return View(movie);
+        }
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var movieVm = _movieServices.GetMovieForEdit(id);
+            if (movieVm == null) return NotFound();
+            return View(movieVm);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, MovieUpdateVM model)
+        {
+
+            if (!ModelState.IsValid)
+                return View(model);
+
+            _movieServices.UpdateMovie(model);
+            return RedirectToAction("AdminIndex");
+        }
+
+        
+        public IActionResult AdminCreate()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AdminCreate(Movie newMovie)
+        {
+            if (ModelState.IsValid)
+            {
+                _movieServices.AddMovie(newMovie);
+                return RedirectToAction("AdminIndex");
+            }
+            return View();
+        }
+
+        //Get: Delet confirmation page
+        public IActionResult Delete(int id)
+
+        {
+           return View();  /*shows Delete.cshtml*/
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+
+        {  _movieServices.DeleteMovie(id); /*pass the id*/
+            TempData["SuccessMessage"] = "The movie has been deleted successfully.";
+            return RedirectToAction("AdminIndex");
+        }
+
+
+        [HttpGet]
+        public IActionResult Search(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query) || query.Length < 3)
+                return Json(new List<object>()); 
+
+            var results = _movieServices
+                .SearchMovies(query) 
+                .Select(movie => new
+                {
+                    id = movie.Id,
+                    title = movie.Title,
+                    posterUrl = movie.ImageUrl 
+                })
+                .ToList();
+
+            return Json(results);
         }
 
     }

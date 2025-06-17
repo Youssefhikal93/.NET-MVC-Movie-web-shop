@@ -1,5 +1,5 @@
 using Lexiflix.Data.Db;
-using Lexiflix.Models;
+using Lexiflix.Models.Db;
 namespace Lexiflix.Services;
 
 public class CustomerServices : ICustomerServices
@@ -18,11 +18,45 @@ public class CustomerServices : ICustomerServices
         _db.SaveChanges();
     }
 
+
+       public void UpdateCustomer(Customer customer)
+    {
+        _db.Update(customer);
+        
+        _db.SaveChanges();
+    }
+
+
     public List<Customer> GetAllCustomers()
     {
         return  _db.Customers.ToList();
         
     }
+
+    public Customer GetCustomerById(int id )
+    {
+         return _db.Customers.FirstOrDefault(c => c.Id == id);
+
+    }
+
+    
+       public void DeleteCustomer(int id)
+    {
+
+         var customer = _db.Customers.FirstOrDefault(c => c.Id == id);
+        if (customer != null)
+        {
+        _db.Remove(customer);
+        _db.SaveChanges();
+
+        }
+    }
+
+
+    
+
+  
+
     Customer GetCustomerByEmail(string email)
     {
         var Customers = new List<Customer>

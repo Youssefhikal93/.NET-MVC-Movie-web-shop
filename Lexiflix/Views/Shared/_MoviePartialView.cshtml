@@ -1,138 +1,12 @@
-﻿
+﻿@using Lexiflix.Models.Db
 
-@* @model Lexiflix.Models.Movie *@
+@model Movie
 
-@* <div class="card h-100 bg-black text-light border-secondary shadow-sm" style="width: 100%; max-width: 280px; min-height: 380px;"> *@
-@*     <div class="card-img-top position-relative overflow-hidden" style="height: 380px;"> *@
-@*         <img src="@Model.ImageUrl" *@
-@*              class="img-fluid w-100 h-100" *@
-@*              style="object-fit: cover;" *@
-@*              alt="@Model.Title" *@
-@*              loading="lazy" /> *@
-@*     </div> *@
-@*     <div class="card-body d-flex flex-column p-2"> *@
-@*         <div class="flex-grow-1 mb-2"> *@
-@*             <h5 class="card-title text-truncate mb-1 text-light" style="font-size: 1rem;">@Model.Title</h5> *@
-@*             <p class="card-text mb-0 fs-6 text-warning fw-bold" style="font-size: 0.9rem;"> *@
-@*                 <i class="bi bi-tag-fill me-1"></i> *@
-@*                 @Model.Price Kr *@
-@*             </p> *@
-@*         </div> *@
-@*         <div class="d-grid gap-1"> *@
-@*             <div class="row g-1"> *@
-@*                 <div class="col-6"> *@
-@*                     <a asp-action="Details" *@
-@*                        asp-route-id="@Model.Id" *@
-@*                        class="btn btn-outline-secondary text-light btn-sm w-100 py-1" *@
-@*                        style="font-size: 0.8rem;"> *@
-@*                         <i class="bi bi-info-circle me-1"></i><span class="fw-semibold">Details</span> *@
-@*                     </a> *@
-@*                 </div> *@
-@*                 <div class="col-6"> *@
-@*                     <button type="button" *@
-@*                             class="btn btn-outline-warning bg-warning btn-sm w-100 py-1 text-black fw-bold add-to-cart" *@
-@*                             data-movie-id="@Model.Id" *@
-@*                             data-price="@Model.Price" *@
-@*                             style="font-size: 0.8rem;"> *@
-@*                         <i class="bi bi-cart-plus me-1"></i>Add to Cart *@
-@*                     </button> *@
-@*                     </div> *@
-                
-@*                 <!-- Quantity controls (hidden by default) --> *@
-@*                 <div class="quantity-controls d-none"> *@
-@*                     <div class="input-group input-group-sm"> *@
-@*                         <button class="btn btn-outline-warning decrease-quantity" *@
-@*                                 type="button" *@
-@*                                 data-movie-id="@Model.Id"> *@
-@*                             <i class="bi bi-dash"></i> *@
-@*                         </button> *@
-@*                         <input type="text" *@
-@*                                class="form-control text-center bg-dark text-light border-warning quantity-input" *@
-@*                                value="1" *@
-@*                                readonly *@
-@*                                data-movie-id="@Model.Id"> *@
-@*                         <button class="btn btn-outline-warning increase-quantity" *@
-@*                                 type="button" *@
-@*                                 data-movie-id="@Model.Id"> *@
-@*                             <i class="bi bi-plus"></i> *@
-@*                         </button> *@
-@*                     </div> *@
-@*                 </div> *@
-@*                 <script> *@
-@*                     document.addEventListener("DOMContentLoaded", function () { *@
-@*                         document.getElementById("addToCartButton").addEventListener("click", function () { *@
-@*                             document.getElementById("addToCartForm").submit(); *@
-@*                         }); *@
-@*                     }); *@
-@*                 </script> *@
-@*             </div> *@
-@*         </div> *@
-@*     </div> *@
-@* </div> *@
-@* @model Lexiflix.Models.Movie *@
-@* <div class="card h-100 bg-black text-light border-secondary shadow-sm" style="width: 100%; max-width: 280px; min-height: 380px;"> *@
-@*     <div class="card-img-top position-relative overflow-hidden" style="height: 380px;"> *@
-@*         <img src="@Model.ImageUrl" *@
-@*              class="img-fluid w-100 h-100" *@
-@*              style="object-fit: cover;" *@
-@*              alt="@Model.Title" *@
-@*              loading="lazy" /> *@
-@*     </div> *@
-@*     <div class="card-body d-flex flex-column p-2"> *@
-@*         <div class="flex-grow-1 mb-2"> *@
-@*             <h5 class="card-title text-truncate mb-1 text-light" style="font-size: 1rem;">@Model.Title</h5> *@
-@*             <p class="card-text mb-0 fs-6 text-warning fw-bold" style="font-size: 0.9rem;"> *@
-@*                 <i class="bi bi-tag-fill me-1"></i> *@
-@*                 @Model.Price Kr *@
-@*             </p> *@
-@*         </div> *@
-@*         <div class="d-grid gap-1"> *@
-@*             <div class="row g-1"> *@
-@*                 <div class="col-4"> *@
-@*                     <a asp-action="Details" *@
-@*                        asp-route-id="@Model.Id" *@
-@*                        class="btn btn-outline-secondary text-light btn-sm w-100 py-1" *@
-@*                        style="font-size: 0.8rem;"> *@
-@*                         <i class="bi bi-info-circle me-1"></i><span class="fw-semibold">Details</span> *@
-@*                     </a> *@
-@*                 </div> *@
-@*                 <div class="col-8"> *@
-@*                     <!-- Add to Cart Button (shown when item not in cart) --> *@
-@*                     <button type="button" *@
-@*                             class="btn btn-outline-warning bg-warning btn-sm w-100 py-1 text-black fw-bold add-to-cart" *@
-@*                             data-movie-id="@Model.Id" *@
-@*                             data-price="@Model.Price" *@
-@*                             style="font-size: 0.8rem;"> *@
-@*                         <i class="bi bi-cart-plus me-1"></i>Add to Cart *@
-@*                     </button> *@
-@*                 </div> *@
-@*                 <!-- Quantity controls (shown when item is in cart) --> *@
-@*                 <div class="quantity-controls d-none col-8"> *@
-@*                     <div class="input-group input-group-sm"> *@
-@*                         <button class="btn btn-outline-warning decrease-quantity" *@
-@*                                 type="button" *@
-@*                                 data-movie-id="@Model.Id"> *@
-@*                             <i class="bi bi-dash"></i> *@
-@*                         </button> *@
-@*                         <input type="text" *@
-@*                                class="form-control text-center bg-dark text-light border-warning quantity-input" *@
-@*                                value="1" *@
-@*                                readonly *@
-@*                                data-movie-id="@Model.Id"> *@
-@*                         <button class="btn btn-outline-warning increase-quantity" *@
-@*                                 type="button" *@
-@*                                 data-movie-id="@Model.Id"> *@
-@*                             <i class="bi bi-plus"></i> *@
-@*                         </button> *@
-@*                     </div> *@
-@*                 </div> *@
-@*             </div> *@
+@{
 
-            
-@*         </div> *@
-@*     </div> *@
-@* </div> *@
-@model Lexiflix.Models.Movie
+    var actionname = ViewData["ActionName"];
+    var controllername = ViewData["ControllerName"]?.ToString() ?? "Movie";
+}
 
 <div class="card h-100 bg-black text-light border-secondary shadow-sm" style="width: 100%; max-width: 280px; min-height: 380px;">
     <div class="card-img-top position-relative overflow-hidden" style="height: 380px;">
@@ -151,11 +25,13 @@
             </p>
         </div>
         <div class="d-grid gap-1">
-            <div class="row g-1 align-items-center">
-                <!-- Details Button (fixed width) -->
-                <div class="col-4">
-                    <a asp-action="Details"
+            <div class="row g-1">
+                <div class="col-6">
+                    <a asp-controller="Movie"
+                        asp-action="Details"
                        asp-route-id="@Model.Id"
+                       asp-route-origin="@actionname"
+                       asp-route-originController="@controllername"
                        class="btn btn-outline-secondary text-light btn-sm w-100 py-1"
                        style="font-size: 0.8rem;">
                         <i class="bi bi-info-circle me-1"></i><span class="fw-semibold">Details</span>
@@ -163,7 +39,7 @@
                 </div>
 
                 <!-- Cart Controls Container (flexible width) -->
-                <div class="col-8 position-relative" style="min-height: 32px;">
+                <div class="col-6 position-relative" style="min-height: 32px;">
                     <!-- Add to Cart Button (default state) -->
                     <button type="button"
                             class="btn btn-outline-warning bg-warning btn-sm w-100 py-1 text-black fw-bold add-to-cart position-absolute"
@@ -174,7 +50,7 @@
                     </button>
 
                     <!-- Quantity Controls (hidden by default) -->
-                    <div class="quantity-controls d-none position-absolute ms-5 w-100" style="left: 0; top: 0;">
+                    <div class="quantity-controls d-none position-absolute w-100" style="left: 0; top: 0;">
                         <div class="input-group input-group-sm">
                             <button class="btn btn-outline-warning decrease-quantity"
                                     type="button"

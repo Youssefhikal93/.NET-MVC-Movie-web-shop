@@ -29,6 +29,9 @@ namespace Lexiflix
 
             builder.Services.AddScoped<IOrderServices, OrderServices>();
             builder.Services.AddScoped<ICustomerServices, CustomerServices>();
+            builder.Services.AddScoped<IHomeService, HomeService>();
+
+
             builder.Services.AddControllersWithViews();
             builder.Services.AddSession();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

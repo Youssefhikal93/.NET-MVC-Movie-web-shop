@@ -24,6 +24,7 @@ body {
 :root {
     --bs-warning: #FFD700; /* Golden color for warning */
     --bs-warning-rgb: 255, 215, 0; /* RGB values for golden color */
+  
 }
 .dropdown-toggle:focus {
     box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.5); /* warning color shadow */
@@ -224,4 +225,78 @@ cart-button .badge {
 
 .cart-notification {
     animation: fadeIn 0.3s ease-out;
+}
+
+
+
+/* Search Modal Styles */
+.custom-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: start;
+    padding-top: 60px;
+}
+
+.modal-content-box {
+    background-color: #1a1a1a;
+    padding: 2rem;
+    border-radius: 8px;
+  
+    width: 60%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+#searchInputModal {
+    background-color: #2d2d2d;
+    color: #fff;
+    border: 1px solid #6c757d;
+    padding: 10px 15px;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+    #searchInputModal:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+    }
+
+.search-poster {
+    width: 60px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #333;
+}
+
+.search-result-item {
+    transition: all 0.1s ease;
+    border-radius: 6px;
+}
+
+    .search-result-item:hover {
+        background-color: rgba(212, 175, 55, 0.1);
+        border-left: 3px solid #d4af37;
+    }
+
+#searchResults a:hover {
+    text-decoration: none;
+}
+
+#searchResults .text-muted {
+    color: #6c757d !important;
+}
+
+#searchResults .text-danger {
+    color: #dc3545 !important;
 }
