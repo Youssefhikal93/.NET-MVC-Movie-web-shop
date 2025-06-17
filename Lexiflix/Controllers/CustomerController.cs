@@ -84,7 +84,18 @@ namespace Lexiflix.Controllers
             _customerServices.DeleteCustomer(id);
             return RedirectToAction("AdminIndex", "Customer");
         }
-      
+
+          [HttpGet]
+         // GET :  /Customer/Detail
+         public IActionResult Detail(int id)
+         {
+            var customer = _customerServices.GetCustomerById( id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            return View (customer);
+         }      
         
      //  List all customers in adminindex
  

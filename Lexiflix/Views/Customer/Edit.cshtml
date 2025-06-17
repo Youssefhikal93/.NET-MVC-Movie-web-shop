@@ -7,59 +7,58 @@
 <form asp-action="Edit" method="post">
 
 
-    <div class="mb-3">
+     <div class="mb-3">
         <label asp-for="FirstName" class="form-label"></label>
-        <input asp-for="FirstName" class="form-control" />
+        <input asp-for="FirstName" class="form-control" placeholder="First Name"/>
         <span asp-validation-for="FirstName" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="LastName" class="form-label"></label>
-        <input asp-for="LastName" class="form-control" />
+        <input asp-for="LastName" class="form-control" Placeholder="Last Name" />
         <span asp-validation-for="LastName" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label asp-for="BillingAddress" class="form-label"></label>
-        <input asp-for="BillingAddress" class="form-control" />
+        <input asp-for="BillingAddress" class="form-control" Placeholder="Billing Address"/>
         <span asp-validation-for="BillingAddress" class="text-danger"></span>
     </div>
      <div class="mb-3">
         <label asp-for="BillingCity" class="form-label"></label>
-        <input asp-for="BillingCity" class="form-control" />
+        <input asp-for="BillingCity" class="form-control" Placeholder="Billing City"  />
         <span asp-validation-for="BillingCity" class="text-danger"></span>
     </div>
      <div class="mb-3">
         <label asp-for="BillingZip" class="form-label"></label>
-        <input asp-for="BillingZip" class="form-control" />
+        <input asp-for="BillingZip" class="form-control" Placeholder="Billing Zip Code" />
         <span asp-validation-for="BillingZip" class="text-danger"></span>
     </div>
      <div class="mb-3">
         <label asp-for="DeliveryAddress" class="form-label"></label>
-        <input asp-for="DeliveryAddress" class="form-control" />
+        <input asp-for="DeliveryAddress" class="form-control" Placeholder="Delivery Address" />
         <span asp-validation-for="DeliveryAddress" class="text-danger"></span>
     </div>
        <div class="mb-3">
         <label asp-for="DeliveryCity" class="form-label"></label>
-        <input asp-for="DeliveryCity" class="form-control" />
+        <input asp-for="DeliveryCity" class="form-control"  Placeholder="Delivery City"/>
         <span asp-validation-for="DeliveryCity" class="text-danger"></span>
     </div>
        <div class="mb-3">
         <label asp-for="DeliveryZip" class="form-label"></label>
-        <input asp-for="DeliveryZip" class="form-control" />
+        <input asp-for="DeliveryZip" class="form-control" Placeholder="Delivery Zip Code" />
         <span asp-validation-for="DeliveryZip" class="text-danger"></span>
     </div>
        <div class="mb-3">
         <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" class="form-control" />
+        <input asp-for="Email" class="form-control" Placeholder="Email Address" />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
         <div class="mb-3">
         <label asp-for="Phone" class="form-label"></label>
-        <input asp-for="Phone" class="form-control" />
+        <input asp-for="Phone" class="form-control" Placeholder="Phone Number"/>
         <span asp-validation-for="Phone" class="text-danger"></span>
     </div>
-
     
 
     <button type="submit" class="btn btn-warning">Update</button>
