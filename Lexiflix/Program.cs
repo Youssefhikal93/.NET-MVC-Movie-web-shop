@@ -29,6 +29,8 @@ namespace Lexiflix
 
             builder.Services.AddScoped<IOrderServices, OrderServices>();
             builder.Services.AddScoped<ICustomerServices, CustomerServices>();
+            builder.Services.AddScoped<IHomeService, HomeService>();
+
 
 
             var app = builder.Build();

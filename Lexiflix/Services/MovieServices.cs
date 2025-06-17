@@ -22,8 +22,15 @@ namespace Lexiflix.Services
         {
             return GetBaseQuery().ToList();
         }
+        public IEnumerable<Movie> SearchMovies(string query)
+        {
+            return _db.Movies
+                .Where(m => m.Title.Contains(query))
+                //.Take(20) 
+                .ToList();
+        }
 
-        
+
         public PaginatedList<Movie> GetMovies(string searchString, string sortBy, int pageIndex, int pageSize)
         {
             var query = GetBaseQuery();
@@ -34,7 +41,8 @@ namespace Lexiflix.Services
                 query = query.Where(m =>
                     m.Title.Contains(searchString) ||
                     m.Director.Contains(searchString) ||
-                    m.Actors.Any(a => a.Name.Contains(searchString)));
+                    m.Actors.Any(a => a.Name.Contains(searchString))||
+                    m.Genres.Any(g=>g.Name.Contains(searchString)));
             }
 
             // Apply sorting

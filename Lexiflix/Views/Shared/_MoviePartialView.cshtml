@@ -3,6 +3,12 @@
 
 @model Movie
 
+@{
+    
+    var actionname = ViewData["ActionName"];
+    var controllername = ViewData["ControllerName"]?.ToString() ?? "Movie";
+}
+
 <div class="card h-100 bg-black text-light border-secondary shadow-sm" style="width: 100%; max-width: 280px; min-height: 380px;">
     <div class="card-img-top position-relative overflow-hidden" style="height: 380px;">
         <img src="@Model.ImageUrl"
@@ -22,9 +28,11 @@
         <div class="d-grid gap-1">
             <div class="row g-1">
                 <div class="col-6">
-                    <a asp-action="Details"
+                    <a asp-controller="Movie"
+                        asp-action="Details"
                        asp-route-id="@Model.Id"
-                       asp-route-origin="Index"
+                       asp-route-origin="@actionname"
+                       asp-route-originController="@controllername"
                        class="btn btn-outline-secondary text-light btn-sm w-100 py-1"
                        style="font-size: 0.8rem;">
                         <i class="bi bi-info-circle me-1"></i><span class="fw-semibold">Details</span>
