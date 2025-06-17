@@ -1,20 +1,23 @@
-﻿@model Lexiflix.Models.HomeVM
+﻿@using Lexiflix.Models
+@model Lexiflix.Models.HomeVM
 
 <div class="container-fluid py-4">
     <!-- Newest Releases Section -->
-    <partial name="_MovieSection" model='new Lexiflix.Models.MovieSectionVM { 
+    <partial name="_MovieSection" model='new MovieSectionVM {
+
         Title = "Newest Releases", 
         Movies = Model.NewestReleases 
-    }' />
+}
+    ' />
 
     <!-- Classic Films Section -->
-    <partial name="_MovieSection" model='new Lexiflix.Models.MovieSectionVM { 
+    <partial name="_MovieSection" model='new MovieSectionVM {
         Title = "Classic Movies", 
         Movies = Model.ClassicFilms 
     }' />
 
     <!-- Best Deals Section -->
-    <partial name="_MovieSection" model='new Lexiflix.Models.MovieSectionVM { 
+    <partial name="_MovieSection" model='new MovieSectionVM {
         Title = "Best Deals", 
         Movies = Model.BestDeals 
     }' />
