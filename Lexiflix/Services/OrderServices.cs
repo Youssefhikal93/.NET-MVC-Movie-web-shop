@@ -17,9 +17,8 @@ namespace Lexiflix.Services
         {
             return _db.Orders
                 .Include(o => o.OrderRows)
-                    .ThenInclude(or => or.Movie)  // Make sure this relationship exists
-                .Include(o => o.Customer)         // Make sure this relationship exists
-                .AsNoTracking()                  // Optional for better performance
+                    .ThenInclude(or => or.Movie) 
+                .Include(o => o.Customer)         
                 .FirstOrDefault(o => o.Id == id);
         }
         public void CreateOrder(Order order)

@@ -1,13 +1,12 @@
 ﻿using Lexiflix.Data.Db;
 using Lexiflix.Models;
 using Lexiflix.Models.Db;
-using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lexiflix.Services
 {
     public class HomeService : IHomeService
     {
-        // Inject your DbContext
         private readonly MovieDbContext _db;
         
 
@@ -17,23 +16,38 @@ namespace Lexiflix.Services
            
         }
 
-        //public  List<Movie> GetMostPopularMovies()
-        //{
-        //    return  _context.Movies
-        //        .OrderByDescending(m => m.Orders.Count)
-        //        .Take(5)
-        //        .Select(m => new Movie
-        //        {
-        //            Title = m.Title,
-        //            ReleaseYear = m.ReleaseDate.Year,
-        //            DurationInMinutes = m.Duration,
-        //            PosterUrl = m.PosterUrl,
-        //            Price = m.Price,
-        //            OrdersCount = m.Orders.Count,
-        //            Label = ""
-        //        })
-        //        .ToList();
-        //}
+        public List<MovieWithOrderCount> GetMostPopularMovies()
+        {
+            return _db.OrderRows
+                .Include(row => row.Movie)
+                .GroupBy(row => row.Movie)
+                .Select(group => new MovieWithOrderCount
+                {
+                    Movie = group.Key,
+                    OrderCount = group.Sum(row => row.Quantity)
+                })
+                .OrderByDescending(x => x.OrderCount)
+                .Take(5)
+                .ToList();
+        }
+
+        public TopCustomerViewModel GetTopCustomer()
+        {
+            var topCustomer = _db.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.OrderRows)
+                .GroupBy(o => o.Customer)
+                .Select(group => new TopCustomerViewModel
+                {
+                    Customer = group.Key,
+                    TotalOrders = group.Count(),
+                    TotalSpent = group.SelectMany(o => o.OrderRows).Sum(row => row.Price * row.Quantity)
+                })
+                .OrderByDescending(x => x.TotalSpent)
+                .FirstOrDefault();
+
+            return topCustomer;
+        }
 
         public  List<Movie> GetNewestReleases()
         {
@@ -62,22 +76,7 @@ namespace Lexiflix.Services
                 .ToList();
         }
 
-        //public  TopCustomerViewModel GetTopCustomer()
-        //{
-            //var customer =  _context.Customers
-            //    .OrderByDescending(u => u.Orders.Sum(o => o.TotalPrice))
-            //    .Select(u => new TopCustomerViewModel
-            //    {
-            //        FullName = u.FullName,
-            //        TotalOrders = u.Orders.Count,
-            //        TotalSpent = u.Orders.Sum(o => o.TotalPrice),
-            //        BiggestOrder = u.Orders.Max(o => o.TotalPrice),
-            //        MemberSince = u.CreatedAt.Year
-            //    })
-            //    .FirstOrDefault();
-
-            //return customer!;
-        //}
+        
     }
 
 }

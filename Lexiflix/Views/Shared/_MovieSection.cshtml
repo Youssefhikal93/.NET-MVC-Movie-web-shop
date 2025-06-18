@@ -1,15 +1,45 @@
-﻿@model Lexiflix.Models.MovieSectionVM
-
-<div class="row mb-4">
+﻿
+<div class="row mb-5">
     <div class="col-12">
-        <h2 class="text-warning border-bottom pb-2 mb-4">@Model.Title</h2>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
-            @foreach (var movie in Model.Movies)
-            {
-                <div class="col">
-                    <partial name="_MoviePartialView" model="@movie" />
-                </div>
-            }
+        <div class="movie-section-container p-4 rounded-4" style="background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%); border: 1px solid rgba(255,193,7,0.2); backdrop-filter: blur(10px);">
+            <div class="section-header mb-4">
+                <h2 class="text-warning border-bottom border-warning pb-2 mb-0 position-relative">
+                    @Model.Title
+                    <div class="section-accent position-absolute bottom-0 start-0" style="width: 60px; height: 3px; background: linear-gradient(90deg, #ffc107 0%, transparent 100%);"></div>
+                </h2>
+            </div>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+                @if (Model.ShowOrderCount && Model.MoviesWithOrderCount != null)
+                {
+                    @foreach (var movieWithCount in Model.MoviesWithOrderCount)
+                    {
+                        <div class="col position-relative">
+                            <span class="badge bg-warning position-absolute top-0 end-0 m-2 text-black p-2" style="z-index: 10;">
+                                🔥 @movieWithCount.OrderCount Orders
+                            </span>
+                            <div class="">
+
+                            <partial name="_MoviePartialView" model="@movieWithCount.Movie" />
+                            </div>
+                        </div>
+                    }
+                }
+                else if (Model.Movies != null)
+                {
+                    @foreach (var movie in Model.Movies)
+                    {
+                        <div class="col">
+                            <div class="movie-item-wrapper">
+                                <partial name="_MoviePartialView" model="@movie" />
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
         </div>
     </div>
 </div>
+
+<style>
+   
+</style>
