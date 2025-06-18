@@ -241,40 +241,6 @@ namespace Lexiflix.Services
             }
         }
 
-        //public void AddMovieWithActors(MovieFormViewModel vm)
-        //{
-        //    var movie = new Movie
-        //    {
-        //        Title = vm.Title,
-        //        Director = vm.Director,
-        //        ReleaseYear = vm.ReleaseYear,
-        //        Price = vm.Price,
-        //        ImageUrl = vm.ImageUrl,
-        //        Plot = vm.Plot,
-        //        Genre = vm.Genre,
-        //        Runtime = vm.Runtime,
-        //        Rating = vm.Rating,
-        //        ImdbRating = vm.ImdbRating,
-        //    };
-
-        //    var actorNames = vm.ActorNames.Split(',', StringSplitOptions.RemoveEmptyEntries)
-        //                                  .Select(name => name.Trim())
-        //                                  .Distinct();
-        //    foreach (var actorName in actorNames)
-        //    {
-        //        var actor = _db.Actors.FirstOrDefault(a => a.Name == actorName)
-        //        ?? new Actor { Name = actorName };
-
-        //        movie.MovieActors.Add(new MovieActor
-
-        //        {
-        //            Actor = actor
-
-        //        });
-        //    }
-
-        //    _db.Movies.Add(movie);
-        //    _db.SaveChanges();
-        //}
+        
     }
 }
