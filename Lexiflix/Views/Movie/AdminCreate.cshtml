@@ -22,11 +22,20 @@
                 <input asp-for="Director" class="form-control" />
                 <span asp-validation-for="Director" class="text-danger"></span>
             </div>
-            <div class="form-group">
+          @*   <div class="form-group">
                 <label asp-for="Actors" class="control-label"></label>
                 <input asp-for="Actors" class="form-control" />
                 <span asp-validation-for="Actors" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <label>Actors (comma separated)</label>
+                <input name="ActorNames" class="form-control" />
             </div>
+            <div class="form-group">
+                <label>Genres (comma separated)</label>
+                <input name="GenreNames" class="form-control" />
+            </div>
+           @*  These fields will be accesses in the controller via Request.Form *@
             <div class="form-group">
                 <label asp-for="ReleaseYear" class="control-label"></label>
                 <input asp-for="ReleaseYear" class="form-control" />
@@ -79,5 +88,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

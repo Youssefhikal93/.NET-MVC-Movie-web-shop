@@ -41,5 +41,6 @@ namespace Lexiflix.Models.Db
         public ICollection<Actor> Actors { get; set; } = new List<Actor>();
         public ICollection<Genre> Genres { get; set; } = new List<Genre>();
 
+
     }
 }

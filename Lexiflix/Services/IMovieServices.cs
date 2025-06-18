@@ -18,6 +18,10 @@ namespace Lexiflix.Services
         void DeleteMovie(int id);
         IEnumerable<Movie> SearchMovies(string query);
 
+             
+        void AddMovieWithActorsAndGenres(Movie movie, string actorNames, string genreName);
+
+
 
     }
 }
