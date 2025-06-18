@@ -90,7 +90,7 @@ namespace Lexiflix.Controllers
             {
                 string actorNames = Request.Form["ActorNames"];
                 string genreNames = Request.Form["GenreNames"];
-                //_movieServices.AddMovie(newMovie);
+                
                 _movieServices.AddMovieWithActorsAndGenres(newMovie, actorNames, genreNames);
                 TempData["SuccessMessage"] = "Movie added successfully!";
                 return RedirectToAction("AdminIndex");

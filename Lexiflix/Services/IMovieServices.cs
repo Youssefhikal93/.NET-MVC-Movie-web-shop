@@ -19,7 +19,7 @@ namespace Lexiflix.Services
         IEnumerable<Movie> SearchMovies(string query);
 
              
-        void AddMovieWithActorsAndGenres(Movie movie, string actorNames, string genreName);
+        void AddMovieWithActorsAndGenres(Movie movie, string actorNames, string genreNames);
 
 
 

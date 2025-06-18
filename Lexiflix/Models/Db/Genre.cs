@@ -11,7 +11,7 @@ namespace Lexiflix.Models.Db
         public string Name { get; set; }
 
         // Navigation property
-        public List<Movie> Movies { get; set; } = new List<Movie>();
-        //public List<Genre> Genres { get; set; } = new List<Genre>();
+        public ICollection<Movie> Movies { get; set; } = new List<Movie>();
+       
     }
 }
