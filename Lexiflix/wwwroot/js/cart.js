@@ -123,7 +123,7 @@ function updateCartUI(totalItems, totalPrice) {
     if (totalItems > 0) {
         cartButton.innerHTML = `
             <i class="bi bi-cart4 me-2"></i>
-            <span class="badge bg-danger rounded-pill me-1">${totalItems}</span>
+            <span class="badge bg-secondary rounded-pill me-1">${totalItems}</span>
             <span>${totalPrice.toFixed(2)} Kr</span>
         `;
     } else {
