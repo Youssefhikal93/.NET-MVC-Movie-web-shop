@@ -11,8 +11,8 @@ namespace Lexiflix
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            
+            
 
             var connectionString = builder.Configuration.GetConnectionString(
             "DefaultConnection") ?? throw new InvalidCastException("Default Connection not found");
@@ -32,10 +32,14 @@ namespace Lexiflix
             builder.Services.AddScoped<IHomeService, HomeService>();
 
 
-
+            builder.Services.AddControllersWithViews();
+            builder.Services.AddSession();
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            builder.Services.AddDistributedMemoryCache();
             var app = builder.Build();
 
-
+            
+            
             using (var scope = app.Services.CreateScope())
             {
                 var seeder = scope.ServiceProvider.GetRequiredService<MovieSeederService>();
@@ -55,7 +59,7 @@ namespace Lexiflix
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthorization();

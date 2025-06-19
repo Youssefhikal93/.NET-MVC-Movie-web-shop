@@ -53,7 +53,14 @@ public class CustomerServices : ICustomerServices
     }
 
 
-    
+    public Customer GetCustomerByEmail(string email)
+    {
+        return _db.Customers.FirstOrDefault(c => c.Email == email);
+    }
 
-  
- }
+
+
+
+
+
+}

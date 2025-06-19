@@ -17,9 +17,7 @@ namespace Lexiflix.Models.Db
 
         [ForeignKey(nameof(CustomerId))]
         public Customer Customer { get; set; }
-
-
-
+        public List<OrderRow> OrderRows { get; internal set; }
     }
 
 } 
