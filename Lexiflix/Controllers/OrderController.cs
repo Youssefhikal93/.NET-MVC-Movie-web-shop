@@ -268,5 +268,22 @@ namespace Lexiflix.Controllers
             public int MovieId { get; set; }
             public string Action { get; set; }
         }
+
+        //Get: Delet confirmation page
+        public IActionResult Delete(int Id)
+
+        {
+            return View();  /*shows Delete.cshtml*/
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+
+        {
+            _orderServices.DeleteOrder(id); /*pass the id*/
+            TempData["SuccessMessage"] = "The order has been deleted successfully.";
+            return RedirectToAction("Index");
+        }
     }
 }
