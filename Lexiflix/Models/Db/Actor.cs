@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AspNetCoreGeneratedDocument;
+using System.ComponentModel.DataAnnotations;
 
 namespace Lexiflix.Models.Db
 {
@@ -13,6 +14,8 @@ namespace Lexiflix.Models.Db
 
         // Many-to-many relationship with Movie
         public ICollection<Movie> Movies { get; set; } = new List<Movie>();
+
+        
     }
 }
 

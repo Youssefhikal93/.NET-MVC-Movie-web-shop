@@ -2,6 +2,7 @@
 using Lexiflix.Services;
 using Microsoft.AspNetCore.Mvc;
 using Lexiflix.Models.Db;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace Lexiflix.Controllers
 {
@@ -87,12 +88,17 @@ namespace Lexiflix.Controllers
         {
             if (ModelState.IsValid)
             {
-                _movieServices.AddMovie(newMovie);
+                string actorNames = Request.Form["ActorNames"];
+                string genreNames = Request.Form["GenreNames"];
+                
+                _movieServices.AddMovieWithActorsAndGenres(newMovie, actorNames, genreNames);
+                TempData["SuccessMessage"] = "Movie added successfully!";
                 return RedirectToAction("AdminIndex");
             }
             return View();
         }
 
+      
         //Get: Delet confirmation page
         public IActionResult Delete(int id)
 

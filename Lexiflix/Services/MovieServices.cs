@@ -190,12 +190,41 @@ namespace Lexiflix.Services
         private PaginatedList<Movie> Paginate(IQueryable<Movie> query, int pageIndex, int pageSize) =>
             PaginatedList<Movie>.Create(query, pageIndex, pageSize);
 
-        public void AddMovie(Movie movie) 
+        public void AddMovie(Movie movie)
         {
             _db.Movies.Add(movie);
             _db.SaveChanges();
 
         }
+
+        public void AddMovieWithActorsAndGenres(Movie movie, string actorNames, string genreNames)
+        {
+            var actorList = actorNames.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(name => name.Trim()).Distinct();
+
+            var genreList = genreNames.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(name => name.Trim()).Distinct();
+
+            foreach (var actorName in actorList)
+            {
+                var actor = _db.Actors.FirstOrDefault(a => a.Name == actorName)
+                            ?? new Actor { Name = actorName };
+
+                movie.Actors.Add(actor);
+            }
+
+            foreach (var genreName in genreList)
+            {
+                var genre = _db.Genres.FirstOrDefault(g => g.Name == genreName)
+                            ?? new Genre { Name = genreName };
+
+                movie.Genres.Add(genre);
+            }
+
+            _db.Movies.Add(movie);
+            _db.SaveChanges();
+        }
+
         public List<Movie> GetMovies()
         {
             return _db.Movies.ToList();
@@ -211,5 +240,7 @@ namespace Lexiflix.Services
                 _db.SaveChanges();
             }
         }
+
+        
     }
 }

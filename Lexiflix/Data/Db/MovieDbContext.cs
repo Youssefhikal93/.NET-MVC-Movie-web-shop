@@ -23,7 +23,7 @@ namespace Lexiflix.Data.Db
         public virtual DbSet<Actor> Actors { get; set; }
         public DbSet<Genre> Genres { get; set; }
 
-
+   
     }
 }
 
