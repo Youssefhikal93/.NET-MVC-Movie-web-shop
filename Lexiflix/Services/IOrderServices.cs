@@ -13,7 +13,7 @@ namespace Lexiflix.Services
 
         Order GetOrderWithDetails(int id);
 
-
+        void DeleteOrder(int id);
 
     }
 }

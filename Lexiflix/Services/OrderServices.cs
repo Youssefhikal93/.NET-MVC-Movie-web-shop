@@ -64,8 +64,17 @@ namespace Lexiflix.Services
         {
            return _db.Movies.FirstOrDefault(m => m.Id == v) ?? throw new Exception("Movie not found");
         }
-       
 
 
+        public void DeleteOrder(int id)
+
+        {
+            var order = _db.Orders.FirstOrDefault(o => o.Id == id);
+            if (order != null)
+            {
+                _db.Orders.Remove(order);
+                _db.SaveChanges();
+            }
+        }
     }
 }
