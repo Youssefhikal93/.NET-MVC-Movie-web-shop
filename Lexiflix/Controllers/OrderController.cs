@@ -1,5 +1,7 @@
 ﻿
 using Lexiflix.Models.Db;
+﻿
+using Lexiflix.Models.ViewModels;
 using Lexiflix.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,14 +12,56 @@ namespace Lexiflix.Controllers
     {
         private readonly IOrderServices _orderServices;
         private readonly ICustomerServices _customerServices;
+        private readonly IMovieServices _movieServices;
+        
 
         private const string CartSessionKey = "Cart";
 
-        public OrderController(IOrderServices orderServices, ICustomerServices customerServices)
+        public OrderController(IOrderServices orderServices, ICustomerServices customerServices,IMovieServices movieServices)
         {
             _orderServices = orderServices;
             _customerServices = customerServices;
+             _movieServices = movieServices;
         }
+
+
+
+              [HttpGet]
+        public IActionResult Create()
+        {
+             var viewModel = new OrderVM
+             {
+
+                 OrderRows = new List<OrderRowVM>
+                    {
+                        new OrderRowVM()
+                    }
+             };
+                 //view bag or search for movie title > id 
+                  
+                 //view bag for or search for customer name > id 
+                
+
+                return View(viewModel);
+        }
+
+        [HttpPost]
+
+    public IActionResult Create(OrderVM orderVM)
+    {
+        if (orderVM.CustomerId == null || !_customerServices.Exists(orderVM.CustomerId.Value))
+        {
+            ModelState.AddModelError("CustomerId", "Please select a valid customer.");
+        }
+
+        if (ModelState.IsValid)
+        {
+            _orderServices.AddOrderByAdmin(orderVM);
+            return RedirectToAction("Index");
+        }
+
+        return View(orderVM);
+    }
 
         public IActionResult Index()
         {
@@ -33,11 +77,7 @@ namespace Lexiflix.Controllers
             return View(orders);
         }
 
-        public IActionResult Create()
-        {
-            return View();
-        }
-
+       
         public IActionResult ViewCart()
         {
             var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";

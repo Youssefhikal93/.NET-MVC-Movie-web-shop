@@ -1,5 +1,6 @@
 ﻿using Lexiflix.Data.Db;
 using Lexiflix.Models.Db;
+using Lexiflix.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lexiflix.Services
@@ -8,7 +9,7 @@ namespace Lexiflix.Services
     {
         private readonly MovieDbContext _db;
 
-        public OrderServices(MovieDbContext db) 
+        public OrderServices(MovieDbContext db)
         {
             _db = db;
         }
@@ -17,8 +18,8 @@ namespace Lexiflix.Services
         {
             return _db.Orders
                 .Include(o => o.OrderRows)
-                    .ThenInclude(or => or.Movie) 
-                .Include(o => o.Customer)         
+                    .ThenInclude(or => or.Movie)
+                .Include(o => o.Customer)
                 .FirstOrDefault(o => o.Id == id);
         }
         public void CreateOrder(Order order)
@@ -42,7 +43,7 @@ namespace Lexiflix.Services
             _db.SaveChanges();
         }
 
-        
+
 
         public List<Order> GetAllOrders()
         {
@@ -53,7 +54,36 @@ namespace Lexiflix.Services
 
         public Movie GetMovieById(int v)
         {
-           return _db.Movies.FirstOrDefault(m => m.Id == v) ?? throw new Exception("Movie not found");
+            return _db.Movies.FirstOrDefault(m => m.Id == v) ?? throw new Exception("Movie not found");
+        }
+        
+
+
+
+
+
+             public void AddOrderByAdmin(OrderVM ovm)
+        {
+            var validMovies = _db.Movies.Select(m => m.Id).ToHashSet();
+            var order = new Order
+            {
+
+                CustomerId = ovm.CustomerId ?? 0,
+                OrderDate = ovm.OrderDate,
+                OrderRows = ovm.OrderRows
+                .Where(row => row.MovieId.HasValue && validMovies.Contains(row.MovieId.Value)).Select(row => new OrderRow
+                {
+
+                    MovieId = row.MovieId ?? 0,
+                    Quantity = row.Quantity ?? 0,
+                    Price = row.Price ?? 0
+                }).ToList()
+
+            };
+
+            _db.Orders.Add(order);
+            _db.SaveChanges();
+
         }
        
 
