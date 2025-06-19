@@ -1,7 +1,6 @@
 ﻿using Lexiflix.Data.Db;
 using Lexiflix.Models;
 using Lexiflix.Models.Db;
-using Lexiflix.Utils;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
 
