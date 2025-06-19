@@ -35,6 +35,7 @@
                     <thead class="bg-dark text-warning">
                         <tr>
                             <th width="60">#</th>
+                            <th>Order Id</th>
                             <th>Order Date</th>
                             <th>Customer</th>
                             <th width="120">Actions</th>
@@ -48,6 +49,7 @@
                         {
                             <tr>
                                 <td>@(index++)</td>
+                                <td>#@item.Id.ToString("D6")</td>
                                 <td>@item.OrderDate.ToString("yyyy-MM-dd HH:mm")</td>
                                 <td class="fw-bold">@item.CustomerName</td>
                                 <td>
