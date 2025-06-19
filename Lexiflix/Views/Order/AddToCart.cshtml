@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewData["Title"] = "AddToCart";
+}
+
+<h1>AddToCart</h1>
+
+<p><strong>Movie:</strong> @Model.Movie?.Title</p>
+<p><strong>Price:</strong> @Model.Price</p>
+<p><strong>Quantity:</strong> @Model.Quantity</p>
+<p><strong>Total:</strong>@Model.Total</p>
+
+<a asp-action="ViewCart" class="btn btn-warning">Go to Cart</a>
+<a asp-action="Index" asp-controller="Movie" class="btn btn-secondary">Continue Shopping</a>

@@ -1,24 +1,121 @@
-﻿@using Lexiflix.Models
-@model Lexiflix.Models.HomeVM
+﻿
+@using Lexiflix.Models
+@model HomeVM
 
-<div class="container-fluid py-4">
-    <!-- Newest Releases Section -->
+
+
+<section class="hero-section mb-5">
+    <div class="hero-content">
+        <div class="hero-text-content">
+            <h1 class="hero-title">LexiFlix</h1>
+            <p class="hero-subtitle">Your Ultimate Movie Destination</p>
+            <p class="hero-description">Discover, explore, and enjoy thousands of movies from every genre. Your cinematic journey starts here.</p>
+        </div>
+
+        <div class="hero-actions">
+            <!-- Search Button to trigger modal - Fixed data-bs-target -->
+            <a  href="#" id="openSearch">
+
+            <button class="btn hero-btn search-btn">
+                <i class="bi bi-search me-2"></i>
+                Search Movies
+            </button>
+            </a>
+
+            <!-- Browse Movies Button -->
+            <a href="/Movie" class="btn hero-btn browse-btn">
+                <i class="bi bi-film me-2"></i>
+                Browse Movies
+            </a>
+
+            <!-- Scroll Down Button -->
+            <button class="btn scroll-down-btn my-5" onclick="scrollToContent()">
+                <i class="bi bi-chevron-down"></i>
+            </button>
+        </div>
+
+       
+       
+</section>
+
+
+<div class="container-fluid py-4 mt-5" id="main-content">
+    <!-- Most Popular Movies Section -->
     <partial name="_MovieSection" model='new MovieSectionVM {
-
-        Title = "Newest Releases", 
-        Movies = Model.NewestReleases 
-}
-    ' />
-
-    <!-- Classic Films Section -->
-    <partial name="_MovieSection" model='new MovieSectionVM {
-        Title = "Classic Movies", 
-        Movies = Model.ClassicFilms 
+        Title = "Most Popular Movies",
+        MoviesWithOrderCount = Model.MostPopularMovies,
+        ShowOrderCount = true
     }' />
 
-    <!-- Best Deals Section -->
+   
+
+    <!-- Other sections -->
     <partial name="_MovieSection" model='new MovieSectionVM {
-        Title = "Best Deals", 
-        Movies = Model.BestDeals 
+        Title = "Newest Releases",
+        Movies = Model.NewestReleases
+    }' />
+
+    <partial name="_MovieSection" model='new MovieSectionVM {
+        Title = "Classic Movies",
+        Movies = Model.ClassicFilms
+    }' />
+
+    <partial name="_MovieSection" model='new MovieSectionVM {
+        Title = "Best Deals",
+        Movies = Model.BestDeals
     }' />
 </div>
+
+
+@if (Model.TopCustomer != null)
+{
+    <div class="row mb-4">
+        <div class="col-6 mx-auto">
+            <div class="card bg-dark text-center border-warning" style="border-width: 2px;">
+                <div class="card-header bg-black border-bottom border-warning py-3">
+                    <h3 class="card-title mb-0 text-warning">
+                        <i class="bi bi-trophy-fill me-2"></i>Top Customer
+                    </h3>
+                </div>
+                <div class="card-body py-4">
+                    <div class="d-flex flex-column align-items-center mb-4">
+                        <div class="mb-3">
+                            <div class="avatar-placeholder rounded-circle d-flex align-items-center justify-content-center bg-warning text-black"
+                                 style="width: 80px; height: 80px;">
+                                <i class="bi bi-person-fill fs-1"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-warning mb-2">
+                            @Model.TopCustomer.Customer.FirstName @Model.TopCustomer.Customer.LastName
+                        </h4>
+                        <span class="badge bg-warning text-black mb-3">VIP Member</span>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-4">
+                        <div class="text-center">
+                            <div class="text-warning fs-4 mb-1">
+                                <i class="bi bi-box-seam"></i>
+                            </div>
+                            <div class="text-light fs-5 fw-bold">
+                                @Model.TopCustomer.TotalOrders
+                            </div>
+                            <small class="text-muted">Orders</small>
+                        </div>
+
+                        <div class="vr border-warning"></div>
+
+                        <div class="text-center">
+                            <div class="text-warning fs-4 mb-1">
+                                <i class="bi bi-wallet2"></i>
+                            </div>
+                            <div class="text-light fs-5 fw-bold">
+                                @Math.Ceiling(Model.TopCustomer.TotalSpent) Kr
+                            </div>
+                            <small class="text-muted">Total Spent</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

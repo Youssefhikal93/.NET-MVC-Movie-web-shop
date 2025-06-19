@@ -17,27 +17,23 @@ public class HomeController : Controller
         _homeService = homeService;
     }
     
-        public IActionResult Index()
+public IActionResult Index()
+    {
+        var model = new HomeVM
         {
-            var model = new HomeVM
-            {
-                //MostPopularMovies =  _homeService.GetMostPopularMoviesAsync(),
-                NewestReleases =  _homeService.GetNewestReleases(),
-                ClassicFilms =  _homeService.GetClassicFilms(),
-                BestDeals =  _homeService.GetBestDeals(),
-                //TopCustomer =  _homeService.GetTopCustomerAsync()
-            };
+            MostPopularMovies = _homeService.GetMostPopularMovies(),
+            TopCustomer = _homeService.GetTopCustomer(),
+            NewestReleases = _homeService.GetNewestReleases(),
+            ClassicFilms = _homeService.GetClassicFilms(),
+            BestDeals = _homeService.GetBestDeals(),
+        };
 
         ViewData["ControllerName"] = "Home";
         ViewData["ActionName"] = "Index";
 
         return View(model);
-        }
-
-    public IActionResult Privacy()
-    {
-        return View();
     }
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

@@ -24,6 +24,7 @@ namespace Lexiflix.Models.Db
         public int MovieId { get; set; }
 
         public Order Order { get; set; }
-        public Movie Movie { get; set; }
+        public Movie? Movie { get; set; }
+        public int Quantity { get; set; }
     }
 }

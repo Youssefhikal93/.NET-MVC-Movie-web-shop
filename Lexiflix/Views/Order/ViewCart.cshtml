@@ -1,0 +1,380 @@
+﻿@* @model IEnumerable<Lexiflix.Models.Db.OrderRow> *@
+
+@* @{ *@
+@*     ViewData["Title"] = "ViewCart"; *@
+@* } *@
+
+@* <h1>ViewCart</h1> *@
+
+@* <table class="table"> *@
+@*     <thead> *@
+@*         <tr> *@
+@*             <th class="text-light">Movie</th> *@
+@*             <th class="text-light">Price</th> *@
+@*             <th class="text-light">Quantity</th> *@
+@*             <th class="text-light">Total</th> *@
+@*             <th></th> *@
+@*         </tr> *@
+@*     </thead> *@
+@*     <tbody> *@
+@*         @foreach (var item in Model) *@
+@*         { *@
+
+          
+@*             <tr> *@
+@*                 <td class="text-light"> *@
+@*                     <strong>@item.Movie?.Title</strong><br /> *@
+@*                     <img src="@item.Movie?.ImageUrl" style="height: 50px;" /> *@
+@*                 </td> *@
+@*                 <td class="text-light">€@item.Price</td> *@
+@*                 <td class="text-light">@item.Quantity</td> *@
+@*                 <td class="text-light">€@(item.Price* item.Quantity)</td> *@
+@*                 <td> *@
+@*                     <form asp-action="AddToCart" asp-controller="Order" method="post" style="display:inline;"> *@
+                        
+@*                         <input type="hidden" name="movieId" value="@item.MovieId" /> *@
+@*                         <button type="submit" class="btn btn-outline-success btn-sm">➕</button> *@
+@*                     </form> *@
+@*                     <form asp-action="RemoveFromCart" asp-controller="Order" method="post" style="display:inline;"> *@
+                      
+@*                         <input type="hidden" name="movieId" value="@item.MovieId" /> *@
+@*                         <button type="submit" class="btn btn-outline-danger btn-sm">➖</button> *@
+@*                     </form> *@
+@*                 </td> *@
+@*             </tr> *@
+@*         } *@
+@*     </tbody> *@
+@* </table> *@
+
+@* @if (Model.Any()) *@
+@* { *@
+@*     <h4>Total: @Model.Sum(i => i.Price * i.Quantity).ToString("C")</h4> *@
+
+@*     <form asp-action="Checkout" method="post"> *@
+@*         <h3 class="mt-5 text-warning">Checkout</h3> *@
+@*         <div class=" mb-3"> *@
+@*             <label class="form-label">Email:</label> *@
+@*             <input type="email" name="email" class="form-control" required /><br /> *@
+@*         </div> *@
+
+@*         <div class=" mb-3"> *@
+@*             <label class="form-label">First Name:</label> <input type="text" name="FirstName" class="form-control" required /><br /> *@
+@*         </div> *@
+@*         <div> *@
+@*             <label class=" mb-3">Last Name:</label> <input type="text" name="LastName" class="form-control" /><br /> *@
+@*         </div> *@
+@*         <div> *@
+@*             <label class=" mb-3">Address:</label> <input type="text" name="Address" class="form-control" /><br /> *@
+@*         </div> *@
+@*         <div> *@
+@*             <label class=" mb-3">Phone:</label> <input type="text" name="Phone" class="form-control" /><br /> *@
+@*         </div> *@
+@*         <br /> *@
+@*         <button type="submit" class="btn btn-warning w-100 fw-semibold"><i class="bi bi-credit-card-fill me-1"></i> Place Order</button> *@
+@*     </form> *@
+@* } *@
+@model IEnumerable<Lexiflix.Models.Db.OrderRow>
+
+@{
+    ViewData["Title"] = "Your Shopping Cart";
+}
+
+<div class="container mt-4">
+    <h1 class="text-warning mb-4">Your Shopping Cart</h1>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row">
+            <!-- Cart Items -->
+            <div class="col-lg-8">
+                <div class="card bg-dark text-light border-warning mb-4">
+                    <div class="card-header bg-black border-warning">
+                        <h4 class="mb-0">Movie Items</h4>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover mb-0">
+                                <thead class="bg-black text-warning">
+                                    <tr>
+                                        <th style="width: 40%">Movie</th>
+                                        <th class="text-end">Price</th>
+                                        <th class="text-center">Quantity</th>
+                                        <th class="text-end">Total</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    @if (item.Movie?.ImageUrl != null)
+                                                    {
+                                                        <img src="@item.Movie.ImageUrl"
+                                                             class="img-thumbnail me-3"
+                                                             style="width: 60px; height: 90px; object-fit: cover;"
+                                                             alt="@item.Movie.Title">
+                                                    }
+                                                    <div>
+                                                        <strong>@(item.Movie?.Title ?? "Unknown Movie")</strong>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-end align-middle">Kr @item.Price.ToString("0.00")</td>
+                                            <td class="text-center align-middle">
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="button" class="btn btn-sm btn-outline-danger decrease-quantity"
+                                                            data-movie-id="@item.MovieId">
+                                                        <i class="bi bi-dash"></i>
+                                                    </button>
+                                                    <span class="mx-2 my-1 quantity-display" style="min-width: 20px; display: inline-block;"
+                                                          data-movie-id="@item.MovieId">@item.Quantity</span>
+                                                    <button type="button" class="btn btn-sm btn-outline-success increase-quantity"
+                                                            data-movie-id="@item.MovieId">
+                                                        <i class="bi bi-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                            <td class="text-end align-middle">Kr @((item.Price * item.Quantity).ToString("0.00"))</td>
+                                            <td class="text-center align-middle">
+                                                <button type="button" class="btn btn-sm btn-outline-secondary remove-item"
+                                                        data-movie-id="@item.MovieId">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="col-lg-4">
+                <div class="card bg-dark text-light border-warning mb-4">
+                    <div class="card-header bg-black border-warning">
+                        <h4 class="mb-0">Order Summary</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal:</span>
+                            <span class="subtotal">Kr @Model.Sum(i => i.Price * i.Quantity).ToString("0.00")</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Shipping:</span>
+                            <span class="text-success">FREE</span>
+                        </div>
+                        <hr class="border-warning">
+                        <div class="d-flex justify-content-between fw-bold fs-5 mb-4">
+                            <span>Total:</span>
+                            <span class="text-warning total-price">Kr @Model.Sum(i => i.Price * i.Quantity).ToString("0.00")</span>
+                        </div>
+
+                        @* <!-- Checkout Form --> *@
+                       @*  <form asp-action="Checkout" method="post" class="mt-4" id="checkout-form">
+                            <h5 class="text-warning mb-3">Customer Information</h5>
+
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control bg-black text-light border-secondary" required />
+                            </div>
+
+                            <div class="row g-2 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">First Name</label>
+                                    <input type="text" name="FirstName" class="form-control bg-black text-light border-secondary" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Last Name</label>
+                                    <input type="text" name="LastName" class="form-control bg-black text-light border-secondary" required />
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Address</label>
+                                <input type="text" name="Address" class="form-control bg-black text-light border-secondary" required />
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Phone Number</label>
+                                <input type="text" name="Phone" class="form-control bg-black text-light border-secondary" required />
+                            </div>
+
+                            <button type="submit" class="btn btn-warning w-100 fw-bold py-2">
+                                <i class="bi bi-credit-card-fill me-2"></i> Proceed to Checkout
+                            </button>
+                        </form> *@
+                        @* <!-- Checkout Form --> *@
+<form asp-action="Checkout"  method="post" class="mt-4" id="checkout-form">
+    <h5 class="text-warning mb-3">Customer Information</h5>
+
+    @* <!-- Email Section --> *@
+    <div class="mb-3">
+        <label class="form-label">Email <span class="text-danger">*</span></label>
+        <div class="input-group">
+            <input type="email" name="email" id="customer-email" 
+                   class="form-control bg-black text-light border-secondary" 
+                   required 
+                   placeholder="Enter your email address" />
+            <button type="button" class="btn btn-warning" onclick="checkCustomerEmail()">
+                <i class="bi bi-search"></i> Check
+            </button>
+        </div>
+        <small class="form-text text-muted">Enter your email and click Check to see if you're already registered</small>
+    </div>
+
+    @* <!-- Customer Details Section (Initially Hidden) --> *@
+    <div id="customer-details" style="display: none;">
+        <!-- Messages -->
+        <div id="existing-customer-message" class="alert alert-success mb-3" style="display: none;">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <strong>Welcome back!</strong> We've loaded your saved information below. You can modify it if needed.
+        </div>
+
+        <div id="new-customer-message" class="alert alert-info mb-3" style="display: none;">
+            <i class="bi bi-person-plus-fill me-2"></i>
+            <strong>New customer detected!</strong> Please fill in your details below to complete your order.
+        </div>
+
+        @* <!-- Personal Information --> *@
+        <div class="row g-2 mb-3">
+            <div class="col-md-6">
+                <label class="form-label">First Name <span class="text-danger">*</span></label>
+                <input type="text" name="FirstName" id="first-name" 
+                       class="form-control bg-black text-light border-secondary" 
+                       required 
+                       placeholder="Enter your first name" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                <input type="text" name="LastName" id="last-name" 
+                       class="form-control bg-black text-light border-secondary" 
+                       required 
+                       placeholder="Enter your last name" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+            <input type="tel" name="Phone" id="phone" 
+                   class="form-control bg-black text-light border-secondary" 
+                   required 
+                   placeholder="Enter your phone number" />
+        </div>
+
+        @* <!-- Billing Address Section --> *@
+        <h5 class="text-warning mb-3 mt-4">
+            <i class="bi bi-credit-card me-2"></i>Billing Address
+        </h5>
+        
+        <div class="mb-3">
+            <label class="form-label">Address <span class="text-danger">*</span></label>
+            <input type="text" name="BillingAddress" id="billing-address" 
+                   class="form-control bg-black text-light border-secondary" 
+                   required 
+                   placeholder="Enter your billing address" />
+        </div>
+        
+        <div class="row g-2 mb-3">
+            <div class="col-md-6">
+                <label class="form-label">City <span class="text-danger">*</span></label>
+                <input type="text" name="BillingCity" id="billing-city" 
+                       class="form-control bg-black text-light border-secondary" 
+                       required 
+                       placeholder="Enter city" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Postal Code <span class="text-danger">*</span></label>
+                <input type="text" name="BillingZip" id="billing-zip" 
+                       class="form-control bg-black text-light border-secondary" 
+                       required 
+                       placeholder="Enter postal code" />
+            </div>
+        </div>
+
+        @* <!-- Delivery Address Section --> *@
+        <h5 class="text-warning mb-3 mt-4">
+            <i class="bi bi-truck me-2"></i>Delivery Address
+        </h5>
+        
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="same-as-billing" 
+                   name="sameAsBilling" onchange="toggleDeliveryAddress()">
+            <label class="form-check-label" for="same-as-billing">
+                Same as billing address
+            </label>
+        </div>
+        
+        <div id="delivery-address-fields">
+            <div class="mb-3">
+                <label class="form-label">Address <span class="text-danger">*</span></label>
+                <input type="text" name="DeliveryAddress" id="delivery-address" 
+                       class="form-control bg-black text-light border-secondary" 
+                       required 
+                       placeholder="Enter your delivery address" />
+            </div>
+            
+            <div class="row g-2 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">City <span class="text-danger">*</span></label>
+                    <input type="text" name="DeliveryCity" id="delivery-city" 
+                           class="form-control bg-black text-light border-secondary" 
+                           required 
+                           placeholder="Enter city" />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Postal Code <span class="text-danger">*</span></label>
+                    <input type="text" name="DeliveryZip" id="delivery-zip" 
+                           class="form-control bg-black text-light border-secondary" 
+                           required 
+                           placeholder="Enter postal code" />
+                    </div>
+            </div>
+        </div>
+
+        @* <!-- Submit Button --> *@
+        <button type="submit" class="btn btn-warning w-100 fw-bold py-3 mt-3">
+            <i class="bi bi-credit-card-fill me-2"></i> Complete Order
+        </button>
+    </div>
+</form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="card bg-dark text-light border-warning">
+            <div class="card-body text-center py-5">
+                <i class="bi bi-cart-x text-warning" style="font-size: 3rem;"></i>
+                <h3 class="mt-3">Your cart is empty</h3>
+                <p class="text-muted">Looks like you haven't added any movies yet</p>
+                <a asp-controller="Movie" asp-action="Index" class="btn btn-warning mt-3">
+                    <i class="bi bi-film me-1"></i> Browse Movies
+                </a>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+      
+
+// function showNotification(message) {
+//     const notification = document.createElement('div');
+//     notification.className = 'position-fixed bottom-0 end-0 mb-3 me-3 p-2 bg-warning text-dark rounded shadow';
+//     notification.style.zIndex = '1000';
+//     notification.innerHTML = `<i class="bi bi-info-circle-fill me-1"></i> ${message}`;
+//     document.body.appendChild(notification);
+
+//     setTimeout(() => {
+//         notification.remove();
+//     }, 3000);
+// }
+    </script>
+}
