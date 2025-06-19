@@ -34,7 +34,7 @@ namespace Lexiflix.Migrations
 
                     b.HasIndex("MoviesId");
 
-                    b.ToTable("ActorMovie");
+                    b.ToTable("ActorMovie", (string)null);
                 });
 
             modelBuilder.Entity("GenreMovie", b =>
@@ -49,7 +49,7 @@ namespace Lexiflix.Migrations
 
                     b.HasIndex("MoviesId");
 
-                    b.ToTable("GenreMovie");
+                    b.ToTable("GenreMovie", (string)null);
                 });
 
             modelBuilder.Entity("Lexiflix.Models.Db.Actor", b =>
@@ -67,7 +67,7 @@ namespace Lexiflix.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Actors");
+                    b.ToTable("Actors", (string)null);
                 });
 
             modelBuilder.Entity("Lexiflix.Models.Db.Customer", b =>
@@ -130,7 +130,7 @@ namespace Lexiflix.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("Lexiflix.Models.Db.Genre", b =>
@@ -148,7 +148,7 @@ namespace Lexiflix.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres");
+                    b.ToTable("Genres", (string)null);
                 });
 
             modelBuilder.Entity("Lexiflix.Models.Db.Movie", b =>
@@ -196,7 +196,7 @@ namespace Lexiflix.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movies");
+                    b.ToTable("Movies", (string)null);
                 });
 
             modelBuilder.Entity("Lexiflix.Models.Db.Order", b =>
@@ -217,7 +217,7 @@ namespace Lexiflix.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Lexiflix.Models.Db.OrderRow", b =>
@@ -246,7 +246,7 @@ namespace Lexiflix.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderRows");
+                    b.ToTable("OrderRows", (string)null);
                 });
 
             modelBuilder.Entity("ActorMovie", b =>
