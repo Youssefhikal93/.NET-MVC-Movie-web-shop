@@ -19,18 +19,18 @@ namespace Lexiflix.Controllers
             _customerServices = customerServices;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchString, int? pageNumber, int pageSize = 10)
         {
-            var orders = _orderServices.GetAllOrders();
+            var orders = _orderServices.GetAllOrders(searchString,pageNumber ??1,pageSize);
             return View(orders);
         }
 
         public IActionResult OrderDetail()
         {
-            var orders = _orderServices.GetAllOrders();
-            if (orders == null)
-                return NotFound();
-            return View(orders);
+            //var orders = _orderServices.GetAllOrders();
+            //if (orders == null)
+            //    return NotFound();
+            return View();
         }
 
         public IActionResult Create()

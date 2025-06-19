@@ -1,6 +1,5 @@
 ﻿using Lexiflix.Models;
 using Lexiflix.Models.Db;
-using Lexiflix.Utils;
 
 namespace Lexiflix.Services
 {

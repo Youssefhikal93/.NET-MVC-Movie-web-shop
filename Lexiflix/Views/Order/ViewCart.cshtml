@@ -1,78 +1,4 @@
-﻿@* @model IEnumerable<Lexiflix.Models.Db.OrderRow> *@
-
-@* @{ *@
-@*     ViewData["Title"] = "ViewCart"; *@
-@* } *@
-
-@* <h1>ViewCart</h1> *@
-
-@* <table class="table"> *@
-@*     <thead> *@
-@*         <tr> *@
-@*             <th class="text-light">Movie</th> *@
-@*             <th class="text-light">Price</th> *@
-@*             <th class="text-light">Quantity</th> *@
-@*             <th class="text-light">Total</th> *@
-@*             <th></th> *@
-@*         </tr> *@
-@*     </thead> *@
-@*     <tbody> *@
-@*         @foreach (var item in Model) *@
-@*         { *@
-
-          
-@*             <tr> *@
-@*                 <td class="text-light"> *@
-@*                     <strong>@item.Movie?.Title</strong><br /> *@
-@*                     <img src="@item.Movie?.ImageUrl" style="height: 50px;" /> *@
-@*                 </td> *@
-@*                 <td class="text-light">€@item.Price</td> *@
-@*                 <td class="text-light">@item.Quantity</td> *@
-@*                 <td class="text-light">€@(item.Price* item.Quantity)</td> *@
-@*                 <td> *@
-@*                     <form asp-action="AddToCart" asp-controller="Order" method="post" style="display:inline;"> *@
-                        
-@*                         <input type="hidden" name="movieId" value="@item.MovieId" /> *@
-@*                         <button type="submit" class="btn btn-outline-success btn-sm">➕</button> *@
-@*                     </form> *@
-@*                     <form asp-action="RemoveFromCart" asp-controller="Order" method="post" style="display:inline;"> *@
-                      
-@*                         <input type="hidden" name="movieId" value="@item.MovieId" /> *@
-@*                         <button type="submit" class="btn btn-outline-danger btn-sm">➖</button> *@
-@*                     </form> *@
-@*                 </td> *@
-@*             </tr> *@
-@*         } *@
-@*     </tbody> *@
-@* </table> *@
-
-@* @if (Model.Any()) *@
-@* { *@
-@*     <h4>Total: @Model.Sum(i => i.Price * i.Quantity).ToString("C")</h4> *@
-
-@*     <form asp-action="Checkout" method="post"> *@
-@*         <h3 class="mt-5 text-warning">Checkout</h3> *@
-@*         <div class=" mb-3"> *@
-@*             <label class="form-label">Email:</label> *@
-@*             <input type="email" name="email" class="form-control" required /><br /> *@
-@*         </div> *@
-
-@*         <div class=" mb-3"> *@
-@*             <label class="form-label">First Name:</label> <input type="text" name="FirstName" class="form-control" required /><br /> *@
-@*         </div> *@
-@*         <div> *@
-@*             <label class=" mb-3">Last Name:</label> <input type="text" name="LastName" class="form-control" /><br /> *@
-@*         </div> *@
-@*         <div> *@
-@*             <label class=" mb-3">Address:</label> <input type="text" name="Address" class="form-control" /><br /> *@
-@*         </div> *@
-@*         <div> *@
-@*             <label class=" mb-3">Phone:</label> <input type="text" name="Phone" class="form-control" /><br /> *@
-@*         </div> *@
-@*         <br /> *@
-@*         <button type="submit" class="btn btn-warning w-100 fw-semibold"><i class="bi bi-credit-card-fill me-1"></i> Place Order</button> *@
-@*     </form> *@
-@* } *@
+﻿
 @model IEnumerable<Lexiflix.Models.Db.OrderRow>
 
 @{
@@ -173,40 +99,7 @@
                             <span class="text-warning total-price">Kr @Model.Sum(i => i.Price * i.Quantity).ToString("0.00")</span>
                         </div>
 
-                        @* <!-- Checkout Form --> *@
-                       @*  <form asp-action="Checkout" method="post" class="mt-4" id="checkout-form">
-                            <h5 class="text-warning mb-3">Customer Information</h5>
-
-                            <div class="mb-3">
-                                <label class="form-label">Email</label>
-                                <input type="email" name="email" class="form-control bg-black text-light border-secondary" required />
-                            </div>
-
-                            <div class="row g-2 mb-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">First Name</label>
-                                    <input type="text" name="FirstName" class="form-control bg-black text-light border-secondary" required />
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Last Name</label>
-                                    <input type="text" name="LastName" class="form-control bg-black text-light border-secondary" required />
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Address</label>
-                                <input type="text" name="Address" class="form-control bg-black text-light border-secondary" required />
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="form-label">Phone Number</label>
-                                <input type="text" name="Phone" class="form-control bg-black text-light border-secondary" required />
-                            </div>
-
-                            <button type="submit" class="btn btn-warning w-100 fw-bold py-2">
-                                <i class="bi bi-credit-card-fill me-2"></i> Proceed to Checkout
-                            </button>
-                        </form> *@
+                    
                         @* <!-- Checkout Form --> *@
 <form asp-action="Checkout"  method="post" class="mt-4" id="checkout-form">
     <h5 class="text-warning mb-3">Customer Information</h5>
