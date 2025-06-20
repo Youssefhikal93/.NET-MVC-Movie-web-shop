@@ -60,6 +60,7 @@ namespace Lexiflix.Controllers
         // GET:  /Customer/Delete
         public IActionResult Delete(int id)
         {
+
             var customer = _customerServices.GetCustomerById(id);
             if (customer == null)
             {
@@ -75,14 +76,26 @@ namespace Lexiflix.Controllers
         
         public IActionResult DeleteConfirmed(int id)
         {
-            var customer = _customerServices.GetCustomerById(id);
-            if (customer == null)
+            try
             {
-                return NotFound();
-            }
+                var customer = _customerServices.GetCustomerById(id);
+                if (customer == null)
+                {
+                    return NotFound();
+                }
 
-            _customerServices.DeleteCustomer(id);
-            return RedirectToAction("AdminIndex", "Customer");
+                _customerServices.DeleteCustomer(id);
+                TempData["MessageSuccess"] = $"Customer deleted: {customer.FirstName} {customer.FirstName}";
+
+                return RedirectToAction("AdminIndex", "Customer");
+            }
+            catch (Exception err)
+            {
+
+                TempData["MessageError"] = $"Error deleting customer: {err.Message}";
+                return RedirectToAction("Delete", "Customer");
+            }
+            
         }
       
         
