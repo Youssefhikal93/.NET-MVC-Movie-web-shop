@@ -1,5 +1,9 @@
-﻿using Lexiflix.Models.Db;
+
 using Lexiflix.Models.ViewModels;
+
+﻿using Lexiflix.Models;
+using Lexiflix.Models.Db;
+
 
 namespace Lexiflix.Services
 {
@@ -7,14 +11,15 @@ namespace Lexiflix.Services
     {
         void CreateOrder(Order order);
         //string? GetAllOrders();
-        public List<Order> GetAllOrders();
+        //public List<OrderViewModel> GetAllOrders();
+        public PaginatedList<OrderViewModel> GetAllOrders(string searchString, int pageIndex, int pageSize);
         Movie GetMovieById(int v);
 
         Order GetOrderWithDetails(int id);
         void AddOrderByAdmin(OrderVM ovm);
 
 
-
+        void DeleteOrder(int id);
 
     }
 }

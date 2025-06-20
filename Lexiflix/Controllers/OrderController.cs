@@ -45,6 +45,7 @@ namespace Lexiflix.Controllers
                 return View(viewModel);
         }
 
+
         [HttpPost]
 
     public IActionResult Create(OrderVM orderVM)
@@ -63,18 +64,21 @@ namespace Lexiflix.Controllers
         return View(orderVM);
     }
 
-        public IActionResult Index()
+       
+
+        public IActionResult Index(string searchString, int? pageNumber, int pageSize = 10)
+
         {
-            var orders = _orderServices.GetAllOrders();
+            var orders = _orderServices.GetAllOrders(searchString,pageNumber ??1,pageSize);
             return View(orders);
         }
 
         public IActionResult OrderDetail()
         {
-            var orders = _orderServices.GetAllOrders();
-            if (orders == null)
-                return NotFound();
-            return View(orders);
+            //var orders = _orderServices.GetAllOrders();
+            //if (orders == null)
+            //    return NotFound();
+            return View();
         }
 
        
@@ -307,6 +311,23 @@ namespace Lexiflix.Controllers
         {
             public int MovieId { get; set; }
             public string Action { get; set; }
+        }
+
+        //Get: Delet confirmation page
+        public IActionResult Delete(int Id)
+
+        {
+            return View();  /*shows Delete.cshtml*/
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+
+        {
+            _orderServices.DeleteOrder(id); /*pass the id*/
+            TempData["SuccessMessage"] = "The order has been deleted successfully.";
+            return RedirectToAction("Index");
         }
     }
 }

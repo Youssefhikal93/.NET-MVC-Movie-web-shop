@@ -1,49 +1,104 @@
-﻿@using Lexiflix.Models.Db
-@model IEnumerable<Order>
+﻿@model IEnumerable<Lexiflix.Models.OrderViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Order Management";
 }
 
-<h1>Orders</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerId)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
 }
-    </tbody>
-</table>
+
+
+<div class="container py-2">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-warning">Order Management</h1>
+        <a asp-action="Create" class="btn btn-outline-warning bg-warning">
+            <i class="bi bi-plus-circle text-black"></i>
+            <span class="text-black fw-bold">Add New Order</span>
+        </a>
+    </div>
+
+  
+
+    <partial name="_PaginationOrderView" model="Model" />
+
+   
+
+    <div class="card shadow-sm border-warning">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0">
+                    <thead class="bg-dark text-warning">
+                        <tr>
+                            <th width="60">#</th>
+                            <th>Order Id</th>
+                            <th>Order Date</th>
+                            <th>Customer</th>
+                            <th width="120">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int index = 1;
+                        }
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@(index++)</td>
+                                <td>#@item.Id.ToString("D6")</td>
+                                <td>@item.OrderDate.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td class="fw-bold">@item.CustomerName</td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info" title="Details">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .table-dark {
+        --bs-table-bg: #1a1a1a;
+        --bs-table-hover-bg: rgba(255, 193, 7, 0.1);
+    }
+
+    .table th {
+        border-bottom: 2px solid #ffc107;
+        white-space: nowrap;
+    }
+
+    .btn-group-sm > .btn {
+        padding: 0.25rem 0.5rem;
+    }
+
+    .card {
+        border-radius: 0.5rem;
+        overflow: hidden;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table-hover tbody tr:hover {
+        color: #ffc107;
+    }
+</style>

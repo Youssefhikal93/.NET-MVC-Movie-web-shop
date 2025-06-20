@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Lexiflix.Utils
+namespace Lexiflix.Models
 {
     public class PaginatedList<T> : List<T>
     {
@@ -17,7 +17,7 @@ namespace Lexiflix.Utils
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             TotalItems = count;
             PageSize = pageSize;
-            this.AddRange(items);
+            AddRange(items);
         }
 
         public static PaginatedList<T> Create(IQueryable<T> dbSet, int pageIndex, int pageSize)
