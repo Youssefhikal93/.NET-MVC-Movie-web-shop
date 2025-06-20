@@ -11,4 +11,6 @@ public interface ICustomerServices
     public Customer GetCustomerById(int id);
     public void DeleteCustomer(int id);
     public Customer GetCustomerByEmail(string email);
+
+    public bool Exists(int customerId);
 }

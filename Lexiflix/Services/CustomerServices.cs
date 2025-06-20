@@ -58,6 +58,12 @@ public class CustomerServices : ICustomerServices
         return _db.Customers.FirstOrDefault(c => c.Email == email);
     }
 
+        
+    public bool Exists(int customerId)
+    {
+        return _db.Customers.Any(c => c.Id == customerId);
+    }
+
 
 
 

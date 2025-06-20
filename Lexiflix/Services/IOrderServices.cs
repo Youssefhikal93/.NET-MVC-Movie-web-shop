@@ -1,5 +1,9 @@
+
+using Lexiflix.Models.ViewModels;
+
 ﻿using Lexiflix.Models;
 using Lexiflix.Models.Db;
+
 
 namespace Lexiflix.Services
 {
@@ -12,6 +16,8 @@ namespace Lexiflix.Services
         Movie GetMovieById(int v);
 
         Order GetOrderWithDetails(int id);
+        void AddOrderByAdmin(OrderVM ovm);
+
 
         void DeleteOrder(int id);
 

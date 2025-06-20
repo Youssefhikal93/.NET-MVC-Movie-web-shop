@@ -1,0 +1,55 @@
+@model Lexiflix.Models.ViewModels.OrderVM
+
+@{
+    ViewData["Title"] = "Create";
+     Layout = "~/Views/Shared/_FormWrapper.cshtml";  
+}
+
+
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="OrderDate"></label>
+        <input asp-for="OrderDate" class="form-control" />
+        <span asp-validation-for="OrderDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CustomerId"></label>
+        <input asp-for="CustomerId" class="form-control" placeholder="CustomerId" />
+        <span asp-validation-for="CustomerId" class="text-danger"></span>
+    </div>
+
+  @if (Model.OrderRows != null)
+{
+    int count = 0;
+    foreach (var row in Model.OrderRows)
+    {
+        <hr />
+        <h5>Order Row @(count + 1)</h5>
+        <div class="form-group">
+            <label>Movie ID</label>
+            <input type="text" name="OrderRows[@(count)].MovieId" value="@row.MovieId" class="form-control" placeholder="Movie ID" />
+        </div>
+        <div class="form-group">
+            <label>Quantity</label>
+            <input type="number" name="OrderRows[@(count)].Quantity" value="@row.Quantity" class="form-control" placeholder="Quantity" />
+        </div>
+        <div class="form-group">
+            <label>Price</label>
+            <input type="text" name="OrderRows[@(count)].Price" value="@row.Price" class="form-control" placeholder="Price" />
+        </div>
+        count++;
+    }
+}
+
+    <div class="form-group mt-3">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
