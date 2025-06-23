@@ -27,17 +27,17 @@ namespace Lexiflix.Controllers
 
 
 
-        [HttpGet]
-
+         [HttpGet]
         public IActionResult Create()
         {
-            var viewModel = new OrderVM
-            {
+             var viewModel = new OrderVM
+             {
 
-                OrderRows = new List<OrderRowVM>
+                 OrderRows = new List<OrderRowVM>
                     {
                         new OrderRowVM()
                     }
+             };
 
               PopulateDropdowns();
 
@@ -46,30 +46,29 @@ namespace Lexiflix.Controllers
                 return View(viewModel);
         }
 
-
-
         [HttpPost]
 
 
 
     public IActionResult Create(OrderVM orderVM)
     {
-        if (orderVM.CustomerId == null || !_customerServices.Exists(orderVM.CustomerId.Value))
-        {
-            //if (orderVM.CustomerId == null || !_customerServices.Exists(orderVM.CustomerId.Value))
-            //{
-            //    ModelState.AddModelError("CustomerId", "Please select a valid customer.");
-            //}
-
-            if (ModelState.IsValid)
+            if (orderVM.CustomerId == null || !_customerServices.Exists(orderVM.CustomerId.Value))
             {
-                _orderServices.AddOrderByAdmin(orderVM);
-                return RedirectToAction("Index");
+                //if (orderVM.CustomerId == null || !_customerServices.Exists(orderVM.CustomerId.Value))
+                //{
+                //    ModelState.AddModelError("CustomerId", "Please select a valid customer.");
+                //}
+
+                if (ModelState.IsValid)
+                {
+                    _orderServices.AddOrderByAdmin(orderVM);
+                    return RedirectToAction("Index");
+                }
+
+
+
+                PopulateDropdowns();
             }
-
-
-
-         PopulateDropdowns();
 
             
 
@@ -84,7 +83,6 @@ namespace Lexiflix.Controllers
         ViewBag.MovieList = new SelectList(movies, "Id", "Title");
         ViewBag.CustomerList = new SelectList(customers.Select(c => new { c.Id, FullName = c.FirstName + " " + c.LastName }), "Id", "FullName");
     }
-
 
 
 
