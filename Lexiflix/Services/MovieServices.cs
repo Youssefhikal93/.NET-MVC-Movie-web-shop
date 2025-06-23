@@ -9,14 +9,14 @@ namespace Lexiflix.Services
     public class MovieServices : IMovieServices
     {
         private readonly MovieDbContext _db;
-      
+
 
         public MovieServices(MovieDbContext db)
         {
             _db = db;
         }
 
-       
+
         public List<Movie> GetAllMovies()
         {
             return GetBaseQuery().ToList();
@@ -40,8 +40,8 @@ namespace Lexiflix.Services
                 query = query.Where(m =>
                     m.Title.Contains(searchString) ||
                     m.Director.Contains(searchString) ||
-                    m.Actors.Any(a => a.Name.Contains(searchString))||
-                    m.Genres.Any(g=>g.Name.Contains(searchString)));
+                    m.Actors.Any(a => a.Name.Contains(searchString)) ||
+                    m.Genres.Any(g => g.Name.Contains(searchString)));
             }
 
             // Apply sorting
@@ -229,16 +229,22 @@ namespace Lexiflix.Services
             return _db.Movies.ToList();
         }
 
-        public void DeleteMovie(int id)
+     
 
+        public void DeleteMovie(int id)
         {
             var movie = _db.Movies.FirstOrDefault(m => m.Id == id);
-            if (movie != null)
-            {
-                _db.Movies.Remove(movie);
-                _db.SaveChanges();
-            }
+            if (movie == null)
+                throw new Exception("Movie not found.");
+
+            var RefInOrder = _db.OrderRows.Any(or => or.MovieId == id);
+            if (RefInOrder)
+                throw new InvalidOperationException("Cannot delete movie: it is referenced in one or more orders.");
+
+            _db.Movies.Remove(movie);
+            _db.SaveChanges();
         }
+
 
         
     }
