@@ -18,7 +18,9 @@
 
     <div class="form-group">
         <label asp-for="CustomerId"></label>
-        <input asp-for="CustomerId" class="form-control" placeholder="CustomerId" />
+        <select asp-for="CustomerId" asp-items="ViewBag.CustomerList" class="form-control">
+        <option value="">-- Select Customer --</option>
+        </select>
         <span asp-validation-for="CustomerId" class="text-danger"></span>
     </div>
 
@@ -29,10 +31,12 @@
     {
         <hr />
         <h5>Order Row @(count + 1)</h5>
-        <div class="form-group">
-            <label>Movie ID</label>
-            <input type="text" name="OrderRows[@(count)].MovieId" value="@row.MovieId" class="form-control" placeholder="Movie ID" />
-        </div>
+         <div class="form-group">
+        <label>Movie</label>
+        <select name="OrderRows[@(count)].MovieId" class="form-control" asp-items="ViewBag.MovieList">
+            <option value="">-- Select Movie --</option>
+        </select>
+    </div>
         <div class="form-group">
             <label>Quantity</label>
             <input type="number" name="OrderRows[@(count)].Quantity" value="@row.Quantity" class="form-control" placeholder="Quantity" />
