@@ -1,0 +1,289 @@
+﻿@model Lexiflix.Models.ViewModels.OrderVM
+
+@{
+    ViewData["Title"] = "Edit Order";
+}
+
+<h2>Edit Order #@Model.Id</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Edit" method="post" class="bg-dark text-light p-4 rounded">
+            <input asp-for="Id" type="hidden" />
+            <input asp-for="CustomerId" type="hidden" />
+
+            <div class="card bg-dark border-warning mb-4">
+                <div class="card-header bg-black text-warning border-warning">
+                    <h5 class="mb-0"><i class="fas fa-user me-2"></i>Customer Information</h5>
+                </div>
+                <div class="card-body bg-dark text-light">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong class="text-warning">Name:</strong> @Model.CustomerName</p>
+                            <p><strong class="text-warning">Email:</strong> @Model.CustomerEmail</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong class="text-warning">Delivery Address:</strong><br />@Model.DeliveryAddress</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-dark border-warning mb-4">
+                <div class="card-header bg-black text-warning border-warning">
+                    <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Order Details</h5>
+                </div>
+                <div class="card-body bg-dark text-light">
+                    <div class="form-group mb-3">
+                        <label asp-for="OrderDate" class="form-label text-light">Order Date</label>
+                        <input asp-for="OrderDate" class="form-control bg-black text-light border-secondary" type="datetime-local" step="60" />
+                        <span asp-validation-for="OrderDate" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-dark border-warning mb-4">
+                <div class="card-header bg-black text-warning border-warning d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-list me-2"></i>Order Items</h5>
+                    <button type="button" class="btn btn-warning btn-sm" onclick="addOrderRow()">
+                        <i class="fas fa-plus me-1"></i>Add Item
+                    </button>
+                </div>
+                <div class="card-body bg-dark">
+                    <div id="orderRowsContainer">
+                        @for (int i = 0; i < Model.OrderRows.Count; i++)
+                        {
+                            <div class="order-row border-secondary border p-3 mb-3 bg-black rounded" data-index="@i">
+                                <input asp-for="OrderRows[i].Id" type="hidden" />
+
+                                <div class="row align-items-center">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label text-light">Movie</label>
+                                        <select asp-for="OrderRows[i].MovieId" class="form-select bg-black text-light border-secondary movie-select"
+                                                data-price-target="OrderRows[@i].Price" onchange="updatePrice(this)">
+                                            <option value="">-- Select Movie --</option>
+                                            @foreach (var movie in ViewBag.Movies as List<SelectListItem>)
+                                            {
+                                                <option value="@movie.Value"
+                                                        data-price="@movie.Text.Split("Kr")[1]"
+                                                        selected="@(movie.Value == Model.OrderRows[i].MovieId?.ToString())">
+                                                    @movie.Text
+                                                </option>
+                                            }
+                                        </select>
+                                        <span asp-validation-for="OrderRows[i].MovieId" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="col-md-2 mb-3">
+                                        <label class="form-label form-control-md text-light">Quantity</label>
+                                        <div class="input-group" style="width:120px;">
+                                            <button type="button" class="btn btn-outline-warning"
+                                                    onclick="changeQuantity(this, -1)">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input asp-for="OrderRows[i].Quantity" class="form-control bg-black text-light text-center border-secondary quantity-input"
+                                                   min="1" onchange="calculateRowTotal(this)" />
+                                            <button type="button" class="btn btn-outline-warning"
+                                                    onclick="changeQuantity(this, 1)">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <span asp-validation-for="OrderRows[i].Quantity" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="col-md-2 mb-3">
+                                        <label class="form-label text-light">Price</label>
+                                        <input asp-for="OrderRows[i].Price" class="form-control bg-black text-light border-secondary price-input"
+                                               step="0.01" readonly />
+                                        <span asp-validation-for="OrderRows[i].Price" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="col-md-2 mb-3">
+                                        <label class="form-label text-light">Total</label>
+                                        <div class="form-control-plaintext bg-black text-warning border-secondary rounded row-total">Kr0.00</div>
+                                    </div>
+
+                                    <div class="col-md-2 mb-3"> 
+                                         <label class="form-label text-light">&nbsp;</label> 
+                                        <div> 
+                                             <button type="button" class="btn btn-outline-danger btn-sm" 
+                                                     onclick="removeOrderRow(this)" 
+                                             @(Model.OrderRows.Count <= 1 ? "disabled" : "")> 
+                                                 <i class="fas fa-trash me-1"></i>Remove 
+                                             </button>
+                                        </div> 
+                                     </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-8"></div>
+                        <div class="col-md-4">
+                            <div class="card bg-black border-warning">
+                                <div class="card-body">
+                                    <h6 class="text-warning">Order Total: <span id="orderTotal" class="text-light">Kr0.00</span></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group d-flex gap-2">
+                <button type="submit" class="btn btn-warning text-dark">
+                    <i class="fas fa-save me-1"></i>Update Order
+                </button>
+                <a asp-action="Detail" asp-route-id="@Model.Id" class="btn btn-outline-light">
+                    <i class="fas fa-times me-1"></i>Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let rowIndex = @Model.OrderRows.Count;
+
+        function addOrderRow() {
+            const container = document.getElementById('orderRowsContainer');
+            const movieOptions = @Html.Raw(Json.Serialize(ViewBag.Movies));
+
+            let optionsHtml = '<option value="">-- Select Movie --</option>';
+            movieOptions.forEach(movie => {
+                const price = movie.text.split('Kr')[1];
+                optionsHtml += `<option value="${movie.value}" data-price="${price}">${movie.text}</option>`;
+            });
+
+            const newRow = `
+                <div class="order-row border p-3 mb-3" data-index="${rowIndex}">
+                    <input name="OrderRows[${rowIndex}].Id" type="hidden" value="" />
+
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <label class="form-label">Movie</label>
+                            <select name="OrderRows[${rowIndex}].MovieId" class="form-select movie-select"
+                                    data-price-target="OrderRows[${rowIndex}].Price" onchange="updatePrice(this)">
+                                ${optionsHtml}
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="form-label">Quantity</label>
+                            <div class="input-group">
+                                <button type="button" class="btn btn-outline-secondary"
+                                        onclick="changeQuantity(this, -1)">-</button>
+                                <input name="OrderRows[${rowIndex}].Quantity" class="form-control text-center quantity-input"
+                                       min="1" value="1" onchange="calculateRowTotal(this)" />
+                                <button type="button" class="btn btn-outline-secondary"
+                                        onclick="changeQuantity(this, 1)">+</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="form-label">Price</label>
+                            <input name="OrderRows[${rowIndex}].Price" class="form-control price-input"
+                                   step="0.01" readonly />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="form-label">Total</label>
+                            <div class="form-control-plaintext row-total">Kr0.00</div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="form-label">&nbsp;</label>
+                            <div>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="removeOrderRow(this)">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', newRow);
+            rowIndex++;
+            updateRemoveButtons();
+            calculateOrderTotal();
+        }
+
+        function removeOrderRow(button) {
+            const orderRow = button.closest('.order-row');
+            const container = document.getElementById('orderRowsContainer');
+
+            if (container.children.length > 1) {
+                orderRow.remove();
+                updateRemoveButtons();
+                calculateOrderTotal();
+            }
+        }
+
+        function updateRemoveButtons() {
+            const removeButtons = document.querySelectorAll('.order-row button[onclick*="removeOrderRow"]');
+            const rowCount = document.querySelectorAll('.order-row').length;
+
+            removeButtons.forEach(button => {
+                button.disabled = rowCount <= 1;
+            });
+        }
+
+        function updatePrice(selectElement) {
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            const price = selectedOption.getAttribute('data-price') || '0';
+            const priceInput = selectElement.closest('.order-row').querySelector('.price-input');
+
+            priceInput.value = price;
+            calculateRowTotal(priceInput);
+        }
+
+        function changeQuantity(button, change) {
+            const quantityInput = button.parentElement.querySelector('.quantity-input');
+            let currentValue = parseInt(quantityInput.value) || 1;
+            let newValue = currentValue + change;
+
+            if (newValue < 1) newValue = 1;
+
+            quantityInput.value = newValue;
+            calculateRowTotal(quantityInput);
+        }
+
+        function calculateRowTotal(element) {
+            const row = element.closest('.order-row');
+            const quantity = parseInt(row.querySelector('.quantity-input').value) || 0;
+            const price = parseFloat(row.querySelector('.price-input').value) || 0;
+            const total = quantity * price;
+
+            row.querySelector('.row-total').textContent = 'Kr' + total.toFixed(2);
+            calculateOrderTotal();
+        }
+
+        function calculateOrderTotal() {
+            let total = 0;
+            document.querySelectorAll('.row-total').forEach(element => {
+                const value = parseFloat(element.textContent.replace('Kr', '')) || 0;
+                total += value;
+            });
+
+            document.getElementById('orderTotal').textContent = 'Kr' + total.toFixed(2);
+        }
+
+        // Initialize calculations on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.quantity-input, .price-input').forEach(input => {
+                calculateRowTotal(input);
+            });
+            updateRemoveButtons();
+        });
+    </script>
+}

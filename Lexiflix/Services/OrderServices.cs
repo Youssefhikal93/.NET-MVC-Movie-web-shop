@@ -112,5 +112,37 @@ namespace Lexiflix.Services
                 _db.SaveChanges();
             }
         }
+
+        public void UpdateOrder(OrderVM orderVM)
+        {
+            var existingOrder = _db.Orders
+                .Include(o => o.OrderRows)
+                .FirstOrDefault(o => o.Id == orderVM.Id);
+
+            if (existingOrder == null)
+                throw new Exception("Order not found");
+
+            // Update order date if changed
+            existingOrder.OrderDate = orderVM.OrderDate;
+            _db.OrderRows.RemoveRange(existingOrder.OrderRows);
+
+            // Add new order rows
+            var validMovies = _db.Movies.Select(m => m.Id).ToHashSet();
+            existingOrder.OrderRows = orderVM.OrderRows
+                .Where(row => row.MovieId.HasValue &&
+                             row.Quantity.HasValue &&
+                             row.Price.HasValue &&
+                             row.Quantity > 0 &&
+                             validMovies.Contains(row.MovieId.Value))
+                .Select(row => new OrderRow
+                {
+                    OrderId = existingOrder.Id,
+                    MovieId = row.MovieId.Value,
+                    Quantity = row.Quantity.Value,
+                    Price = row.Price.Value
+                }).ToList();
+
+            _db.SaveChanges();
+        }
     }
 }

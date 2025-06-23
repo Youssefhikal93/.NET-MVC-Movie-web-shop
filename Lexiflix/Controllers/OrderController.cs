@@ -4,6 +4,7 @@ using Lexiflix.Models.Db;
 using Lexiflix.Models.ViewModels;
 using Lexiflix.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 
 namespace Lexiflix.Controllers
@@ -13,63 +14,63 @@ namespace Lexiflix.Controllers
         private readonly IOrderServices _orderServices;
         private readonly ICustomerServices _customerServices;
         private readonly IMovieServices _movieServices;
-        
+
 
         private const string CartSessionKey = "Cart";
 
-        public OrderController(IOrderServices orderServices, ICustomerServices customerServices,IMovieServices movieServices)
+        public OrderController(IOrderServices orderServices, ICustomerServices customerServices, IMovieServices movieServices)
         {
             _orderServices = orderServices;
             _customerServices = customerServices;
-             _movieServices = movieServices;
+            _movieServices = movieServices;
         }
 
 
 
-              [HttpGet]
+        [HttpGet]
         public IActionResult Create()
         {
-             var viewModel = new OrderVM
-             {
+            var viewModel = new OrderVM
+            {
 
-                 OrderRows = new List<OrderRowVM>
+                OrderRows = new List<OrderRowVM>
                     {
                         new OrderRowVM()
                     }
-             };
-                 //view bag or search for movie title > id 
-                  
-                 //view bag for or search for customer name > id 
-                
+            };
+            //view bag or search for movie title > id 
 
-                return View(viewModel);
+            //view bag for or search for customer name > id 
+
+
+            return View(viewModel);
         }
 
 
         [HttpPost]
 
-    public IActionResult Create(OrderVM orderVM)
-    {
-        if (orderVM.CustomerId == null || !_customerServices.Exists(orderVM.CustomerId.Value))
+        public IActionResult Create(OrderVM orderVM)
         {
-            ModelState.AddModelError("CustomerId", "Please select a valid customer.");
-        }
+            //if (orderVM.CustomerId == null || !_customerServices.Exists(orderVM.CustomerId.Value))
+            //{
+            //    ModelState.AddModelError("CustomerId", "Please select a valid customer.");
+            //}
 
-        if (ModelState.IsValid)
-        {
-            _orderServices.AddOrderByAdmin(orderVM);
-            return RedirectToAction("Index");
-        }
+            if (ModelState.IsValid)
+            {
+                _orderServices.AddOrderByAdmin(orderVM);
+                return RedirectToAction("Index");
+            }
 
             return View(orderVM);
-    }
+        }
 
 
 
 
-           [HttpGet]
+        [HttpGet]
 
-    public IActionResult Detail(int id)
+        public IActionResult Detail(int id)
         {
             var order = _orderServices.GetOrderWithDetails(id);
             if (order == null)
@@ -95,7 +96,7 @@ namespace Lexiflix.Controllers
             return View();
         }
 
-       
+
         public IActionResult ViewCart()
         {
             var cartJson = HttpContext.Session.GetString("Cart") ?? "[]";
@@ -156,7 +157,7 @@ namespace Lexiflix.Controllers
         }
 
 
-        
+
         [HttpPost]
         public async Task<IActionResult> UpdateQuantity([FromBody] UpdateQuantityRequest request)
         {
@@ -248,7 +249,7 @@ namespace Lexiflix.Controllers
             public int MovieId { get; set; }
             public bool RemoveAll { get; set; }
         }
-        
+
         [HttpPost]
         public IActionResult Checkout(string email, Customer customer, bool sameAsBilling = false)
         {
@@ -342,6 +343,94 @@ namespace Lexiflix.Controllers
             _orderServices.DeleteOrder(id); /*pass the id*/
             TempData["SuccessMessage"] = "The order has been deleted successfully.";
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var order = _orderServices.GetOrderWithDetails(id);
+            if (order == null)
+                return NotFound();
+
+            var orderVM = new OrderVM
+            {
+                Id = order.Id,
+                CustomerId = order.CustomerId,
+                OrderDate = order.OrderDate,
+                CustomerEmail = order.Customer.Email,
+                CustomerName = $"{order.Customer.FirstName} {order.Customer.LastName}",
+                DeliveryAddress = $"{order.Customer.DeliveryAddress}, {order.Customer.DeliveryCity}, {order.Customer.DeliveryZip}",
+                OrderRows = order.OrderRows.Select(or => new OrderRowVM
+                {
+                    Id = or.Id,
+                    MovieId = or.MovieId,
+                    MovieTitle = or.Movie?.Title,
+                    Quantity = or.Quantity,
+                    Price = or.Price
+                }).ToList()
+            };
+
+            // Ensure at least one empty row for adding new movies
+            if (!orderVM.OrderRows.Any())
+            {
+                orderVM.OrderRows.Add(new OrderRowVM());
+            }
+
+            // Populate movies dropdown
+            ViewBag.Movies = _movieServices.GetAllMovies().Select(m => new SelectListItem
+            {
+                Value = m.Id.ToString(),
+                Text = $"{m.Title} - Kr{m.Price}"
+            }).ToList();
+
+            return View(orderVM);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(OrderVM orderVM)
+        {
+            if (orderVM.Id == null)
+                return BadRequest();
+
+            // Validate that at least one order row exists with valid data
+            var validRows = orderVM.OrderRows.Where(row =>
+                row.MovieId.HasValue &&
+                row.Quantity.HasValue &&
+                row.Quantity > 0 &&
+                row.Price.HasValue &&
+                row.Price > 0).ToList();
+
+            if (!validRows.Any())
+            {
+                ModelState.AddModelError("", "At least one movie must be selected with valid quantity and price.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                _orderServices.UpdateOrder(orderVM);
+                TempData["SuccessMessage"] = "Order updated successfully.";
+                //return RedirectToAction("Detail", new { id = orderVM.Id });
+                return RedirectToAction("Index");
+            }
+
+            // If we got this far, something failed, redisplay form
+            // Reload customer info for display
+            var existingOrder = _orderServices.GetOrderWithDetails(orderVM.Id.Value);
+            if (existingOrder != null)
+            {
+                orderVM.CustomerEmail = existingOrder.Customer.Email;
+                orderVM.CustomerName = $"{existingOrder.Customer.FirstName} {existingOrder.Customer.LastName}";
+                orderVM.DeliveryAddress = $"{existingOrder.Customer.DeliveryAddress}, {existingOrder.Customer.DeliveryCity}, {existingOrder.Customer.DeliveryZip}";
+            }
+
+            // Repopulate movies dropdown
+            ViewBag.Movies = _movieServices.GetAllMovies().Select(m => new SelectListItem
+            {
+                Value = m.Id.ToString(),
+                Text = $"{m.Title} - Kr{m.Price}"
+            }).ToList();
+
+            return View(orderVM);
         }
     }
 }
