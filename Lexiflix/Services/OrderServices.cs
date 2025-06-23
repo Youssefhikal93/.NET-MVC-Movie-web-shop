@@ -63,7 +63,7 @@ namespace Lexiflix.Services
                 .OrderByDescending(o => o.OrderDate)
                 .AsQueryable();
 
-            return PaginatedList<OrderViewModel>.Create(query, pageIndex, pageSize); ;
+            return PaginatedList<OrderViewModel>.Create(query, pageIndex, pageSize); 
         }
        
        

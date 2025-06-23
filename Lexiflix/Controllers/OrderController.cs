@@ -61,15 +61,29 @@ namespace Lexiflix.Controllers
             return RedirectToAction("Index");
         }
 
-        return View(orderVM);
+            return View(orderVM);
     }
 
-       
+
+
+
+           [HttpGet]
+
+    public IActionResult Detail(int id)
+        {
+            var order = _orderServices.GetOrderWithDetails(id);
+            if (order == null)
+                return NotFound();
+
+            return View(order);
+        }
+
+
 
         public IActionResult Index(string searchString, int? pageNumber, int pageSize = 10)
 
         {
-            var orders = _orderServices.GetAllOrders(searchString,pageNumber ??1,pageSize);
+            var orders = _orderServices.GetAllOrders(searchString, pageNumber ?? 1, pageSize);
             return View(orders);
         }
 
