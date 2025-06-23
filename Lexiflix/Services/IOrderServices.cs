@@ -18,6 +18,7 @@ namespace Lexiflix.Services
         Order GetOrderWithDetails(int id);
         void AddOrderByAdmin(OrderVM ovm);
 
+        void UpdateOrder(OrderVM orderVM);
 
         void DeleteOrder(int id);
 
