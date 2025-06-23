@@ -1,6 +1,5 @@
 ﻿using Lexiflix.Models;
 using Lexiflix.Models.Db;
-using Lexiflix.Utils;
 
 namespace Lexiflix.Services
 {
@@ -17,6 +16,10 @@ namespace Lexiflix.Services
         void AddMovie(Movie movie);
         void DeleteMovie(int id);
         IEnumerable<Movie> SearchMovies(string query);
+
+             
+        void AddMovieWithActorsAndGenres(Movie movie, string actorNames, string genreNames);
+
 
 
     }

@@ -45,7 +45,11 @@ namespace Lexiflix.Controllers
                 return View(viewModel);
         }
 
-    [HttpPost]
+
+
+        [HttpPost]
+
+
     public IActionResult Create(OrderVM orderVM)
     {
         if (orderVM.CustomerId == null || !_customerServices.Exists(orderVM.CustomerId.Value))
@@ -59,11 +63,13 @@ namespace Lexiflix.Controllers
             return RedirectToAction("Index");
         }
 
+
          PopulateDropdowns();
 
             
 
         return View(orderVM);
+
     }
     private void PopulateDropdowns()
     {
@@ -78,18 +84,35 @@ namespace Lexiflix.Controllers
 
 
 
-        public IActionResult Index()
+
+
+
+           [HttpGet]
+
+    public IActionResult Detail(int id)
         {
-            var orders = _orderServices.GetAllOrders();
+            var order = _orderServices.GetOrderWithDetails(id);
+            if (order == null)
+                return NotFound();
+
+            return View(order);
+        }
+
+
+
+        public IActionResult Index(string searchString, int? pageNumber, int pageSize = 10)
+
+        {
+            var orders = _orderServices.GetAllOrders(searchString, pageNumber ?? 1, pageSize);
             return View(orders);
         }
 
         public IActionResult OrderDetail()
         {
-            var orders = _orderServices.GetAllOrders();
-            if (orders == null)
-                return NotFound();
-            return View(orders);
+            //var orders = _orderServices.GetAllOrders();
+            //if (orders == null)
+            //    return NotFound();
+            return View();
         }
 
        
@@ -322,6 +345,23 @@ namespace Lexiflix.Controllers
         {
             public int MovieId { get; set; }
             public string Action { get; set; }
+        }
+
+        //Get: Delet confirmation page
+        public IActionResult Delete(int Id)
+
+        {
+            return View();  /*shows Delete.cshtml*/
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+
+        {
+            _orderServices.DeleteOrder(id); /*pass the id*/
+            TempData["SuccessMessage"] = "The order has been deleted successfully.";
+            return RedirectToAction("Index");
         }
     }
 }

@@ -23,10 +23,14 @@
                 <span asp-validation-for="Director" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Actors" class="control-label"></label>
-                <input asp-for="Actors" class="form-control" />
-                <span asp-validation-for="Actors" class="text-danger"></span>
+                <label>Actors (comma separated)</label>
+                <input name="ActorNames" class="form-control" />
             </div>
+            <div class="form-group">
+                <label>Genres (comma separated)</label>
+                <input name="GenreNames" class="form-control" />
+            </div>
+           @*  These fields will be accesses in the controller via Request.Form *@
             <div class="form-group">
                 <label asp-for="ReleaseYear" class="control-label"></label>
                 <input asp-for="ReleaseYear" class="form-control" />
@@ -46,11 +50,6 @@
                 <label asp-for="Plot" class="control-label"></label>
                 <input asp-for="Plot" class="form-control" />
                 <span asp-validation-for="Plot" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Genre" class="control-label"></label>
-                <input asp-for="Genre" class="form-control" />
-                <span asp-validation-for="Genre" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Runtime" class="control-label"></label>
@@ -75,9 +74,11 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="AdminIndex">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

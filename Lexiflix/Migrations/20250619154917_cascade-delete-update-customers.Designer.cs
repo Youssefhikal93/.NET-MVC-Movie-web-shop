@@ -4,6 +4,7 @@ using Lexiflix.Data.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lexiflix.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-    partial class MovieDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250619154917_cascade-delete-update-customers")]
+    partial class cascadedeleteupdatecustomers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace Lexiflix.Migrations
 
                     b.HasIndex("MoviesId");
 
-                    b.ToTable("ActorMovie", (string)null);
+                    b.ToTable("ActorMovie");
                 });
 
             modelBuilder.Entity("GenreMovie", b =>
@@ -49,7 +52,7 @@ namespace Lexiflix.Migrations
 
                     b.HasIndex("MoviesId");
 
-                    b.ToTable("GenreMovie", (string)null);
+                    b.ToTable("GenreMovie");
                 });
 
             modelBuilder.Entity("Lexiflix.Models.Db.Actor", b =>
@@ -67,7 +70,7 @@ namespace Lexiflix.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Actors", (string)null);
+                    b.ToTable("Actors");
                 });
 
             modelBuilder.Entity("Lexiflix.Models.Db.Customer", b =>
@@ -130,7 +133,7 @@ namespace Lexiflix.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("Lexiflix.Models.Db.Genre", b =>
@@ -148,7 +151,7 @@ namespace Lexiflix.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres", (string)null);
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("Lexiflix.Models.Db.Movie", b =>
@@ -196,7 +199,7 @@ namespace Lexiflix.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movies", (string)null);
+                    b.ToTable("Movies");
                 });
 
             modelBuilder.Entity("Lexiflix.Models.Db.Order", b =>
@@ -217,7 +220,7 @@ namespace Lexiflix.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Lexiflix.Models.Db.OrderRow", b =>
@@ -246,7 +249,7 @@ namespace Lexiflix.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderRows", (string)null);
+                    b.ToTable("OrderRows");
                 });
 
             modelBuilder.Entity("ActorMovie", b =>

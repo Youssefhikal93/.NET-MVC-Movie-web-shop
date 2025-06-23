@@ -1,0 +1,82 @@
+@model Lexiflix.Models.Db.Customer
+@{
+    ViewData["Title"] = "Customer Details";
+    Layout = "~/Views/Shared/_FormWrapper.cshtml";
+}
+
+<h2  >Customer Details</h2>
+
+<div class="row">
+  <div class="col-md-6 border-end border-warning">
+     <div class="mb-3">
+        <small class="text-muted">First Name</small>
+        <label class="form-label">First Name</label>
+        <div class="form-control-plaintext">@Model.FirstName</div>
+    </div>
+
+    <div class="mb-3">
+        <small class="text-muted">Last Name</small>
+        <label class="form-label">Last Name</label>
+        <div class="form-control-plaintext">@Model.LastName</div>
+    </div>
+
+
+
+    <div class="mb-3">
+        <small class="text-muted">Email Adress </small>
+        <label class="form-label">Email</label>
+        <div class="form-control-plaintext">@Model.Email</div>
+    </div>
+
+    <div class="mb-3">
+        <small class="text-muted">Phone Number </small>
+        <label class="form-label">Phone</label>
+        <div class="form-control-plaintext">@Model.Phone</div>
+    </div>
+    
+  </div>
+
+
+  <div class="col-md-6">
+   <div class="mb-3">
+        <small class="text-muted">Billing Address </small>
+        <label class="form-label">Billing Address</label>
+        <div class="form-control-plaintext">@Model.BillingAddress</div>
+    </div>
+
+    <div class="mb-3">
+        <small class="text-muted">Billing City </small>
+        <label class="form-label">Billing City</label>
+        <div class="form-control-plaintext">@Model.BillingCity</div>
+    </div>
+
+    <div class="mb-3">
+        <small class="text-muted">Billing Zip</small>
+        <label class="form-label">Billing Zip</label>
+        <div class="form-control-plaintext">@Model.BillingZip</div>
+    </div>
+
+    <div class="mb-3">
+        <small class="text-muted"> Delivery Address</small>
+        <label class="form-label">Delivery Address</label>
+        <div class="form-control-plaintext">@Model.DeliveryAddress</div>
+    </div>
+
+    <div class="mb-3">
+        <small class="text-muted">Delivery City </small>
+        <label class="form-label">Delivery City</label>
+        <div class="form-control-plaintext">@Model.DeliveryCity</div>
+    </div>
+
+    <div class="mb-3">
+        <small class="text-muted">Delivery Zip </small>
+        <label class="form-label">Delivery Zip</label>
+        <div class="form-control-plaintext">@Model.DeliveryZip</div>
+    </div>
+  </div>
+
+  
+</div>
+
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+    <a asp-action="AdminIndex" class="btn btn-secondary">Back to List</a>

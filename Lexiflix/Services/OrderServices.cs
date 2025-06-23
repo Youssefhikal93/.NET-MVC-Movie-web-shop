@@ -1,7 +1,9 @@
 ﻿using Lexiflix.Data.Db;
+using Lexiflix.Models;
 using Lexiflix.Models.Db;
 using Lexiflix.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Lexiflix.Services
 {
@@ -26,8 +28,6 @@ namespace Lexiflix.Services
         {
             // Make a copy of the OrderRows collection
             var orderRows = order.OrderRows.ToList();
-
-            // Clear the navigation property to avoid modification issues
             order.OrderRows.Clear();
 
             _db.Orders.Add(order);
@@ -36,7 +36,7 @@ namespace Lexiflix.Services
             foreach (var row in orderRows)
             {
                 row.OrderId = order.Id;
-                row.Id = 0; // Ensure ID is not set
+                row.Id = 0; 
                 _db.OrderRows.Add(row);
             }
 
@@ -47,13 +47,28 @@ namespace Lexiflix.Services
 
 
 
-        public List<Order> GetAllOrders()
+
+       
+
+        public PaginatedList<OrderViewModel> GetAllOrders(string searchString, int pageIndex, int pageSize)
+
         {
-            var orderList = _db.Orders.Include(o => o.Customer).ToList();
+            // Start with base query including related entities
+            var query = _db.Orders
+                .Include(o => o.Customer)
+                .Select(o => new OrderViewModel
+                {
+                    Id = o.Id,
+                    OrderDate = o.OrderDate,
+                    CustomerName = $"{o.Customer.FirstName} {o.Customer.LastName}",
+                })
+                .OrderByDescending(o => o.OrderDate)
+                .AsQueryable();
 
-            return orderList;
+            return PaginatedList<OrderViewModel>.Create(query, pageIndex, pageSize); 
         }
-
+       
+       
         public Movie GetMovieById(int v)
         {
             return _db.Movies.FirstOrDefault(m => m.Id == v) ?? throw new Exception("Movie not found");
@@ -87,8 +102,17 @@ namespace Lexiflix.Services
             _db.SaveChanges();
 
         }
-       
 
 
+        public void DeleteOrder(int id)
+
+        {
+            var order = _db.Orders.FirstOrDefault(o => o.Id == id);
+            if (order != null)
+            {
+                _db.Orders.Remove(order);
+                _db.SaveChanges();
+            }
+        }
     }
 }

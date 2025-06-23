@@ -7,6 +7,12 @@
     var actionname = ViewData["ActionName"];
     var controllername = ViewData["ControllerName"]?.ToString() ?? "Movie";
 }
+<a asp-controller="Movie"
+   asp-action="Details"
+   asp-route-id="@Model.Id"
+   asp-route-origin="@actionname"
+   asp-route-originController="@controllername">
+
 
 <div class="card h-100 bg-black text-light border-secondary shadow-sm" style="width: 100%; max-width: 280px; min-height: 380px;">
     <div class="card-img-top position-relative overflow-hidden" style="height: 380px;">
@@ -83,3 +89,4 @@
         </div>
     </div>
 </div>
+</a>
