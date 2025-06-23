@@ -10,7 +10,7 @@ namespace Lexiflix.Controllers
     {
         private readonly IMovieServices _movieServices;
         private const int DefaultPage = 1;
-        private const int DefaultPageSize = 8;
+        private const int DefaultPageSize = 12;
 
         public MovieController(IMovieServices movieServices)
         {

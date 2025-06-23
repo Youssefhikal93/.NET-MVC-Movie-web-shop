@@ -8,7 +8,7 @@
     <div class="row g-4">
         <!-- Customers Button -->
         <div class="col-md-4">
-            <a asp-controller="Customer" asp-action="AdminIndex" class="btn btn-admin-card bg-black text-light w-100 h-100 p-4">
+            <a asp-controller="Customer" asp-action="AdminIndex" class="btn btn-admin-card  text-light w-100 h-100 p-4">
                 <div class="d-flex flex-column align-items-center">
                     <i class="bi bi-people-fill display-4 text-warning mb-3"></i>
                     <h3>Customers</h3>
@@ -19,7 +19,7 @@
 
         <!-- Movies Button -->
         <div class="col-md-4">
-            <a asp-controller="Movie" asp-action="AdminIndex" class="btn btn-admin-card bg-black text-light w-100 h-100 p-4">
+            <a asp-controller="Movie" asp-action="AdminIndex" class="btn btn-admin-card  text-light w-100 h-100 p-4">
                 <div class="d-flex flex-column align-items-center">
                     <i class="bi bi-film display-4 text-warning mb-3"></i>
                     <h3>Movies</h3>
@@ -30,7 +30,7 @@
 
         <!-- Orders Button -->
         <div class="col-md-4">
-            <a asp-controller="Order" asp-action="Index" class="btn btn-admin-card bg-black text-light w-100 h-100 p-4">
+            <a asp-controller="Order" asp-action="Index" class="btn btn-admin-card  text-light w-100 h-100 p-4">
                 <div class="d-flex flex-column align-items-center">
                     <i class="bi bi-receipt display-4 text-warning mb-3"></i>
                     <h3>Orders</h3>
@@ -41,28 +41,3 @@
     </div>
 </div>
 
-
-<style>
-    .btn-admin-card {
-        border: 1px solid rgba(255, 193, 7, 0.2);
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        text-align: center;
-        text-decoration: none;
-    }
-
-        .btn-admin-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255, 193, 7, 0.1);
-            border-color: rgba(255, 193, 7, 0.5);
-            background-color: #1a1a1a !important;
-        }
-
-        .btn-admin-card h3 {
-            transition: color 0.3s ease;
-        }
-
-        .btn-admin-card:hover h3 {
-            color: #ffc107;
-        }
-</style>
