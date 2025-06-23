@@ -1,9 +1,9 @@
 ﻿
 using Lexiflix.Models.Db;
+﻿
 using Lexiflix.Models.ViewModels;
 using Lexiflix.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 
 namespace Lexiflix.Controllers
@@ -26,7 +26,7 @@ namespace Lexiflix.Controllers
 
 
 
-         [HttpGet]
+              [HttpGet]
         public IActionResult Create()
         {
              var viewModel = new OrderVM
@@ -37,18 +37,16 @@ namespace Lexiflix.Controllers
                         new OrderRowVM()
                     }
              };
+                 //view bag or search for movie title > id 
+                  
+                 //view bag for or search for customer name > id 
+                
 
-              PopulateDropdowns();
-
-
-            
                 return View(viewModel);
         }
 
 
-
         [HttpPost]
-
 
     public IActionResult Create(OrderVM orderVM)
     {
@@ -63,26 +61,8 @@ namespace Lexiflix.Controllers
             return RedirectToAction("Index");
         }
 
-
-         PopulateDropdowns();
-
-            
-
-        return View(orderVM);
-
+            return View(orderVM);
     }
-    private void PopulateDropdowns()
-    {
-        var movies = _movieServices.GetAllMovies() ?? new List<Movie>();
-        var customers = _customerServices.GetAllCustomers() ?? new List<Customer>();
-
-        ViewBag.MovieList = new SelectList(movies, "Id", "Title");
-        ViewBag.CustomerList = new SelectList(customers.Select(c => new { c.Id, FullName = c.FirstName + " " + c.LastName }), "Id", "FullName");
-    }
-
-
-
-
 
 
 

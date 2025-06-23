@@ -32,18 +32,18 @@ namespace Lexiflix.Data.Db
                 .OnDelete(DeleteBehavior.Cascade);
             //deletes the order row /detail on removal of movie
             modelBuilder.Entity<OrderRow>()
-                .HasOne(or => or.Movie)
-                .WithMany()
-                .HasForeignKey(or => or.MovieId)
-                .OnDelete(DeleteBehavior.Restrict);
+            .HasOne(or => or.Movie)
+            .WithMany()
+            .HasForeignKey(or => or.MovieId)
+            .OnDelete(DeleteBehavior.Cascade);
 
 
            //deletes the order row /detail on removal of customer
             modelBuilder.Entity<Order>()
-                .HasOne(or => or.Customer)
-                .WithMany(c => c.Orders)
-                .HasForeignKey(or => or.CustomerId)
-                .OnDelete(DeleteBehavior.Restrict);
+            .HasOne(or => or.Customer)
+            .WithMany(c => c.Orders)
+            .HasForeignKey(or => or.CustomerId)
+            .OnDelete(DeleteBehavior.Restrict);
         } 
 
    
