@@ -245,7 +245,30 @@ namespace Lexiflix.Services
             _db.SaveChanges();
         }
 
+        public List<Movie> GetSimilarMovies(int id , string director)
+        {
 
-        
+            // Matching any of the genres of the reference movie
+            //var referenceMovie = GetBaseQuery().FirstOrDefault(m => m.Id == id);
+
+            //var genreIds = referenceMovie.Genres.Select(g => g.Id).ToList();
+
+            //var movieList = GetBaseQuery()
+            //    .Where(m => m.Id != id)
+            //    .Where(m => m.Genres.Any(g => genreIds.Contains(g.Id)))
+            //    .OrderByDescending(m => m.ReleaseYear)
+            //    .ToList();
+
+            //Matching the director
+            var query = GetBaseQuery();
+            var movieList = query
+                .Where(m => m.Id != id)
+                .Where(m => m.Director == director)
+                .OrderByDescending(m => m.ReleaseYear)
+                .ToList();
+            return movieList;
+        }
+
+
     }
 }
