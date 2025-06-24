@@ -110,9 +110,20 @@ namespace Lexiflix.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
 
-        {  _movieServices.DeleteMovie(id); /*pass the id*/
-            TempData["SuccessMessage"] = "The movie has been deleted successfully.";
-            return RedirectToAction("AdminIndex");
+        {
+            try
+            {
+                _movieServices.DeleteMovie(id); /*pass the id*/
+                TempData["SuccessMessage"] = "The movie has been deleted successfully.";
+                return RedirectToAction("AdminIndex");
+            }
+            catch (Exception)
+            {
+                TempData["SuccessMessage"] = "The movie cannot be deleted.";
+                return RedirectToAction("AdminIndex");
+
+            }
+
         }
 
 
