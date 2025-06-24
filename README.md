@@ -53,5 +53,5 @@ Lexiflix is a legacy movie shop that allows users to:
 ### Setup Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Youssefhikal93/.NET--Mpvie-web-shop.git
+   git clone https://github.com/Youssefhikal93/.NET-MVC--Movie-web-shop.git
    cd lexiflix
