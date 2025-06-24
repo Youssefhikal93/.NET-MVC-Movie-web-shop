@@ -20,6 +20,7 @@ namespace Lexiflix.Services
              
         void AddMovieWithActorsAndGenres(Movie movie, string actorNames, string genreNames);
 
+        public List<Movie> GetSimilarMovies(int id,string director);
 
 
     }

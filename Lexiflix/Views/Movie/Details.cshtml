@@ -16,7 +16,7 @@
     </div>
     <div class="row">
         <!-- Movie Poster -->
-        <div class="col-md-4 mb-4 bg-black h-75 ">
+        <div class="col-md-3 mb-4 bg-black h-75 ">
             <div class="card bg-black h-50">
                 <img src="@Model.ImageUrl" class="card-img-top img-fluid" alt="@Model.Title" style="max-height: 500px; object-fit: fill;">
                 <div class="card-body text-center">
@@ -59,7 +59,7 @@
             </div>
         </div>
         <!-- Movie Details -->
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="card bg-black border-warning text-light h-100">
                 <div class="card-body">
                     <h3 class="text-warning border-bottom pb-2 mb-4">Movie Details</h3>
@@ -152,6 +152,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-3 border border-1 border-warning">
+            <vc:similar-movies id="@Model.Id" director="@Model.Director" />
         </div>
     </div>
 </div>
