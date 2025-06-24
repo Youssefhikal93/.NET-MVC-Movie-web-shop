@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Utils\MoviesUtils\" />
+    <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
 </Project>
