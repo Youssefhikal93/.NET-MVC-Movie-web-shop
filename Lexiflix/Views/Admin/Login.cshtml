@@ -7,7 +7,7 @@
         <div class="col-md-6 col-lg-4">
             <div class="card bg-dark text-light border-warning">
                 <div class="card-header bg-black">
-                    <h2 class="text-warning text-center mb-0">Admin Login</h2>
+                    <h4 class="text-warning text-center mb-0">Admin Login</h4>
                 </div>
                 <div class="card-body">
                     @if (ViewBag.Error != null)
@@ -30,6 +30,20 @@
                             <i class="bi bi-box-arrow-in-right"></i> Login
                         </button>
                     </form>
+                    <div class="mt-4">
+                        <div class="card bg-black text-light border-warning rounded shadow-sm">
+                            <div class="card-header bg-black text-warning py-2 px-3">
+                                <i class="bi bi-info-circle me-1"></i>
+                                <span class="fw-semibold">Login Credentials</span>
+                            </div>
+                            <div class="card-body py-2 px-3">
+                                <div class="d-flex flex-column gap-1">
+                                    <span><span class="text-warning">Username:</span> <span class="fw-semibold">admin</span></span>
+                                    <span><span class="text-warning">Password:</span> <span class="fw-semibold">admin</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
