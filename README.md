@@ -1,6 +1,6 @@
-# Lexiflix - Movie Streaming & Rental Platform
+# Lexiflix - Movie Shopl Platform
 
-![Lexiflix Logo](https://via.placeholder.com/150x50?text=Lexiflix) <!-- Replace with your actual logo -->
+<!-- ![Lexiflix Logo](https://via.placeholder.com/150x50?text=Lexiflix)  Replace with your actual logo -->
 
 ## Table of Contents
 - [Project Description](#project-description)
