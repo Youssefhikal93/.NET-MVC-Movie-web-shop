@@ -12,10 +12,21 @@ namespace Lexiflix.Components
             _movieServices = movieServices;
         }
 
+        //public  IViewComponentResult Invoke(int id,string director)
+        //{
+        //    var similarMovies =  _movieServices.GetSimilarMovies(id, director);
+        //    return View(similarMovies);
+        //} 
+        
+        // to get the first genre in the movie
         public  IViewComponentResult Invoke(int id,string director)
         {
-            var similarMovies =  _movieServices.GetSimilarMovies(id, director);
-            return View(similarMovies);
+            var referenceMovie = _movieServices.GetOneMovie(id);
+            var firstGenreName = referenceMovie?.Genres.FirstOrDefault()?.Name;
+
+            var similarMovies = _movieServices.GetSimilarMovies(id, director);
+
+            return View((similarMovies.AsEnumerable(), firstGenreName));
         }
     }
 }

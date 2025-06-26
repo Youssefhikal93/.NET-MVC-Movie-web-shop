@@ -259,13 +259,26 @@ namespace Lexiflix.Services
             //    .OrderByDescending(m => m.ReleaseYear)
             //    .ToList();
 
-            //Matching the director
-            var query = GetBaseQuery();
-            var movieList = query
+
+            // Matching movies with the first genre of the reference movie
+            var referenceMovie = GetBaseQuery().FirstOrDefault(m => m.Id == id);
+
+            var firstGenreId = referenceMovie?.Genres.Select(g => g.Id).FirstOrDefault();
+
+        
+            var movieList = GetBaseQuery()
                 .Where(m => m.Id != id)
-                .Where(m => m.Director == director)
+                .Where(m => m.Genres.Any(g => g.Id == firstGenreId))
                 .OrderByDescending(m => m.ReleaseYear)
                 .ToList();
+
+            //Matching the director
+            //var query = GetBaseQuery();
+            //var movieList = query
+            //    .Where(m => m.Id != id)
+            //    .Where(m => m.Director == director)
+            //    .OrderByDescending(m => m.ReleaseYear)
+            //    .ToList();
             return movieList;
         }
 
