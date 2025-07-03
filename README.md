@@ -1,4 +1,6 @@
-# Lexiflix - Movie Shopl Platform
+# Lexiflix - Movie Shop Platform
+
+## Live App https://lexiflix.azurewebsites.net/
 
 <!-- ![Lexiflix Logo](https://via.placeholder.com/150x50?text=Lexiflix)  Replace with your actual logo -->
 
